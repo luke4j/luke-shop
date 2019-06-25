@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>E-Shop</title>
+    <META name="description" content="眼镜,眼镜店,连锁眼镜店,眼镜店erp">
+    <meta name="keywords" content="眼镜,眼镜店,连锁眼镜店,眼镜店erp">
+    <script th:inline="javascript">
+        var systime = [[${#dates.format(systime,'yyyy-MM-dd HH:mm:ss')}]] ;
+        var localhost = [[${localhost}]] ;
+        console.dir(systime) ;
+        console.dir(localhost) ;
+    </script>
+    <script type="application/javascript" data-main="app/app.js" src="js/b/require.min.js"></script>
+    <script>
+        requirejs(['login/login']) ;
+    </script>
+</head>
+<body>
+    login
+</body>
+</html>
