@@ -27,6 +27,8 @@ public class WelController implements IWelController {
         model = cnfModel(request,model) ;
 
         Cookie[] cokies = request.getCookies() ;
+        if(cokies==null)
+            return "login";
         for(Cookie c :cokies){
             if(c.getName().equals("luke-shop-token")){
                 String token = c.getValue() ;

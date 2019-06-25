@@ -4,9 +4,17 @@ import com.luke.es.tool.model._M;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Index;
+import javax.persistence.Table;
 import java.util.Date;
 
 @Entity
+@Table(indexes = {
+        @Index(columnList = "userId" ,unique = true)
+        ,@Index(columnList = "storeId")
+        ,@Index(columnList = "roleId")
+        ,@Index(columnList = "cwRoleId")
+})
 public class TU_Info extends _M {
 
     Long userId ;
@@ -23,8 +31,7 @@ public class TU_Info extends _M {
     /**
      * 可以使用的财务业务
      */
-    @Column(length = 3000)
-    String cw ;
+    Long cwRoleId ;
 
     Date birthday ;
 
@@ -86,12 +93,12 @@ public class TU_Info extends _M {
         this.roleId = roleId;
     }
 
-    public String getCw() {
-        return cw;
+    public Long getCwRoleId() {
+        return cwRoleId;
     }
 
-    public void setCw(String cw) {
-        this.cw = cw;
+    public void setCwRoleId(Long cwRoleId) {
+        this.cwRoleId = cwRoleId;
     }
 
     public Date getBirthday() {

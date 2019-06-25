@@ -42,7 +42,7 @@ ls.d.ajax = function(cnf){
     }) ;
 } ;
 
-ls.d.getHtml = function(url){
+ls.d.getHtml = function(html_url){
     var $html ;
     $.ajax({
         url:html_url+"?jsn="+Math.random(),
@@ -67,15 +67,20 @@ ls.ck.delToken = function(){
     $.removeCookie("luke-shop-token") ;
 } ;
 
-ls.ck.setLoginData = function(userName,passWord){
-    $.cookie("luke-shop-loginName",userName,{expires:7}) ;
-    $.cookie("luke-shop-passWord",passWord,{expires:7}) ;
+ls.ck.setLoginData = function(loginName,loginPwd){
+    $.cookie("luke-shop-loginName",loginName,{expires:7}) ;
+    $.cookie("luke-shop-loginPwd",loginPwd,{expires:7}) ;
+} ;
+
+ls.ck.delLoginData = function(){
+    $.removeCookie("luke-shop-loginName") ;
+    $.removeCookie("luke-shop-loginPwd") ;
 } ;
 
 ls.ck.getLoginData = function(){
     return {
-        username: $.cookie("luke-shop-loginName")
-        ,password:$.cookie("luke-shop-passWord")
+        loginName: $.cookie("luke-shop-loginName")
+        ,loginPwd:$.cookie("luke-shop-loginPwd")
     } ;
 };
 

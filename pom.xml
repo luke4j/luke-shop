@@ -20,6 +20,7 @@
         <module>luke-md</module>
         <module>luke-db</module>
         <module>luke-login</module>
+        <module>luke-app</module>
     </modules>
     <packaging>pom</packaging>
 

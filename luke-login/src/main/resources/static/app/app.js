@@ -1,5 +1,5 @@
 require.config({
-    urlArgs: 'js' + Math.random(),
+    urlArgs: 'js=' + Math.random(),
     baseUrl: "/",
     map: {
         '*': {

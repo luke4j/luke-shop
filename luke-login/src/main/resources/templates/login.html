@@ -6,7 +6,8 @@
     <META name="description" content="眼镜,眼镜店,连锁眼镜店,眼镜店erp">
     <meta name="keywords" content="眼镜,眼镜店,连锁眼镜店,眼镜店erp">
     <script th:inline="javascript">
-        var systime = [[${#dates.format(systime,'yyyy-MM-dd HH:mm:ss')}]] ;
+        // var systime = [[${#dates.format(systime,'yyyy-MM-dd HH:mm:ss')}]] ;
+        var systime  = [[${systime.time}]] ;
         var localhost = [[${localhost}]] ;
         console.dir(systime) ;
         console.dir(localhost) ;
