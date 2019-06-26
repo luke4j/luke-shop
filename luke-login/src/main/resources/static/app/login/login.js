@@ -10,7 +10,7 @@ define(function(require){
         defaults:{
             loginName:'',
             loginPwd:'',
-            rememberMe:true
+            rememberMe:false
         },
         initialize:function(){
             this.addEvent() ;
@@ -67,7 +67,6 @@ define(function(require){
     }) ;
 
     var VLogin = Backbone.View.extend({
-        $el: $("#dv_login"),
         initialize:function(){
             this.render() ;
         },
@@ -85,6 +84,7 @@ define(function(require){
                 this.$loginName.val(rm.loginName) ;
                 this.$loginPwd.val(rm.loginPwd) ;
             }
+            this.$el = $("#dv_login") ;
             // this.addEvent() ;
             this.delegateEvents(this.events()) ;
            return this ;

@@ -5,15 +5,13 @@ import com.luke.es.login.service.ILoginService;
 import com.luke.es.md.*;
 import com.luke.es.md.vo.login.VOInLogin;
 import com.luke.es.tool.exception.AppException;
+import com.luke.es.tool.tl.Assertion;
 import com.luke.es.tool.tl.LK;
-import com.luke.es.tool.tl.LKMap;
 import com.luke.es.tool.vo.VOutUser;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
-import java.util.List;
 
 @Service
 public class LoginService implements ILoginService {
@@ -34,10 +32,13 @@ public class LoginService implements ILoginService {
     public VOutUser login(VOInLogin vo) throws Exception {
        TU_User user = this.loginDao.login(vo) ;
         if(user!=null){
-            String token = "token-"+LK.uuid() ;
+            String token = "token-"+LK.uuid()+"_"+user.getId() ;
             VOutUser ru = new VOutUser() ;
-            BeanUtils.copyProperties(user,ru);
+
+            ru.setLoginName(user.getLoginName());
+
             TU_Info info = this.loginDao.findUserInfo(user.getId()) ;
+            ru.setName(info.getName());
             if(info!=null) {
                 TS_Store store = this.loginDao.findUserStore(info.getStoreId());
                 if (store != null) {
@@ -54,8 +55,8 @@ public class LoginService implements ILoginService {
                     ru.setCwIds(cwRole.getCwIds());
                 }
             }
-            this.loginDao.setRedisValueAndEX(token,LK.ObjToJsonStr(ru),60*60*8l) ;
             ru.set_token(token);
+            this.loginDao.setRedisValueAndEX(token,LK.ObjToJsonStr(ru),60*60*8l) ;
             return ru ;
         }
        throw AppException.create("登录失败："+vo.getLoginName()) ;
@@ -63,5 +64,11 @@ public class LoginService implements ILoginService {
 
     public void logout(String token) throws Exception {
         this.loginDao.delRedisValueByKey(token) ;
+    }
+
+    public VOutUser getCurrentUser(String pageToken) throws Exception {
+        if(pageToken.equals(""))
+            Assertion.Error("请登录");
+        return  this.loginDao.getVOutUser(pageToken) ;
     }
 }

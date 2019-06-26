@@ -82,6 +82,7 @@ public class DBDao {
     public VOutUser getVOutUser(String token) throws AppException{
         String strRedisUser = this.getRedisValue(token) ;
         VOutUser voutUser = (VOutUser) JSONObject.toBean(JSONObject.fromObject(strRedisUser), VOutUser.class);
+        this.setRedisValueAndEX(token,LK.ObjToJsonStr(voutUser),60*60*8l) ;
         return voutUser ;
     }
 
@@ -499,6 +500,8 @@ public class DBDao {
      */
     public <T> T get(Class<T> clss, Long id) throws AppException {
         try{
+            if(id==null)
+                return null ;
             return this.getSession().find(clss, id) ;
         }catch (Throwable e){
             throw AppException.create(this.getClass(),e.getMessage()) ;

@@ -1,5 +1,7 @@
 package com.luke.es.tool.controller;
 
+import com.luke.es.tool.tl.LKMap;
+
 import java.util.Map;
 
 /**
@@ -12,7 +14,7 @@ public class ActResult {
     String msg = "操作成功" ;
     String url = "" ;
     Throwable error ;
-    Map<String,Object> more ;
+    LKMap<String,Object> more = new LKMap<>();
 
     public Boolean getSuccess() {
         return success;
@@ -54,11 +56,11 @@ public class ActResult {
         this.error = error;
     }
 
-    public Map<String, Object> getMore() {
+    public LKMap<String, Object> getMore() {
         return more;
     }
 
-    public void setMore(Map<String, Object> more) {
+    public void setMore(LKMap<String, Object> more) {
         this.more = more;
     }
 }

@@ -18,7 +18,7 @@ import java.util.Date;
 public class TU_Info extends _M {
 
     Long userId ;
-
+    String name ;
     /**
      * 站点ID
      */
@@ -68,6 +68,15 @@ public class TU_Info extends _M {
      */
     @Column(length = 10)
     String zzmm ;
+
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public Long getUserId() {
         return userId;
