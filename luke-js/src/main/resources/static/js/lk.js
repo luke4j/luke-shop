@@ -17,6 +17,7 @@ lk.ts.close = function(idx){
  * @returns {boolean}
  */
 lk.ts.alert = function(msg){
+    var idx ;
     if(!layui){
         alert(msg) ;
         return false ;
@@ -30,11 +31,12 @@ lk.ts.alert = function(msg){
             });
             return false ;
         }
-        return layer.open({
+        idx = layer.open({
             title: '提示',
             content: msg
         });
     }) ;
+    return idx ;
 } ;
 /**
  * 可以输入的提示窗，

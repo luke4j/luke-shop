@@ -9,7 +9,7 @@ require.config({
     paths: {
         jquery: 'js/b/jquery.min',
         underscore: 'js/b/underscore',
-        backbone: 'js/b/backbone.min',
+        backbone: 'js/b/backbone', //.min
         layui: 'js/ui/layui/layui',
         md5: 'js/b/md5',
         json2: 'js/b/json2',

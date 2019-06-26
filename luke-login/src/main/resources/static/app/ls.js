@@ -29,11 +29,13 @@ ls.d.ajax = function(cnf){
             if(resp.success){
                 cnf.success(resp) ;
             }else{
-                lk.ts.alert(resp.msg) ;
+                if(resp.msg)
+                    lk.ts.alert(resp.msg) ;
             }
         }
         ,complete:function(XMLHttpRequest, textStatus){
-            lk.ts.close(alertIdx) ;
+            if(alertIdx)
+                lk.ts.close(alertIdx) ;
         }
         ,beforeSend:function(XMLHttpRequest){
             if(cnf.mb)

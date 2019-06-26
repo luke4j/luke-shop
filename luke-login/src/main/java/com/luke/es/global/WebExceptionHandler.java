@@ -22,17 +22,21 @@ public class WebExceptionHandler {
         String msg = e.getMessage() ;
         if(LK.StrIsEmpty(msg))
             msg = e.getClass().toString() ;
+        actionResult.setMsg(msg);
         actionResult.setError(e);
         actionResult.setSuccess(false);
-        if("".equals(request.getContextPath())){
+        if(request.getRequestURL().toString().indexOf(".act")==-1){
             model.addAttribute("systime",new Date()) ;
             String localhost = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath()+"/";
             model.addAttribute("localhost",localhost) ;
             return "login" ;
         }else{
             try{
+                response.setContentType("application/json;charset=UTF-8");
+                response.setCharacterEncoding("UTF-8");
                 PrintWriter pw = response.getWriter() ;
                 pw.write(LK.ObjToJsonStr(actionResult));
+                pw.flush(); ;
                 pw.close();
             }catch (Exception ex){
                 ex.printStackTrace();
