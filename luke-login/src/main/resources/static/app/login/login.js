@@ -2,6 +2,7 @@ define(function(require){
     require("css!/app/login/css/login.css") ;
     require("ls") ;
     require("/app/login/particles.js") ;
+    require("md5") ;
 
 
     /**登录数据模型与登录方法*/
@@ -12,6 +13,9 @@ define(function(require){
             rememberMe:true
         },
         initialize:function(){
+            this.addEvent() ;
+        },
+        addEvent:function(){
             /**验证时触发的事件*/
             this.on("invalid",function(model, error){
                 layui.use('layer', function(){
@@ -40,20 +44,21 @@ define(function(require){
         },
         /**登录访求*/
         login:function(){
-            if(this.attributes.rememberMe){
-                ls.ck.setLoginData(this.attributes.loginName,this.attributes.loginPwd) ;
-            }else{
-                ls.ck.delLoginData() ;
-            }
 
-            this.attributes.loginPwd = hex_md5(this.attributes.loginPwd) ;
+            var me = this ;
+            me.attributes.loginPwd = hex_md5(me.attributes.loginPwd) ;
             if(this.isValid()){
                 ls.d.ajax({
-                    url:'login.act',
+                    url:'login/login.act',
                     data:this.attributes,
                     success:function(resp){
-                        console.dir(resp) ;
-                        // ls.ck.setToken()
+                        if(me.attributes.rememberMe){
+                            ls.ck.setLoginData(me.attributes.loginName,me.attributes.loginPwd) ;
+                        }else{
+                            ls.ck.delLoginData() ;
+                        }
+                        ls.ck.setToken(resp.rt._token) ;
+                        location.href = localhost ;
                     }
                 }) ;
             }
@@ -69,9 +74,18 @@ define(function(require){
             $("body").append($("<div>").attr("id","particles-js").css({"display":"flex","align-items": "center","justify-content": "center"})) ;
             var $form = ls.d.getHtml("app/login/login.form.html") ;
             $("body").append($form) ;
-
             particlesJS.load("particles-js","/app/login/particles.json") ;
+            $("#ipt_loginName").focus() ;
+            this.$loginName = $("#loginName") ;
+            this.$loginPwd = $("#loginPwd") ;
+            this.addEvent() ;
            return this ;
+        },
+        addEvent:function(){
+            $("#btn_login").on("click",this.btn_login_click_handler(this)) ;
+            $("#dv_rememberMe").on("click",this.dv_rememberMe_click_handler(this)) ;
+            $("#loginName").on("keypress",this.loginName_keypress_handler) ;
+            $("#loginPwd").on("keypress",this.loginPwd_keypress_handler(this)) ;
         },
         /**页面事件*/
         events:function(){
@@ -82,39 +96,41 @@ define(function(require){
                 "keypress #ipt_loginName":"ipt_password_keypress_handler"//密码窗回车事件
             } ;
         },
-        ipt_password_keypress_handler:function(je){
+
+        loginPwd_keypress_handler:function(th){
+            return function(je){
+                if(je.keyCode==13){
+                    th.btn_login_click_handler(th)() ;
+                }
+            }
+        },
+        loginName_keypress_handler:function(je){
             if(je.keyCode==13){
-                $(je.currentTarget).blur() ;
-                this.btn_login_click_handler() ;
+                $("#loginPwd").focus() ;
             }
         },
-
-        dv_rememberMe_click_handler:function(je){
-            var $pic = $("#picture") ;
-            if($pic.attr("src")=="img/check.png"){
-                $pic.attr("src","app/login/img/checked.png") ;
-                this.model.set("rememberMe",true) ;
-            }else{
-                $pic.attr("src","app/login/img/check.png") ;
-                this.model.set("rememberMe",false) ;
+        dv_rememberMe_click_handler:function(th){
+            return function(je){
+                var $pic = $("#picture") ;
+                if($pic.attr("src")=="app/login/img/check.png"){
+                    $pic.attr("src","app/login/img/checked.png") ;
+                    this.model.set("rememberMe",true) ;
+                }else{
+                    $pic.attr("src","app/login/img/check.png") ;
+                    this.model.set("rememberMe",false) ;
+                }
             }
         },
-        btn_login_click_handler:function(je){
-            this.model.set("loginName",this.$loginName.val()) ;
-            this.model.set("password",this.$password.val()) ;
-
-            if(this.model.rememberMe){
-                $.cookie("luke-loginName",this.$loginName.val(),{expires:1}) ;
-                $.cookie("luke-password",this.$password.val(),{expires:1}) ;
+        btn_login_click_handler:function(th){
+            return function(je){
+                th.model.set("loginName",th.$loginName.val()) ;
+                th.model.set("loginPwd",th.$loginPwd.val()) ;
+                th.model.login() ;
             }
-
-            this.model.login() ;
         }
-
-
     }) ;
 
-    new VLogin(new MLogin()) ;
+    new VLogin({model:new MLogin()}) ;
 
 
 }) ;

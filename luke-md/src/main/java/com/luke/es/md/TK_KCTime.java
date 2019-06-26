@@ -4,9 +4,15 @@ import com.luke.es.tool.model._M;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Index;
+import javax.persistence.Table;
 import java.util.Date;
 
 @Entity
+@Table(indexes = {
+        @Index(columnList = "goodsId"),
+        @Index(columnList = "storeId")
+})
 public class TK_KCTime extends _M {
 
     Long goodsId ;

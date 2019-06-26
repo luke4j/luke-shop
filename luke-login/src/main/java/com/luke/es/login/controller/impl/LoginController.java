@@ -25,7 +25,7 @@ public class LoginController  implements ILoginController {
 
     public ActResult login(HttpServletRequest request, HttpServletResponse response, ActResult actResult, VOInLogin vo, BindingResult bindingResult) throws Exception {
         VOutUser user = loginService.login(vo);
-        actResult.setRt(new LKMap().put1("user",user));
+        actResult.setRt(user);
         return actResult;
     }
 }

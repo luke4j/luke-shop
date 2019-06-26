@@ -4,8 +4,14 @@ import com.luke.es.tool.model._M;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Index;
+import javax.persistence.Table;
 
 @Entity
+@Table(indexes = {
+        @Index(columnList = "kindId"),
+        @Index(columnList = "brandId")
+})
 public class TK_GHS extends _M {
     @Column(length = 80)
     String name ;

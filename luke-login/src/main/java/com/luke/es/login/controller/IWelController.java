@@ -12,4 +12,6 @@ public interface IWelController {
     @RequestMapping(path = "/" ,method = RequestMethod.GET)
     String welcome(HttpServletRequest request, Model model) throws Exception ;
 
+    @RequestMapping(path = "/logout" )
+    String logout(HttpServletRequest request, Model model) throws Exception  ;
 }

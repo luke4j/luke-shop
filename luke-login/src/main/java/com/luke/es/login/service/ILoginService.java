@@ -4,7 +4,28 @@ import com.luke.es.md.vo.login.VOInLogin;
 import com.luke.es.tool.vo.VOutUser;
 
 public interface ILoginService {
+    /**
+     * token登录
+     * @param token
+     * @return
+     * @throws Exception
+     */
     Boolean isLogin(String token) throws Exception;
 
+    /**
+     * token登出
+     * @param token
+     * @throws Exception
+     */
+    void logout(String token)throws Exception;
+
+    /**
+     * 密码登录
+     * @param vo
+     * @return
+     * @throws Exception
+     */
     VOutUser login(VOInLogin vo) throws Exception;
+
+
 }

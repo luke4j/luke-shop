@@ -4,8 +4,16 @@ import com.luke.es.tool.model._M;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Index;
+import javax.persistence.Table;
 
 @Entity
+@Table(indexes = {
+        @Index(columnList = "zdrId"),
+        @Index(columnList = "ghsId"),
+        @Index(columnList = "dh"),
+        @Index(columnList = "shrId")
+})
 public class TK_Order extends _M {
     /**制单人ID*/
     Long zdrId ;

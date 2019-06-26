@@ -4,8 +4,13 @@ import com.luke.es.tool.model._M;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Index;
+import javax.persistence.Table;
 
 @Entity
+@Table(indexes = {
+        @Index(columnList = "goodsId")
+})
 public class TG_Attr extends _M {
 
     Long goodsId ;

@@ -187,6 +187,9 @@ public interface IDBDao {
     */
     <T> List<T> find(String ql, Object param) throws AppException;
 
+
+    <T> List<T> find(String ql ,Object param,Class toBean ) throws AppException ;
+
    /**
     * hibernate session ql查询
     * @param ql

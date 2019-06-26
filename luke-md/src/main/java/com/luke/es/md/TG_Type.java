@@ -4,8 +4,13 @@ import com.luke.es.tool.model._M;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Index;
+import javax.persistence.Table;
 
 @Entity
+@Table(indexes = {
+        @Index(columnList = "fid")
+})
 public class TG_Type extends _M {
     @Column(length = 10)
     String c_type ;

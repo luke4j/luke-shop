@@ -429,9 +429,26 @@ public class DBDao {
      * @return
      * @throws AppException
      */
-    public <T> List<T> find(String ql ,Class toBean ) throws AppException{
+    public <T> List<T> find(String ql,Class toBean ) throws AppException{
         try{
             return this.find(ql, null, null, toBean, null) ;
+        }catch (Throwable e){
+            throw AppException.create(this.getClass(),e.getMessage()) ;
+        }
+
+    }
+
+    /**
+     * 查询数据
+     * @param ql
+     * @param toBean
+     * @param <T>
+     * @return
+     * @throws AppException
+     */
+    public <T> List<T> find(String ql ,Object param,Class toBean ) throws AppException{
+        try{
+            return this.find(ql, param, null, toBean, null) ;
         }catch (Throwable e){
             throw AppException.create(this.getClass(),e.getMessage()) ;
         }

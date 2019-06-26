@@ -3,8 +3,14 @@ package com.luke.es.md;
 import com.luke.es.tool.model._M;
 
 import javax.persistence.Entity;
+import javax.persistence.Index;
+import javax.persistence.Table;
 
 @Entity
+@Table(indexes = {
+        @Index(columnList = "cnfId"),
+        @Index(columnList = "goodsId")
+})
 public class TG_Lens extends _M {
     Long cnfId ;
     Long goodsId ;

@@ -55,8 +55,13 @@ public class LoginService implements ILoginService {
                 }
             }
             this.loginDao.setRedisValueAndEX(token,LK.ObjToJsonStr(ru),60*60*8l) ;
+            ru.set_token(token);
             return ru ;
         }
        throw AppException.create("登录失败："+vo.getLoginName()) ;
+    }
+
+    public void logout(String token) throws Exception {
+        this.loginDao.delRedisValueByKey(token) ;
     }
 }

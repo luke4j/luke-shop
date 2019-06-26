@@ -7,7 +7,7 @@ import java.util.Map;
  */
 public class ActResult {
 
-    Boolean success = false ;
+    Boolean success = true ;
     Object rt ;
     String msg = "操作成功" ;
     String url = "" ;
