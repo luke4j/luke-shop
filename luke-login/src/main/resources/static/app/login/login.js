@@ -68,7 +68,6 @@ define(function(require){
 
     var VLogin = Backbone.View.extend({
         initialize:function(){
-            this.model = new MLogin() ;
             this.render() ;
         },
         render:function(){
@@ -85,7 +84,6 @@ define(function(require){
                 this.$loginName.val(rm.loginName) ;
                 this.$loginPwd.val(rm.loginPwd) ;
             }
-            // this.addEvent() ;
             this.$el = $("#dv_login"),
             this.delegateEvents(this.events()) ;
 

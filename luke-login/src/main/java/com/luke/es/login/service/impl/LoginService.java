@@ -33,14 +33,11 @@ public class LoginService implements ILoginService {
     public VOutUser login(VOInLogin vo) throws Exception {
        TU_User user = this.loginDao.login(vo) ;
         if(user!=null){
-            String token = "token-"+LK.uuid()+"_"+user.getId() ;
+            String token = "token-"+LK.uuid() ;
             VOutUser ru = new VOutUser() ;
-
-            ru.setLoginName(user.getLoginName());
-
+            BeanUtils.copyProperties(user,ru);
             TU_Info info = this.loginDao.findUserInfo(user.getId()) ;
             if(info!=null) {
-                ru.setName(info.getName());
                 TS_Store store = this.loginDao.findUserStore(info.getStoreId());
                 if (store != null) {
                     ru.setStoreId(store.getId());
