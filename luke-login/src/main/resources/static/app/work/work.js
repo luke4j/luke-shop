@@ -17,7 +17,13 @@ define(function(require) {
      */
     var MWork = Backbone.Model.extend({
         defaults:{},
-        loadDate:function(){
+        initialize:function(){
+            this.addEvent() ;
+        },
+        addEvent:function(){
+
+        },
+        getCurrentUser:function(){
             var me = this ;
             ls.d.ajax({
                 url:'login/getCurrentUser.act',
@@ -32,9 +38,11 @@ define(function(require) {
 
     var VWork = Backbone.View.extend({
         initialize: function () {
-
             this.model = new MWork();
-            this.model.loadDate() ;
+
+            this.listenTo(this.model,"change",this.setNavShowUserName) ;
+
+            this.model.getCurrentUser() ;
             this.render();
         },
         render: function () {
@@ -63,6 +71,7 @@ define(function(require) {
         click_a_menu_handler:function(be){
            var $menu = $(be.currentTarget) ;
            var jsurl = $menu.attr("jsurl") ;
+           if(!jsurl) return false ;
            require([jsurl],function(VC){
                if(typeof (VC)=='function'){
                    new VC() ;
@@ -71,11 +80,11 @@ define(function(require) {
         },
         _tempLi:function(){
             var t = "<li class='layui-nav-item'> " +
-                "<a href='javascript:;' jsurl='<%= jsurl %>' luke-menu-a><%= text %></a> " +
+                "<a href='javascript:;' jsurl='<%= jsurl %>' id='<%= id %>' luke-menu-a><%= text %></a> " +
                 "<%  if(child.length>0){ %> " +
                     "<dl class='layui-nav-child'> " +
                     "<% for(var c in child){ %> " +
-                        "<dd><a jsurl='<%= child[c].jsurl %>' luke-menu-a> <%= child[c].text %> </a></dd> " +
+                        "<dd><a jsurl='<%= child[c].jsurl %>' id='<%= child[c].id %>' luke-menu-a> <%= child[c].text %> </a></dd> " +
                     "<% } %> " +
                     "</dl> " +
                 "<% } %> " +
@@ -86,13 +95,29 @@ define(function(require) {
             var $logo = $("<div>").addClass("layui-logo").text("Luke-E-Shop") ;
             var $l = $("<ul>").addClass("layui-nav layui-layout-left") ;
 
-            // $l.append($(this._tempLi({text:'测试',jsurl:'',id:'test',child:[]}))) ;
-            // $l.append($(this._tempLi({text:'测试2',jsurl:'',id:'test2',child:[{text:'功能1',jsurl:'1111',id:'gn1'}]}))) ;
+            $l.append($(this._tempLi({text:"导航用户名",jsurl:'',id:'nav_userName',child:[]}))) ;
+            $l.append($(this._tempLi({text:'系统时间',jsurl:'',id:'nav_systime',child:[]}))) ;
+
 
             var $r = $("<ul>").addClass("layui-nav layui-layout-right") ;
+            $r.append($(this._tempLi({id:'nav_user',text:'用户',jsurl:'',child:[{
+                    id:'mav_updatePwd',text:'修改密码',jsurl:'',child:[]
+                },{
+                    id:'mav_info',text:'用户信息',jsurl:'',child:[]
+                }]}))) ;
             $r.append($(this._tempLi({id:'nav_exit',text:'退出',jsurl:'app/work/logout',child:[]}))) ;
 
             this.$head.append($logo).append($l).append($r) ;
+        },
+        setNavShowUserName:function(model){
+            var nsun = model.get("loginName")+":"+model.get("name")+":"+model.get("storeName")+":"+model.get("roleName") ;
+            $("#nav_userName").text(nsun) ;
+            var ltime = model.get("systime") ;
+            $("#nav_systime").text(lk.num.dateToStr(2,new Date(ltime))) ;
+            setInterval(function(){
+                ltime+=1000 ;
+                $("#nav_systime").text(lk.num.dateToStr(2,new Date(ltime))) ;
+            },1000) ;
         },
         renderMenu:function(){},
         renderBody:function(){},

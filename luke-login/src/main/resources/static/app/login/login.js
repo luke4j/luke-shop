@@ -13,6 +13,12 @@ define(function(require){
             rememberMe:false
         },
         initialize:function(){
+            var rme = ls.ck.getCookie("luke-rememberMe") ;
+            if(rme&&rme=="true"){
+                this.set("rememberMe",true) ;
+            }else{
+                this.set("rememberMe",false) ;
+            }
             this.addEvent() ;
         },
         addEvent:function(){
@@ -55,8 +61,10 @@ define(function(require){
                     success:function(resp){
                         if(me.attributes.rememberMe){
                             ls.ck.setLoginData(me.attributes.loginName,pwd) ;
+                            ls.ck.setCookie("luke-rememberMe",true) ;
                         }else{
                             ls.ck.delLoginData() ;
+                            ls.ck.setCookie("luke-rememberMe",false) ;
                         }
                         ls.ck.setToken(resp.rt._token) ;
                         location.href = localhost ;
@@ -68,6 +76,7 @@ define(function(require){
 
     var VLogin = Backbone.View.extend({
         initialize:function(){
+            this.model = new MLogin() ;
             this.render() ;
         },
         render:function(){
@@ -80,6 +89,7 @@ define(function(require){
             this.$loginPwd = $("#loginPwd") ;
             this.$loginName.focus() ;
             if(this.model.attributes.rememberMe){
+                $("#img_rememberMe").attr("src","app/login/img/checked.png")
                 var rm = ls.ck.getLoginData() ;
                 this.$loginName.val(rm.loginName) ;
                 this.$loginPwd.val(rm.loginPwd) ;
@@ -110,7 +120,7 @@ define(function(require){
             }
         },
         dv_rememberMe_click_handler:function(je){
-            var $pic = $("#picture") ;
+            var $pic = $("#img_rememberMe") ;
             if($pic.attr("src")=="app/login/img/check.png"){
                 $pic.attr("src","app/login/img/checked.png") ;
                 this.model.set("rememberMe",true) ;

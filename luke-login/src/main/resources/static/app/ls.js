@@ -85,5 +85,14 @@ ls.ck.getLoginData = function(){
         ,loginPwd:$.cookie("luke-shop-loginPwd")
     } ;
 };
+ls.ck.setCookie = function(key,val){
+    $.cookie(key,val,{expires:7}) ;
+} ;
+ls.ck.delCookie = function(key){
+    $.removeCookie(key) ;
+} ;
+ls.ck.getCookie = function(key){
+    return $.cookie(key) ;
+} ;
 
 

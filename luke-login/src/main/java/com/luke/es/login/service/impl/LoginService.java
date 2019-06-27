@@ -8,7 +8,6 @@ import com.luke.es.tool.exception.AppException;
 import com.luke.es.tool.tl.Assertion;
 import com.luke.es.tool.tl.LK;
 import com.luke.es.tool.vo.VOutUser;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -33,11 +32,12 @@ public class LoginService implements ILoginService {
     public VOutUser login(VOInLogin vo) throws Exception {
        TU_User user = this.loginDao.login(vo) ;
         if(user!=null){
-            String token = "token-"+LK.uuid() ;
+            String token = "token-"+LK.uuid()+"_"+user.getId() ;
             VOutUser ru = new VOutUser() ;
-            BeanUtils.copyProperties(user,ru);
+            ru.setLoginName(user.getLoginName());
             TU_Info info = this.loginDao.findUserInfo(user.getId()) ;
             if(info!=null) {
+                ru.setName(info.getName());
                 TS_Store store = this.loginDao.findUserStore(info.getStoreId());
                 if (store != null) {
                     ru.setStoreId(store.getId());
