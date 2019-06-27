@@ -1,6 +1,6 @@
 package com.luke.es.login.controller.impl;
 
-import com.luke.es.action.BaseController;
+import com.luke.es.global.BController;
 import com.luke.es.login.controller.ILoginController;
 import com.luke.es.login.service.ILoginService;
 import com.luke.es.md.vo.login.VOInLogin;
@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 
 @RestController
-public class LoginController extends BaseController implements ILoginController {
+public class LoginController extends BController implements ILoginController {
 
     private static Logger logger = LoggerFactory.getLogger(LoginController.class) ;
 
@@ -31,10 +31,17 @@ public class LoginController extends BaseController implements ILoginController 
         return actResult;
     }
 
-    public ActResult getCurrentUser(HttpServletRequest request, HttpServletResponse response, ActResult actResult, VOInLogin vo, BindingResult bindingResult) throws Exception {
+    public ActResult getCurrentUser(HttpServletRequest request, HttpServletResponse response, ActResult actResult, BindingResult bindingResult) throws Exception {
         VOutUser user = super.getCurrentUser(request) ;
         actResult.setRt(user);
-        actResult.getMore().put1("systime",new Date().getTime()) ;
+        actResult.setMore(new LKMap<String, Object>().put1("systime",new Date().getTime()));
+        return actResult;
+    }
+
+    public ActResult logout(HttpServletRequest request, HttpServletResponse response, ActResult actResult, BindingResult bindingResult) throws Exception {
+        VOutUser user = super.getCurrentUser(request) ;
+        this.loginService.logout(user.get_token());
+        actResult.setRt(new LKMap().put1("goto",this.getLocalhostUrl(request)));
         return actResult;
     }
 }

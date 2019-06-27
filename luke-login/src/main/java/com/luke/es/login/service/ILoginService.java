@@ -28,11 +28,5 @@ public interface ILoginService {
     VOutUser login(VOInLogin vo) throws Exception;
 
 
-    /**
-     * 得到当前用户的VOutUser
-     * @param pageToken
-     * @return
-     * @throws Exception
-     */
-    VOutUser getCurrentUser(String pageToken)throws Exception;
+    VOutUser getCurrentUserByToken(String token)throws Exception;
 }

@@ -17,6 +17,8 @@ public interface ILoginController {
     ActResult login(HttpServletRequest request, HttpServletResponse response, ActResult actResult , VOInLogin vo, BindingResult bindingResult) throws Exception ;
 
     @RequestMapping(path = "getCurrentUser.act",method = RequestMethod.POST)
-    ActResult getCurrentUser(HttpServletRequest request, HttpServletResponse response, ActResult actResult , VOInLogin vo, BindingResult bindingResult) throws Exception ;
+    ActResult getCurrentUser(HttpServletRequest request, HttpServletResponse response, ActResult actResult, BindingResult bindingResult) throws Exception ;
 
+    @RequestMapping(path = "logout.act",method = RequestMethod.POST)
+    ActResult logout(HttpServletRequest request, HttpServletResponse response, ActResult actResult, BindingResult bindingResult) throws Exception ;
 }

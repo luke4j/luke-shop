@@ -68,6 +68,7 @@ define(function(require){
 
     var VLogin = Backbone.View.extend({
         initialize:function(){
+            this.model = new MLogin() ;
             this.render() ;
         },
         render:function(){
@@ -84,16 +85,11 @@ define(function(require){
                 this.$loginName.val(rm.loginName) ;
                 this.$loginPwd.val(rm.loginPwd) ;
             }
-            this.$el = $("#dv_login") ;
             // this.addEvent() ;
+            this.$el = $("#dv_login"),
             this.delegateEvents(this.events()) ;
+
            return this ;
-        },
-        addEvent:function(){
-            $("#btn_login").on("click",this.btn_login_click_handler.bind(this)) ;
-            $("#dv_rememberMe").on("click",this.dv_rememberMe_click_handler.bind(this)) ;
-            $("#loginName").on("keypress",this.loginName_keypress_handler.bind(this)) ;
-            $("#loginPwd").on("keypress",this.loginPwd_keypress_handler.bind(this)) ;
         },
         /**页面事件*/
         events:function(){
@@ -131,8 +127,5 @@ define(function(require){
             this.model.login() ;
         }
     }) ;
-
-    new VLogin({model:new MLogin()}) ;
-
-
+    return  VLogin  ;
 }) ;

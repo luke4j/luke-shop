@@ -82,7 +82,7 @@ public class DBDao {
     public VOutUser getVOutUser(String token) throws AppException{
         String strRedisUser = this.getRedisValue(token) ;
         VOutUser voutUser = (VOutUser) JSONObject.toBean(JSONObject.fromObject(strRedisUser), VOutUser.class);
-        this.setRedisValueAndEX(token,LK.ObjToJsonStr(voutUser),60*60*8l) ;
+        this.setRedisValueAndEX(token,LK.ObjToJsonStr(voutUser),60*8l) ;
         return voutUser ;
     }
 

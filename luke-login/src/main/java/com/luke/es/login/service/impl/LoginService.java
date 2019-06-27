@@ -8,6 +8,7 @@ import com.luke.es.tool.exception.AppException;
 import com.luke.es.tool.tl.Assertion;
 import com.luke.es.tool.tl.LK;
 import com.luke.es.tool.vo.VOutUser;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -38,8 +39,8 @@ public class LoginService implements ILoginService {
             ru.setLoginName(user.getLoginName());
 
             TU_Info info = this.loginDao.findUserInfo(user.getId()) ;
-            ru.setName(info.getName());
             if(info!=null) {
+                ru.setName(info.getName());
                 TS_Store store = this.loginDao.findUserStore(info.getStoreId());
                 if (store != null) {
                     ru.setStoreId(store.getId());
@@ -66,9 +67,9 @@ public class LoginService implements ILoginService {
         this.loginDao.delRedisValueByKey(token) ;
     }
 
-    public VOutUser getCurrentUser(String pageToken) throws Exception {
-        if(pageToken.equals(""))
+    public VOutUser getCurrentUserByToken(String token) throws Exception {
+        if(token.equals(""))
             Assertion.Error("请登录");
-        return  this.loginDao.getVOutUser(pageToken) ;
+        return this.loginDao.getVOutUser(token) ;
     }
 }

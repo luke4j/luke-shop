@@ -9,12 +9,14 @@
         // var systime = [[${#dates.format(systime,'yyyy-MM-dd HH:mm:ss')}]] ;
         var systime  = [[${systime.time}]] ;
         var localhost = [[${localhost}]] ;
-        console.dir(systime) ;
-        console.dir(localhost) ;
     </script>
     <script type="application/javascript" data-main="app/app.js" src="js/b/require.min.js"></script>
     <script>
-        requirejs(['login/login']) ;
+        requirejs(['login/login'],function(V){
+            if(typeof(V)=="function"){
+                new V () ;
+            }
+        }) ;
     </script>
 </head>
 <body>

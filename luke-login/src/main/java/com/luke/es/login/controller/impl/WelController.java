@@ -1,6 +1,6 @@
 package com.luke.es.login.controller.impl;
 
-import com.luke.es.action.BaseController;
+import com.luke.es.global.BController;
 import com.luke.es.login.controller.IWelController;
 import com.luke.es.login.service.ILoginService;
 import com.luke.es.tool.tl.LK;
@@ -8,12 +8,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
 import javax.annotation.Resource;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
 
 @Controller
-public class WelController extends BaseController implements IWelController {
+public class WelController extends BController implements IWelController {
 
     @Resource
     ILoginService loginService ;
