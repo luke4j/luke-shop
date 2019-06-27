@@ -499,6 +499,7 @@ public class DBDao {
      */
     public <T> T get(Class<T> clss, Long id) throws AppException {
         try{
+            if(id==null) return null ;
             return this.getSession().find(clss, id) ;
         }catch (Throwable e){
             throw AppException.create(this.getClass(),e.getMessage()) ;

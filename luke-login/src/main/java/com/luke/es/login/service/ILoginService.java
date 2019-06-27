@@ -28,4 +28,5 @@ public interface ILoginService {
     VOutUser login(VOInLogin vo) throws Exception;
 
 
+    VOutUser getCurrentUserByToken(String token)throws Exception;
 }

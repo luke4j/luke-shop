@@ -17,6 +17,9 @@ import java.util.Date;
 })
 public class TU_Info extends _M {
 
+    @Column(length = 20)
+    String name ;
+
     Long userId ;
 
     /**
@@ -111,6 +114,14 @@ public class TU_Info extends _M {
 
     public String getSex() {
         return sex;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setSex(String sex) {
