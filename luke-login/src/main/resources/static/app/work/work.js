@@ -50,6 +50,7 @@ define(function(require) {
             this.$el.addClass("layui-layout layui-layout-admin") ;
             this.$head = $("<div>").addClass("layui-header") ;
             this.$menu = $("<div>").addClass("layui-side layui-bg-black") ;
+            this.$menu.append($("<div>").addClass("layui-side-scroll").append($("<ul>").addClass("layui-nav layui-nav-tree"))) ;
             this.$body = $("<div>").addClass("layui-body") ;
             this.$footer = $("<div>").addClass("layui-footer") ;
             $("body").append(this.$el) ;
@@ -148,19 +149,52 @@ define(function(require) {
         _tempMenu:function(){
             var t = "<li class='layui-nav-item'> " +
                 "<a href='javascript:;' jsurl='<%= jsurl %>' id='<%= id %>' luke-menu-a><%= text %></a> " +
-                "<%  if(child.length>0){ %> " +
-                "<dl class='layui-nav-child'> " +
-                "<% for(var c in child){ %> " +
-                "<dd><a jsurl='<%= child[c].jsurl %>' id='<%= child[c].id %>' luke-menu-a> <%= child[c].text %> </a></dd> " +
-                "<% } %> " +
-                "</dl> " +
-                "<% } %> " +
+                    "<%  if(child.length>0){ %> " +
+                        "<dl class='layui-nav-child'> " +
+                            "<% for(var c in child){ %> " +
+                            "<dd><a jsurl='<%= child[c].jsurl %>' id='<%= child[c].id %>' luke-menu-a> <%= child[c].text %> </a></dd> " +
+                            "<% } %> " +
+                        "</dl> " +
+                    "<% } %> " +
                 "</li>" ;
             return _.template(t) ;
         }(),
         renderMenu:function(){
+            var me = this ;
+            ls.d.ajax({
+                url:'dev/findAllItems.act',
+                success:function(resp){
+                    console.dir(resp) ;
+                    var d = resp.rt ;
+                    var $ul = $("ul",me.$menu) ,tmp,group = [];
 
-            this.$menu.append() ;
+                    function addGroupChild(group,rt){
+                        $.each(rt,function(i,obj){
+                            if(group.id == obj.fid){
+                                obj.child = [] ;
+                                obj.jsurl = obj.js ;
+                                obj.text = obj.name ;
+                                group.child.push(obj) ;
+                                addGroupChild(obj,rt) ;
+                            }
+                        });
+                    }
+
+                    $.each(resp.rt,function (i,obj) {
+                        if(obj.c_type=='group'){
+                            obj.child = [] ;
+                            obj.jsurl = obj.js ;
+                            obj.text = obj.name ;
+                            group.push(obj) ;
+                            addGroupChild(obj,resp.rt) ;
+                        }
+                    }) ;
+                    // console.dir(group) ;
+                    $.each(group,function(i,obj){
+                        $("ul",me.$menu).append(me._tempMenu(obj)) ;
+                    }) ;
+                }
+            }) ;
         },
         renderBody:function(){},
         renderFooter:function(){
