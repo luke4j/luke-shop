@@ -212,11 +212,9 @@ key = "#vo.id" 是参数vo中的id属性值 ，在执行这个方法前，如果
 
 ## js
 
-### 延时无限循环执行  setInterval(callback,time)
-
-callback是延时执行的函数，time是延时的时间，单位是毫秒
-
-
+```javascript
+setInterval(function(){    ltime+=1000 ;    $("#nav_systime").text(lk.num.dateToStr(2,new Date(ltime))) ;},1000) ;
+```
 
 ## Backbone
 
@@ -254,37 +252,6 @@ callback是延时执行的函数，time是延时的时间，单位是毫秒
 
 
 <u>视图中tagName属性是你需要操作的页面元素标签是什么，默认情况是div</u>
-
-
-
-##### 为视图中的数据模型添加事件 
-
-这很有用，一些数据是后台请求得到，会有延时，所以在View中Model值发生变化时做出相应的处理
-
-在model数据加载之前为model添加事件
-
-```javascript
-    var VWork = Backbone.View.extend({
-        initialize: function () {
-            this.model = new MWork();
-            this.listenTo(this.model,"change",this.setNavShowUserName) ;
-            this.model.getCurrentUser() ;
-            this.render();
-        }
-        .....
-         setNavShowUserName:function(model){
-        	......
-    	}
-    }) ;
-```
-
-
-
-
-
-
-
-
 
 ### 数据模型
 
