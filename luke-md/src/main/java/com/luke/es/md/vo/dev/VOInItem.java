@@ -1,34 +1,29 @@
-package com.luke.es.md;
+package com.luke.es.md.vo.dev;
 
-import com.luke.es.tool.model._M;
+import com.luke.es.tool.vo.VOIn;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
+public class VOInItem extends VOIn {
 
-@Entity
-public class TU_Item extends _M {
+
+    Long id ;
     /**功能名*/
-    @Column(length = 20)
     String name ;
     /**功能类型：菜单组，菜单，按钮*/
-    @Column(length = 10)
     String c_type ;
     Long fid ;
     /**js入口文件*/
-    @Column(length = 120)
     String js ;
     /**功能图标*/
-    @Column(length = 20)
     String icon ;
 
     Integer px = 0 ;
 
-    public Integer getPx() {
-        return px;
+    public Long getId() {
+        return id;
     }
 
-    public void setPx(Integer px) {
-        this.px = px;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -69,5 +64,13 @@ public class TU_Item extends _M {
 
     public void setIcon(String icon) {
         this.icon = icon;
+    }
+
+    public Integer getPx() {
+        return px;
+    }
+
+    public void setPx(Integer px) {
+        this.px = px;
     }
 }

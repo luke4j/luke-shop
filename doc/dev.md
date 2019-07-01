@@ -210,6 +210,12 @@ key = "#vo.id" 是参数vo中的id属性值 ，在执行这个方法前，如果
 
 # js
 
+## js
+
+```javascript
+setInterval(function(){    ltime+=1000 ;    $("#nav_systime").text(lk.num.dateToStr(2,new Date(ltime))) ;},1000) ;
+```
+
 ## Backbone
 
 ### 视图
