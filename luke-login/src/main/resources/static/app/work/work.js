@@ -162,7 +162,7 @@ define(function(require) {
             require([js],function(VC){
                 if(typeof (VC)=='function'){
                     me.$body.empty() ;
-                    new VC({_menus:JSON.parse($menu.attr("child"))}) ;
+                    new VC({_menus:JSON.parse($menu.attr("child")||'[]')}) ;
                 }
             }) ;
         }

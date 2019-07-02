@@ -2,9 +2,12 @@ package com.luke.es.md.vo.dev;
 
 import com.luke.es.tool.vo.VOIn;
 
+import javax.validation.constraints.NotNull;
+
 public class VOInItem extends VOIn {
 
 
+    @NotNull(message = "更新数据ID异常")
     Long id ;
     /**功能名*/
     String name ;

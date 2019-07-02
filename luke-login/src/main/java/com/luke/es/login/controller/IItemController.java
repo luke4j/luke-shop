@@ -18,6 +18,7 @@ public interface IItemController {
     ActResult findAllItems(HttpServletRequest request,HttpServletResponse response,ActResult actResult) throws Exception ;
     ActResult addItem(HttpServletRequest request, HttpServletResponse response , ActResult actResult, VOInItem vo, BindingResult bindingResult) throws Exception ;
     ActResult delItem(HttpServletRequest request, HttpServletResponse response , ActResult actResult, VOInItem vo, BindingResult bindingResult) throws Exception ;
+    @RequestMapping(path = "updateItem.act",method = RequestMethod.POST)
     ActResult updateItem(HttpServletRequest request, HttpServletResponse response , ActResult actResult, VOInItem vo, BindingResult bindingResult) throws Exception ;
 
 

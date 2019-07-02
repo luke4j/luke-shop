@@ -36,6 +36,8 @@ public class ItemController extends BController implements IItemController {
     }
 
     public ActResult updateItem(HttpServletRequest request, HttpServletResponse response, ActResult actResult, VOInItem vo, BindingResult bindingResult) throws Exception {
-        return null;
+        this.itemService.updateItem(vo) ;
+        actResult.ok();
+        return actResult;
     }
 }

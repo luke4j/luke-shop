@@ -19,6 +19,11 @@ public class ActResult {
     Throwable error ;
     LKMap<String,Object> more = new LKMap<>();
 
+    public ActResult ok(){
+        this.rt = new LKMap().put1("ok",true) ;
+        return this ;
+    }
+
     public String getCode() {
         return code;
     }

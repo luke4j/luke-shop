@@ -1,8 +1,24 @@
 define(function(require) {
     require("ls");
 
+    var MDev = Backbone.Model.extend({
+        defaults:{},
+        updateDate:function(){
+            console.dir(this) ;
+            ls.d.ajax({
+                url:'dev/updateItem.act',
+                data:this.attributes,
+                success:function(res){
+
+                }
+            }) ;
+        }
+    }) ;
+
+
     var VDev = Backbone.View.extend({
         initialize:function(){
+
             this._menus = arguments[0]._menus ;
             this.$table = $("<table>") ;
             this.$table.addClass("layui-hide").attr("id","dev_item_table").attr("lay-filter","dev_item_table") ;
@@ -58,7 +74,10 @@ define(function(require) {
                     var value = obj.value //得到修改后的值
                         ,data = obj.data //得到所在行所有键值
                         ,field = obj.field; //得到字段
-                    layer.msg('[ID: '+ data.id +'] ' + field + ' 字段更改为：'+ value);
+                    // layer.msg('[ID: '+ data.id +'] ' + field + ' 字段更改为：'+ value);
+                    var model_update = new MDev(data) ;
+                    model_update.updateDate() ;
+
                 });
                 //基本用不到了。。。
                 //这个是配合 toolbar: 'default'
@@ -83,9 +102,32 @@ define(function(require) {
 
             });
         }
-        ,luke_menu_btn_xinzeng_handler:function(e,table){
-            var checkStatus = table.checkStatus('id_table_menu')  ,data = checkStatus.data;
-            layer.alert(JSON.stringify(data));
+
+        ,luke_menu_btn_XinZeng_handler:function(e,table){
+            // var checkStatus = table.checkStatus('id_table_menu')  ,data = checkStatus.data;
+            // layer.alert(JSON.stringify(data));
+            layui.use('layer', function() { //独立版的layer无需执行这一句
+                var $ = layui.jquery, layer = layui.layer; //独立版的layer无需执行这一句
+                layer.open({
+                    type: 1 //此处以iframe举例
+                    ,title: '新增菜单'
+                    // ,area: ['390px', '260px']
+                    ,maxmin: true
+                    ,content: '//layer.layui.com/test/settop.html'
+                    ,btn: ['继续弹出', '全部关闭'] //只是为了演示
+                    ,yes: function(){
+                        layer.alert("第一个按钮") ;
+                    }
+                    ,btn2: function(){
+                        layer.closeAll();
+                    }
+
+                    ,zIndex: layer.zIndex //重点1
+                    ,success: function(layero){
+                        layer.setTop(layero); //重点2
+                    }
+                });
+            }) ;
         }
     }) ;
 
