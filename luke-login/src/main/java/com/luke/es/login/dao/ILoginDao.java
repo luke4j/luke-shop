@@ -4,6 +4,8 @@ import com.luke.es.db.IDBDao;
 import com.luke.es.md.*;
 import com.luke.es.md.vo.login.VOInLogin;
 
+import java.util.List;
+
 public interface ILoginDao  extends IDBDao {
     TU_User login(VOInLogin vo) throws Exception;
 
@@ -14,4 +16,6 @@ public interface ILoginDao  extends IDBDao {
     TU_Role findUserRole(Long roleId)throws Exception;
 
     TU_CWRole findUserCWRole(Long cwRoleId)throws Exception;
+
+    List<TU_Item> loadMenu(String itemIds)throws Exception;
 }

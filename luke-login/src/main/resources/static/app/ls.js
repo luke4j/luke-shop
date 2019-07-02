@@ -8,8 +8,8 @@ var ls = ls ||{} ;
 //页面方法组
 ls.p = {} ;
 /**工作区最顶层DIV*/
-ls.p.getDvWorkSpace = function(){
-    return $("#dv_work_space") ;
+ls.p.getWorkSpaceBody = function(){
+    return $("#_workSpaceBody") ;
 } ;
 
 // 数据方法组

@@ -3,6 +3,7 @@ package com.luke.es.aop;
 import com.luke.es.tool.controller.ActResult;
 import com.luke.es.tool.exception.AppException;
 import com.luke.es.tool.tl.LK;
+import com.luke.es.tool.vo.Page;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -15,6 +16,7 @@ import org.springframework.validation.BindingResult;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
+import java.util.List;
 
 @Component
 @Aspect
@@ -31,6 +33,7 @@ public class ParamAop {
         HttpServletResponse response = null ;
         ActResult actResult = null ;
         BindingResult bindingResult = null ;
+        Page page = null ;
 
         for (Object obj:jp.getArgs() ) {
             if(obj instanceof HttpServletRequest)
@@ -39,6 +42,9 @@ public class ParamAop {
                 bindingResult = (BindingResult)obj ;
             if(obj instanceof ActResult){
                 actResult = (ActResult)obj ;
+            }
+            if(obj instanceof Page){
+                page = (Page) obj ;
             }
 
         }
@@ -51,7 +57,9 @@ public class ParamAop {
             actResult.setError(AppException.create("参数验证失败"));
         }
         Object obj = jp.proceed(jp.getArgs()) ;
-
+        if(actResult!=null&&(actResult.getRt() instanceof List) && page == null ){
+            actResult.setCount(((List)actResult.getRt()).size()+0l);
+        }
         return obj ;
     }
 }

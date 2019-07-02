@@ -9,12 +9,31 @@ import java.util.Map;
  */
 public class ActResult {
 
+    String code = "0" ;
+    Long count = 0l ;
+
     Boolean success = true ;
     Object rt ;
     String msg = "操作成功" ;
     String url = "" ;
     Throwable error ;
     LKMap<String,Object> more = new LKMap<>();
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public Long getCount() {
+        return count;
+    }
+
+    public void setCount(Long count) {
+        this.count = count;
+    }
 
     public Boolean getSuccess() {
         return success;

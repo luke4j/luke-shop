@@ -1,207 +1,172 @@
 define(function(require) {
     require("ls");
-
-    /**
-     cwIds: ""
-     id: 1
-     itemIds: ""
-     loginName: "admin"
-     loginPwd: "21232f297a57a5a743894a0e4a801fc3"
-     name: "于洋"
-     roleId: 0
-     roleName: ""
-     storeId: 0
-     storeName: ""
-     systime: 1561602959014
-     _token: "token-b84b6d66aba8452180a8d6dd26e95a84"
-     */
-    var MWork = Backbone.Model.extend({
+    require("../js/b/json2") ;
+    var MCurrentUser = Backbone.Model.extend({
         defaults:{},
-        initialize:function(){
-            this.addEvent() ;
-        },
-        addEvent:function(){
-
-        },
-        getCurrentUser:function(){
+        loadCurrentUser:function(){
             var me = this ;
             ls.d.ajax({
                 url:'login/getCurrentUser.act',
                 success:function(resp){
                     resp.rt.systime = resp.more.systime ;
                     me.set(resp.rt) ;
-                    console.dir(me) ;
                 }
             }) ;
         }
     }) ;
+    var MNav = Backbone.Model.extend({
+        loadNav:function(){
+            var me = this ;
+            $.ajax({
+                url:'app/work/nav.json?r='+Math.random(),
+                success:function(resp){
+                    me.set(resp) ;
+                }
+            })
+        }
+    }) ;
+    var MMenu = Backbone.Model.extend({
+        loadMenu:function(){
+            var me = this ;
+            ls.d.ajax({
+                url:'login/loadMenu.act',
+                success:function(resp){
+                    me.set(resp.rt) ;
+                }
+            })
+        }
+    }) ;
+
 
     var VWork = Backbone.View.extend({
         initialize: function () {
-            this.model = new MWork();
+            this.model_cu = new MCurrentUser();
+            this.model_nav = new MNav() ;
+            this.model_menu = new MMenu() ;
 
-            this.listenTo(this.model,"change",this.model_change_handler) ;
+            this.listenTo(this.model_nav,"change",this.model_nav_change_handler) ;
+            this.listenTo(this.model_cu, "change", this.model_cu_change_handler);
+            this.listenTo(this.model_menu, "change", this.model_menu_change_handler);
 
-            this.model.getCurrentUser() ;
+            this.model_nav.loadNav() ;
             this.render();
         },
         render: function () {
-            $("body").addClass("layui-layout-body") ;
-            this.$el.addClass("layui-layout layui-layout-admin") ;
-            this.$head = $("<div>").addClass("layui-header") ;
-            this.$menu = $("<div>").addClass("layui-side layui-bg-black") ;
-            this.$menu.append($("<div>").addClass("layui-side-scroll").append($("<ul>").addClass("layui-nav layui-nav-tree"))) ;
-            this.$body = $("<div>").addClass("layui-body") ;
-            this.$footer = $("<div>").addClass("layui-footer") ;
-            $("body").append(this.$el) ;
-            this.$el.append(this.$head).append(this.$menu).append(this.$body).append(this.$footer)  ;
-            this.renderHead() ;
-            this.renderMenu() ;
-            this.renderBody() ;
-            this.renderFooter() ;
-
-            layui.use('element', function(){
-                var element = layui.element;
-
-            });
-            this.delegateEvents(this.events) ;
+            $("body").addClass("layui-layout-body");
+            this.$el.addClass("layui-layout layui-layout-admin");
+            this.$nav = $("<div>").addClass("layui-header");
+            this.$menu = $("<div>").addClass("layui-side layui-bg-black");
+            this.$menu.append($("<div>").addClass("layui-side-scroll").append($("<ul>").addClass("layui-nav layui-nav-tree")));
+            this.$body = $("<div>").addClass("layui-body").attr("id","_workSpaceBody");
+            this.$footer = $("<div>").addClass("layui-footer");
+            $("body").append(this.$el);
+            this.$el.append(this.$nav).append(this.$menu).append(this.$body).append(this.$footer);
         },
         events:{
             "click a[luke-menu-a]":"click_a_menu_handler"
         },
-        click_a_menu_handler:function(be){
-           var $menu = $(be.currentTarget) ;
-           var jsurl = $menu.attr("jsurl") ;
-           if(!jsurl) return false ;
-           require([jsurl],function(VC){
-               if(typeof (VC)=='function'){
-                   new VC() ;
-               }
-           }) ;
-        },
         _tempNav:function(){
             var t = "<li class='layui-nav-item'> " +
-                "<a href='javascript:;' jsurl='<%= jsurl %>' id='<%= id %>' luke-menu-a><%= text %></a> " +
-                "<%  if(child.length>0){ %> " +
-                    "<dl class='layui-nav-child'> " +
-                    "<% for(var c in child){ %> " +
-                        "<dd><a jsurl='<%= child[c].jsurl %>' id='<%= child[c].id %>' luke-menu-a> <%= child[c].text %> </a></dd> " +
-                    "<% } %> " +
-                    "</dl> " +
-                "<% } %> " +
-                "</li>" ;
-             return _.template(t) ;
-        }(),
-        msg_data:_.extend({}, Backbone.Events),
-        renderHead:function(){
-            var me = this ;
-            var ld_dhyh = {text:"导航用户名",jsurl:'',id:'nav_userName',child:[]} ;
-            var ld_xtsj = {text:'系统时间',jsurl:'',id:'nav_systime',child:[]} ;
-            var rd_yh = {id:'nav_user',text:'用户',jsurl:'',child:[{
-                    id:'mav_updatePwd',text:'修改密码',jsurl:'',child:[]
-                },{
-                    id:'mav_info',text:'用户信息',jsurl:'',child:[]
-                }]} ;
-            var rd_msg = {text:'信息',id:'nav_msg',jsurl:'',child:[
-                {text:'信息1',id:'msg_1',jsurl:'',child:[]},
-                    {text:'信息2',id:'msg_1',jsurl:'',child:[]},
-                    {text:'信息2',id:'msg_1',jsurl:'',child:[]},
-                    {text:'信息3',id:'msg_1',jsurl:'',child:[]}
-                    ]} ;
-
-            var rd_exit = {id:'nav_exit',text:'退出',jsurl:'app/work/logout',child:[]} ;
-            var $logo = $("<div>").addClass("layui-logo").text("Luke-E-Shop") ;
-
-            var $l = $("<ul>").addClass("layui-nav layui-layout-left") ;
-            $l.append($(this._tempNav(ld_dhyh))) ;
-            $l.append($(this._tempNav(ld_xtsj))) ;
-
-            var $r = $("<ul>").addClass("layui-nav layui-layout-right") ;
-            $r.append($(this._tempNav(rd_msg))) ;
-            $r.append($(this._tempNav(rd_yh))) ;
-            $r.append($(this._tempNav(rd_exit))) ;
-
-            this.listenTo(this.msg_data,"change",this.msg_data_change_handler) ;
-            //后台取消息数据，这里设置消息数量
-            // setInterval(function(){
-            //     me.msg_data.data = rd_msg ;
-            //     me.msg_data.trigger('change',me.msg_data) ;  ;
-            // },500) ;
-
-            this.$head.append($logo).append($l).append($r) ;
-        },
-        msg_data_change_handler:function(be){
-            //<span class="layui-badge">99+</span>
-            var hz = $("<span>").addClass("layui-badge").text(be.data.child.length) ;
-            $("#nav_msg").append(hz) ;
-            console.dir(be) ;
-        },
-        model_change_handler:function(model){
-            var nsun = "登录名："+model.get("loginName")+"-- 姓名："+model.get("name")+"-- 站点名："+model.get("storeName")+"-- 角色名："+model.get("roleName") ;
-            $("#nav_userName").text(nsun) ;
-            var ltime = model.get("systime") ;
-            $("#nav_systime").text(lk.num.dateToStr(2,new Date(ltime))) ;
-            setInterval(function(){
-                ltime+=1000 ;
-                $("#nav_systime").text(lk.num.dateToStr(2,new Date(ltime))) ;
-            },1000) ;
-        },
-        _tempMenu:function(){
-            var t = "<li class='layui-nav-item'> " +
-                "<a href='javascript:;' jsurl='<%= jsurl %>' id='<%= id %>' luke-menu-a><%= text %></a> " +
+                "<a href='javascript:;' js='<%= js %>' id='<%= id %>' luke-menu-a><%= text %></a> " +
                     "<%  if(child.length>0){ %> " +
                         "<dl class='layui-nav-child'> " +
                             "<% for(var c in child){ %> " +
-                            "<dd><a jsurl='<%= child[c].jsurl %>' id='<%= child[c].id %>' luke-menu-a> <%= child[c].text %> </a></dd> " +
+                                "<dd><a js='<%= child[c].js %>' id='<%= child[c].id %>' luke-menu-a style='cursor:pointer;' child='<%= JSON.stringify(child[c].child) %>'> <%= child[c].text %> </a></dd> " +
                             "<% } %> " +
                         "</dl> " +
                     "<% } %> " +
                 "</li>" ;
             return _.template(t) ;
         }(),
-        renderMenu:function(){
-            var me = this ;
-            ls.d.ajax({
-                url:'dev/findAllItems.act',
-                success:function(resp){
-                    console.dir(resp) ;
-                    var d = resp.rt ;
-                    var $ul = $("ul",me.$menu) ,tmp,group = [];
+        _tempMenu:function(){
+            var t = "<li class='layui-nav-item'> " +
+                        "<a href='javascript:;' js='<%= js %>' id='<%= id %>' luke-menu-a><%= name %></a> " +
+                        "<%  if(child.length>0){ %> " +
+                            "<dl class='layui-nav-child'> " +
+                                "<% for(var c in child){ %> " +
+                                    "<dd><a js='<%= child[c].js %>' id='<%= child[c].id %>'  luke-menu-a style='cursor:pointer;' child='<%= JSON.stringify(child[c].child) %>' > <%= child[c].name %> </a></dd> " +
+                                "<% } %> " +
+                            "</dl> " +
+                        "<% } %> " +
+                    "</li>" ;
+            return _.template(t) ;
+        }(),
+        model_nav_change_handler:function(model){
+            var $l = $("<ul>").addClass("layui-nav layui-layout-left") ;
+            var $r = $("<ul>").addClass("layui-nav layui-layout-right") ;
+            var $logo = $("<div>").addClass("layui-logo").text("Luke-E-Shop") ;
+            this.$nav.append($logo).append($l).append($r) ;
 
-                    function addGroupChild(group,rt){
-                        $.each(rt,function(i,obj){
-                            if(group.id == obj.fid){
-                                obj.child = [] ;
-                                obj.jsurl = obj.js ;
-                                obj.text = obj.name ;
-                                group.child.push(obj) ;
-                                addGroupChild(obj,rt) ;
-                            }
-                        });
+            $l.append($(this._tempNav(model.get("ld_cygn")))) ;
+            $l.append($(this._tempNav(model.get("ld_xtsj")))) ;
+            $l.append($(this._tempNav(model.get("ld_dhyh")))) ;
+
+            $r.append($(this._tempNav(model.get("rd_msg")))) ;
+            $r.append($(this._tempNav(model.get("rd_yh")))) ;
+            $r.append($(this._tempNav(model.get("rd_exit")))) ;
+
+            this.model_cu.loadCurrentUser() ;
+            this.model_menu.loadMenu() ;
+
+        },
+
+        model_cu_change_handler:function(model){
+            var nsun = "登录名："+model.get("loginName")+"-- 姓名："+model.get("name")+"-- 站点名："+model.get("storeName")+"-- 角色名："+model.get("roleName") ;
+            $("#nav_userName").text(nsun) ;
+
+            var ltime = model.get("systime") ;
+            $("#nav_systime").text(lk.num.dateToStr(2,new Date(ltime))) ;
+            setInterval(function(){
+                ltime+=1000 ;
+                $("#nav_systime").text(lk.num.dateToStr(2,new Date(ltime))) ;
+            },1000) ;
+
+
+        },
+
+        model_menu_change_handler:function(model){
+            var me = this ,_m = model.attributes ;
+            var $ul = $("ul",me.$menu) ,tmp,group = [];
+            function addGroupChild(group,rt){
+                $.each(rt,function(i,obj){
+                    if(group.id == obj.fid){
+                        obj.child = [] ;
+                        group.child.push(obj) ;
+                        addGroupChild(obj,rt) ;
                     }
-
-                    $.each(resp.rt,function (i,obj) {
-                        if(obj.c_type=='group'){
-                            obj.child = [] ;
-                            obj.jsurl = obj.js ;
-                            obj.text = obj.name ;
-                            group.push(obj) ;
-                            addGroupChild(obj,resp.rt) ;
-                        }
-                    }) ;
-                    // console.dir(group) ;
-                    $.each(group,function(i,obj){
-                        $("ul",me.$menu).append(me._tempMenu(obj)) ;
-                    }) ;
+                });
+            }
+            $.each(_m,function (i,obj) {
+                if(obj.c_type=='group'){
+                    obj.child = [] ;
+                    group.push(obj) ;
+                    addGroupChild(obj,_m) ;
                 }
             }) ;
+            $.each(group,function(i,obj){
+                $ul.append(me._tempMenu(obj)) ;
+            }) ;
+            layui.use('element', function(){
+                var element = layui.element;
+
+            });
+            this.delegateEvents(this.events) ;
         },
-        renderBody:function(){},
-        renderFooter:function(){
-            this.$footer.append($("<h5>").text("© luke-eshp tel:18613806246")) ;
+
+        /**菜单事件*/
+        click_a_menu_handler:function(be){
+            var me = this ;
+            var $menu = $(be.currentTarget) ;
+            var js = $menu.attr("js") ;
+            if(!js) return false ;
+            require([js],function(VC){
+                if(typeof (VC)=='function'){
+                    me.$body.empty() ;
+                    new VC({_menus:JSON.parse($menu.attr("child"))}) ;
+                }
+            }) ;
         }
     }) ;
 
     new VWork() ;
-
 }) ;

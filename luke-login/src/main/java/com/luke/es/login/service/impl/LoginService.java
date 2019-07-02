@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class LoginService implements ILoginService {
@@ -68,5 +70,15 @@ public class LoginService implements ILoginService {
         if(token.equals(""))
             Assertion.Error("请登录");
         return this.loginDao.getVOutUser(token) ;
+    }
+
+    public List<TU_Item> loadMenu(VOutUser user) throws Exception {
+        if(user.getRoleId()==null){
+            return new ArrayList<TU_Item>();
+        }else{
+            TU_Role role = this.loginDao.get(TU_Role.class,user.getRoleId()) ;
+            List<TU_Item> items = this.loginDao.loadMenu(role.getItemIds()) ;
+            return items ;
+        }
     }
 }

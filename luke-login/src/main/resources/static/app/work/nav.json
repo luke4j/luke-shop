@@ -1,0 +1,18 @@
+{
+  "ld_dhyh": {"text":"导航用户名","js":"","id":"nav_userName","child":[]},
+  "ld_xtsj": {"text":"系统时间","js":"","id":"nav_systime","child":[]},
+  "rd_yh": {"id":"nav_user","text":"用户","js":"","child":[{
+              "id":"mav_updatePwd","text":"修改密码","js":"","child":[]
+            },{
+              "id":"mav_info","text":"用户信息","js":"","child":[]
+            }]},
+  "rd_msg" : {"text":"信息","id":"nav_msg","js":"","child":[
+                    {"text":"信息1","id":"msg_1","js":"","child":[]},
+                    {"text":"信息2","id":"msg_2","js":"","child":[]},
+                    {"text":"信息3","id":"msg_3","js":"","child":[]},
+                    {"text":"信息4","id":"msg_4","js":"","child":[]},
+                    {"text":"信息5","id":"msg_5","js":"","child":[]}
+                  ]},
+  "rd_exit" : {"id":"nav_exit","text":"退出","js":"app/work/logout","child":[]},
+  "ld_cygn" : {"id":"nav_cygn","text":"常用功能","js":"","child":[]}
+}

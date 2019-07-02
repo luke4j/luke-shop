@@ -7,28 +7,26 @@ select * from tu_info ;
 
 
 
-
 delete from tu_item ;
-insert into tu_item (id,_is_del,_wtime,c_type,fid,icon,js,name,px)
+insert into tu_item (id,_is_del,_wtime,c_type,fid,icon,js,name,px,py)
 values
-(1,false,now(),'group',0,'','','开发管理',1),
-(2,false,now(),'menu',1,'','','开发功能',1),
-(3,false,now(),'btn',2,'','','新增',1) ,
-(4,false,now(),'group',0,'','','用户管理',2),
-(5,false,now(),'menu',4,'','','角色设置',1),
-(6,false,now(),'btn',5,'','','新增',1),
-(7,false,now(),'btn',5,'','','修改',2),
-(8,false,now(),'btn',5,'','','删除',3),
-(9,false,now(),'btn',5,'','','查询',4),
-(10,false,now(),'menu',4,'','','用户设置',2),
-(11,false,now(),'btn',10,'','','新增',1),
-(12,false,now(),'btn',10,'','','修改',2),
-(13,false,now(),'btn',10,'','','删除',3),
-(14,false,now(),'btn',10,'','','查询',4)
+(1,false,now(),'group',0,'','','开发管理',1,'kfgl'),
+(2,false,now(),'menu',1,'','app/dev/dev','开发功能',1,'kfgn'),
+(3,false,now(),'btn',2,'','','新增',1,'xinzeng') ,
+(4,false,now(),'group',0,'','','用户管理',2,'yhgl'),
+(5,false,now(),'menu',4,'','','角色设置',1,'jssz'),
+(6,false,now(),'btn',5,'','','新增',1,'xinzeng'),
+(7,false,now(),'btn',5,'','','修改',2,'xiugai'),
+(8,false,now(),'btn',5,'','','删除',3,'shanchu'),
+(9,false,now(),'btn',5,'','','查询',4,'chaxun'),
+(10,false,now(),'menu',4,'','','用户设置',2,'yhsz'),
+(11,false,now(),'btn',10,'','','新增',1,'xinzeng'),
+(12,false,now(),'btn',10,'','','修改',2,'xiugai'),
+(13,false,now(),'btn',10,'','','删除',3,'shanchu'),
+(14,false,now(),'btn',10,'','','查询',4,'chaxun')
 ;
 -- explain
 select * from tu_item order by c_type,px;
-
 
 delete from tu_role where id = 1 ;
 insert into tu_role (id,_is_del,_wtime,item_ids,name)

@@ -34,4 +34,9 @@ public class LoginDao  extends DBDao implements ILoginDao {
     public TU_CWRole findUserCWRole(Long cwRoleId) throws Exception {
         return  this.get(TU_CWRole.class,cwRoleId);
     }
+
+    public List<TU_Item> loadMenu(String itemIds) throws Exception {
+        String hql = "From TU_Item i where i.id in ("+itemIds+") order by c_type,px" ;
+        return this.find(hql);
+    }
 }

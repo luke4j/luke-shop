@@ -1,7 +1,10 @@
 package com.luke.es.login.service;
 
+import com.luke.es.md.TU_Item;
 import com.luke.es.md.vo.login.VOInLogin;
 import com.luke.es.tool.vo.VOutUser;
+
+import java.util.List;
 
 public interface ILoginService {
     /**
@@ -29,4 +32,6 @@ public interface ILoginService {
 
 
     VOutUser getCurrentUserByToken(String token)throws Exception;
+
+    List<TU_Item> loadMenu(VOutUser user)throws Exception;
 }

@@ -21,4 +21,9 @@ public interface ILoginController {
 
     @RequestMapping(path = "logout.act",method = RequestMethod.POST)
     ActResult logout(HttpServletRequest request, HttpServletResponse response, ActResult actResult, BindingResult bindingResult) throws Exception ;
+
+
+    @RequestMapping(path = "loadMenu.act",method = RequestMethod.POST)
+    ActResult loadMenu(HttpServletRequest request, HttpServletResponse response, ActResult actResult, BindingResult bindingResult) throws Exception ;
+
 }
