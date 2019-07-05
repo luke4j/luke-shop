@@ -216,6 +216,31 @@ key = "#vo.id" 是参数vo中的id属性值 ，在执行这个方法前，如果
 setInterval(function(){    ltime+=1000 ;    $("#nav_systime").text(lk.num.dateToStr(2,new Date(ltime))) ;},1000) ;
 ```
 
+## jquery
+
+### jquery.form
+
+```javascript
+ $("#al_upload") .ajaxSubmit({
+                type: 'post', // 提交方式 get/post
+                url: '/fileUpload.act', // 需要提交的 url
+                data: {
+                    // 'type': $("#type").val(),
+                    // 'img_file': $("#img_file").val()
+                },
+                success: function(data) {
+                    if(data.success=='true'){
+
+                        $("#img_al").attr("src","fileDownload.act?fileName="+data.file) ;
+                    }else{
+                        alert("上传失败") ;
+                    }
+                }
+            }) ;
+```
+
+
+
 ## Backbone
 
 ### 视图
@@ -440,3 +465,4 @@ define(function(require){
 <u>这种定义方式最主要的作用就是，在加载完这个js文件之后，就会执行define方法，返回Object对象，这个Object对象是你自己定义的</u>
 
 ## layui
+
