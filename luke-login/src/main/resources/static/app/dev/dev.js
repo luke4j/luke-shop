@@ -47,7 +47,7 @@ define(function(require) {
                     ,url:'dev/findAllItems.act'
                     // ,page: true //开启分页
                     ,method:'post'
-                    ,height:'full-200'
+                    ,height:'full-130'
                     ,parseData:function(res){
                         return {
                             "code": res.code, //解析接口状态
@@ -97,13 +97,13 @@ define(function(require) {
                 // });
                 $('[luke-menu-btn]').on('click', function(e){
                     // me.luke_menu_btn_handler.call(this,e,table) ;
-                    me["luke_menu_"+$(e.currentTarget).attr("luke-menu-btn")+"_handler"].call(this,e,table) ;
+                    me["luke_menu_"+$(e.currentTarget).attr("luke-menu-btn")+"_handler".toLowerCase()].call(this,e,table) ;
                 });
 
             });
         }
 
-        ,luke_menu_btn_XinZeng_handler:function(e,table){
+        ,luke_menu_btn_xinzeng_handler:function(e,table){
             // var checkStatus = table.checkStatus('id_table_menu')  ,data = checkStatus.data;
             // layer.alert(JSON.stringify(data));
             layui.use('layer', function() { //独立版的layer无需执行这一句

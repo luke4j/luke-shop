@@ -5,6 +5,13 @@
     <title>E-Shop</title>
     <META name="description" content="眼镜,眼镜店,连锁眼镜店,眼镜店erp">
     <meta name="keywords" content="眼镜,眼镜店,连锁眼镜店,眼镜店erp">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- HTML5 Shiv 和 Respond.js 用于让 IE8 支持 HTML5元素和媒体查询 -->
+    <!-- 注意： 如果通过 file://  引入 Respond.js 文件，则该文件无法起效果 -->
+    <!--[if lt IE 9]>
+    <script src="js/b/bootstrap/html5shiv.js"></script>
+    <script src="js/b/bootstrap/respond.min.js"></script>
+    <![endif]-->
     <script th:inline="javascript">
         // var systime = [[${#dates.format(systime,'yyyy-MM-dd HH:mm:ss')}]] ;
         var systime  = [[${systime.time}]] ;
