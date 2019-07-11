@@ -1,6 +1,8 @@
 define(function(require) {
     require("ls");
     require("../js/b/json2") ;
+
+    /**用户数据模型*/
     var MCurrentUser = Backbone.Model.extend({
         defaults:{},
         loadCurrentUser:function(){
@@ -14,6 +16,7 @@ define(function(require) {
             }) ;
         }
     }) ;
+    /**导航数据模型*/
     var MNav = Backbone.Model.extend({
         loadNav:function(){
             var me = this ;
@@ -25,6 +28,7 @@ define(function(require) {
             })
         }
     }) ;
+    /**菜单数据模型*/
     var MMenu = Backbone.Model.extend({
         loadMenu:function(){
             var me = this ;
@@ -37,19 +41,22 @@ define(function(require) {
         }
     }) ;
 
+    /**测试区*/
 
+
+    /**页面视图*/
     var VWork = Backbone.View.extend({
         initialize: function () {
-            this.model_cu = new MCurrentUser();
+            this.model_currentUser = new MCurrentUser();
             this.model_nav = new MNav() ;
             this.model_menu = new MMenu() ;
 
             this.listenTo(this.model_nav,"change",this.model_nav_change_handler) ;
-            this.listenTo(this.model_cu, "change", this.model_cu_change_handler);
+            this.listenTo(this.model_currentUser, "change", this.model_currentUser_change_handler);
             this.listenTo(this.model_menu, "change", this.model_menu_change_handler);
+            this.render();
 
             this.model_nav.loadNav() ;
-            this.render();
         },
         render: function () {
             $("body").addClass("layui-layout-body");
@@ -61,6 +68,9 @@ define(function(require) {
             this.$footer = $("<div>").addClass("layui-footer");
             $("body").append(this.$el);
             this.$el.append(this.$nav).append(this.$menu).append(this.$body).append(this.$footer);
+
+            // this.$body.empty().append(testTreeTable(this.$body)) ;
+
         },
         events:{
             "click a[luke-menu-a]":"click_a_menu_handler"
@@ -105,12 +115,12 @@ define(function(require) {
             $r.append($(this._tempNav(model.get("rd_yh")))) ;
             $r.append($(this._tempNav(model.get("rd_exit")))) ;
 
-            this.model_cu.loadCurrentUser() ;
+            this.model_currentUser.loadCurrentUser() ;
             this.model_menu.loadMenu() ;
 
         },
 
-        model_cu_change_handler:function(model){
+        model_currentUser_change_handler:function(model){
             var nsun = "登录名："+model.get("loginName")+"-- 姓名："+model.get("name")+"-- 站点名："+model.get("storeName")+"-- 角色名："+model.get("roleName") ;
             $("#nav_userName").text(nsun) ;
 

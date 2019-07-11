@@ -1,11 +1,14 @@
 package com.luke.es.tool.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @MappedSuperclass
+
 public class _M implements Serializable {
 
     @Id
@@ -16,6 +19,7 @@ public class _M implements Serializable {
     private Boolean _isDel = false;
 
     @Column(nullable = false)
+    @JsonIgnore
     private Date _wtime = new Date() ;
 
     public Long getId() {

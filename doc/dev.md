@@ -466,6 +466,116 @@ define(function(require){
 
 ## layui
 
+### treetable
+
+```json
+{
+    "code": 0,
+  	"msg": "ok",
+    "data":[{
+      "id": 1,
+      "name": "xx",
+      "sex": "male",
+      "pid": -1
+    },{}...]
+    "count": 11
+}
+```
+
+
+
+```javascript
+function testTreeTable ($body){
+
+        var templateBtnInRow = "<script type='text/html' id='oper-col'>\n" +
+            "    <a class='layui-btn layui-btn-primary layui-btn-xs' lay-event='edit'>修改</a>\n" +
+            "    <a class='layui-btn layui-btn-danger layui-btn-xs' lay-event='del'>删除</a>\n" +
+            "</script>" ;
+        $body.append(templateBtnInRow) ;
+        var btnStr = " <div class='layui-btn-group'>\n" +
+            "        <button class='layui-btn' id='btn-expand'>全部展开</button>\n" +
+            "        <button class='layui-btn' id='btn-fold'>全部折叠</button>\n" +
+            "        <button class='layui-btn' id='btn-refresh'>刷新表格</button>\n" +
+            "    </div>" ;
+        $body.append(btnStr) ;
+        $body.append("<table id='table1'lay-filter='table1'>") ;
+
+        layui.config({
+            // base: 'module/'
+            base:'js/ui/layui/lay/modules/'
+        }).extend({
+            treetable: 'treetable'
+        }).use(['layer', 'table', 'treetable'], function () {
+            var $ = layui.jquery;
+            var table = layui.table;
+            var layer = layui.layer;
+            var treetable = layui.treetable;
+
+            // 渲染表格
+            var renderTable = function () {
+                layer.load(2);
+                treetable.render({
+                    treeColIndex: 1,
+                    treeSpid: -1,
+                    treeIdName: 'id',
+                    treePidName: 'pid',
+                    treeDefaultClose: false,
+                    treeLinkage: false,
+                    elem: '#table1',
+                    url: 'app/dev/json/data.json',
+                    page: false,
+                    cols: [[
+                        {type: 'numbers'},
+                        {field: 'name', title: 'name'},
+                        {field: 'id', title: 'id'},
+                        {field: 'sex', title: 'sex'},
+                        {field: 'pid', title: 'pid'},
+                        {templet: '#oper-col', title: 'oper'}   //这里需要一个模板
+                    ]],
+                    done: function () {
+                        layer.closeAll('loading');
+                    }
+                });
+            };
+
+            renderTable();
+
+            $('#btn-expand').click(function () {
+                treetable.expandAll('#table1');
+            });
+
+            $('#btn-fold').click(function () {
+                treetable.foldAll('#table1');
+            });
+
+            $('#btn-refresh').click(function () {
+                renderTable();
+            });
+
+            //监听工具条
+            table.on('tool(table1)', function (obj) {
+                var data = obj.data;
+                var layEvent = obj.event;
+
+                if (layEvent === 'del') {
+                    layer.msg('删除' + data.id);
+                } else if (layEvent === 'edit') {
+                    layer.msg('修改' + data.id);
+                }
+            });
+
+
+
+        }) ;
+    } ;
+```
+
+
+
+
+
+
+
 ## bootstrap3
 
 ie兼容
