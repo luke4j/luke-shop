@@ -1,10 +1,13 @@
 define(function(require) {
     require("ls");
-    layui.config({
-        base:'js/ui/layui/lay/modules/'
-    }).extend({
-        treetable: 'treetable'
-    }) ;
+
+    if(!layui.treetable){
+        layui.config({
+            base:'js/ui/layui/lay/modules/'
+        }).extend({
+            treetable: 'treetable'
+        }) ;
+    }
 
     var MDev = Backbone.Model.extend({
         defaults:{},
