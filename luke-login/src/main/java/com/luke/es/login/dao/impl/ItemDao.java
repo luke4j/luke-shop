@@ -11,7 +11,7 @@ import java.util.List;
 public class ItemDao extends DBDao implements IItemDao {
 
     public List<TU_Item> findAllTimes() throws Exception {
-        String hql = "From TU_Item i order by id" ;
+        String hql = "From TU_Item i where i._isDel=false order by id" ;
         List<TU_Item> items = this.find(hql) ;
         return items;
     }
