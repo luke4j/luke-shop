@@ -76,7 +76,7 @@ define(function(require) {
             this.$footer = $("<div>").addClass("layui-footer");
             $("body").append(this.$el);
             this.$el.append(this.$nav).append(this.$menu).append(this.$body).append(this.$footer);
-            this.$body.css({"margin-top":"8px","margin-left":"8px",})
+            this.$body.css({"margin-top":"8px","margin-left":"8px","margin-right":"8px","overflow-y":"hidden"})
 
             // this.$body.empty().append(testTreeTable(this.$body)) ;
 
@@ -170,10 +170,19 @@ define(function(require) {
 
             });
             this.delegateEvents(this.events) ;
-        },
+        }
+        ,_tmpBtnStr:function(_menus){
+            /**在数据库中配置的功能，每一个配置会对应一个事件方法，要写全*/
+            var btnStr = "<div class='layui-btn-group' id='item_btn'>" ;
+            $.each(_menus,function(i,m){
+                btnStr+="<button class='layui-btn' id='btn-"+m.py.toLowerCase()+"'>"+m.name+"</button>"
+            }) ;
+            btnStr+="</div>"
 
+            return btnStr ;
+        }
         /**菜单事件*/
-        click_a_menu_handler:function(be){
+        ,click_a_menu_handler:function(be){
             var me = this ;
             var $menu = $(be.currentTarget) ;
             var js = $menu.attr("js") ;
@@ -184,8 +193,16 @@ define(function(require) {
                     if(me.TempView){
                         me.TempView.undelegateEvents() ;
                     }
-                    console.dir(JSON.parse($menu.attr("child")||'[]')) ;
-                    me.TempView = new VC({_menus:JSON.parse($menu.attr("child")||'[]')}) ;
+                    var argument = JSON.parse($menu.attr("child")||'[]') ;
+                    console.dir(argument) ;
+                    me.TempView = new VC({_menus:argument}) ;
+
+                    var $body = ls.p.getWorkSpaceBody();
+                    $body.prepend(me._tmpBtnStr(argument)) ;
+                    me.TempView.delegateEvents(me.TempView.events) ;
+
+                }else{
+                    lk.ts.alert("正在建设中");
                 }
             }) ;
         }

@@ -2,6 +2,7 @@ package com.luke.es.md;
 
 import com.luke.es.tool.model._M;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Index;
 import javax.persistence.Table;
@@ -11,19 +12,23 @@ import javax.persistence.Table;
         @Index(columnList = "fid")
 })
 public class TS_Store extends _M {
+    @Column(length = 40)
     String name ;
+    @Column(length = 80)
     String addr ;
+    @Column(length = 15)
     String tel ;
     Long adminId ;
 
     /***
      * 站点类型：直属；非直属（加盟）
      */
+    @Column(length = 10)
     String c_type ;
     /**
      * 是否加工
      */
-    String isdo ;
+    Boolean isdo ;
 
     Long fid ;
 
@@ -67,11 +72,12 @@ public class TS_Store extends _M {
         this.c_type = c_type;
     }
 
-    public String getIsdo() {
+
+    public Boolean getIsdo() {
         return isdo;
     }
 
-    public void setIsdo(String isdo) {
+    public void setIsdo(Boolean isdo) {
         this.isdo = isdo;
     }
 

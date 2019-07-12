@@ -44,8 +44,6 @@ define(function(require) {
 
     var VDev = Backbone.View.extend({
         initialize:function(){
-            this._menus = arguments[0]._menus ;
-
             /**tree table 组件触发事件  自定义事件*/
             this.on("TreeTableRoleDel",this.TreeTableRoleDel_handler) ;
             this.on("TreeTableRoleEdit",this.TreeTableRoleEdit_handler) ;
@@ -55,17 +53,13 @@ define(function(require) {
         render:function(){
             var $wsBody = ls.p.getWorkSpaceBody() ;
             this.$el = $wsBody ;
-            this.$tabletree = $("<table id='treeTable_item' lay-filter='treeTable_item'>") ;
-            this.treeTable() ;
             this.$el.append(this._tmpBtnInRow()) ;
-            this.$el.append(this._tmpBtnStr()) ;
-
-
+            this.$tabletree = $("<table id='treeTable_item' lay-filter='treeTable_item'>") ;
             this.$el.append(this.$tabletree) ;
-            this.undelegateEvents() ;
-            this.delegateEvents(this.events) ;
+            this.treeTable() ;
             return this ;
         }
+        /**数据表格中的功能模板*/
         ,_tmpBtnInRow:function(){
             var templateBtnInRow = "<script type='text/html' id='oper-col'>\n" +
                 "    <a class='layui-btn layui-btn-primary layui-btn-xs' lay-event='TreeTableRoleEdit'>修改</a>\n" +
@@ -73,16 +67,6 @@ define(function(require) {
                 "    <a class='layui-btn layui-btn-primary layui-btn-xs' lay-event='TreeTableRoleAddChild'>添加子项</a>\n" +
                 "</script>" ;
            return templateBtnInRow ;
-        }
-        ,_tmpBtnStr:function(){
-            /**在数据库中配置的功能，每一个配置会对应一个事件方法，要写全*/
-            var btnStr = "<div class='layui-btn-group'>" ;
-            $.each(this._menus,function(i,m){
-                btnStr+="<button class='layui-btn' id='btn-"+m.py.toLowerCase()+"'>"+m.name+"</button>"
-            }) ;
-            btnStr+="</div>"
-
-            return btnStr ;
         }
         ,events:{
             "click #btn-xinzeng":"click_btn_xinzeng_handler",
@@ -156,6 +140,7 @@ define(function(require) {
                     layer.load(2);
                     treetable.render({
                         treeColIndex: 1,
+                        height: 'full-160',
                         treeSpid: 0,
                         treeIdName: 'id',
                         treePidName: 'fid',
