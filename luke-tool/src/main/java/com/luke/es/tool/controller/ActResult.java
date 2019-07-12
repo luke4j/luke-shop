@@ -22,6 +22,11 @@ public class ActResult {
         this.rt = new LKMap().put1("ok",true) ;
         return this ;
     }
+    public ActResult ok(String msg){
+        this.rt = new LKMap().put1("ok",true) ;
+        this.msg = msg ;
+        return this ;
+    }
 
     public String getCode() {
         return code;

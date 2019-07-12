@@ -466,6 +466,36 @@ define(function(require){
 
 ## layui
 
+
+
+### layer
+
+```javascript
+  layui.use(['layer'], function() { //独立版的layer无需执行这一句
+                var $ = layui.jquery, layer = layui.layer; //独立版的layer无需执行这一句
+                layer.open({
+                    type: 1 //此处以iframe举例
+                    ,title: '新增菜单'
+                    // ,area: ['390px', '260px']
+                    ,maxmin: true
+                    ,content: '//layer.layui.com/test/settop.html'
+                    ,btn: ['继续弹出', '全部关闭'] //只是为了演示
+                    ,yes: function(){
+                        layer.alert("第一个按钮") ;
+                    }
+                    ,btn2: function(){
+                        layer.closeAll();
+                    }
+                    ,zIndex: layer.zIndex //重点1
+                    ,success: function(layero){
+                        layer.setTop(layero); //重点2
+                    }
+                });
+            }) ;
+```
+
+
+
 ### treetable
 
 ```json

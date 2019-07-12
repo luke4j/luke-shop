@@ -28,11 +28,15 @@ public class DevController extends BController implements IDevController {
     }
 
     public ActResult addItem(HttpServletRequest request, HttpServletResponse response, ActResult actResult, VOInItem vo, BindingResult bindingResult) throws Exception {
-        return null;
+        this.itemService.addItem(vo) ;
+        actResult.ok() ;
+        return actResult;
     }
 
     public ActResult delItem(HttpServletRequest request, HttpServletResponse response, ActResult actResult, VOInItem vo, BindingResult bindingResult) throws Exception {
-        return null;
+        this.itemService.delItem(vo.getId()) ;
+        actResult.ok() ;
+        return actResult;
     }
 
     public ActResult updateItem(HttpServletRequest request, HttpServletResponse response, ActResult actResult, VOInItem vo, BindingResult bindingResult) throws Exception {

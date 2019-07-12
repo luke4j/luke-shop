@@ -1,32 +1,51 @@
 define(function(require) {
     require("ls");
 
-    if(!layui.treetable){
-        layui.config({
-            base:'js/ui/layui/lay/modules/'
-        }).extend({
-            treetable: 'treetable'
-        }) ;
-    }
 
-    var MDev = Backbone.Model.extend({
-        defaults:{},
-        updateDate:function(){
-            var me = this ;
+
+    var MItem = Backbone.Model.extend({
+        defaults:{
+            id:'' ,name:'',c_type:'' ,js:'' ,icon:'' ,px:'',fid:''
+        },
+        saveItem:function(view){
+            if(!this.get("fid")) this.set("fid",0) ;
+            ls.d.ajax({
+                url:'dev/addItem.act',
+                data:this.attributes,
+                success:function(res){
+                    lk.ts.alert(res.msg) ;
+                    view.treeTable() ;
+                }
+            }) ;
+        },
+        delItem:function(view){
+            ls.d.ajax({
+                url:'dev/delItem.act',
+                data:this.attributes,
+                success:function(res){
+                    lk.ts.alert(res.msg) ;
+                    view.treeTable() ;
+                }
+            }) ;
+        },
+        updateItem:function(view){
             ls.d.ajax({
                 url:'dev/updateItem.act',
                 data:this.attributes,
                 success:function(res){
-                    me.set(res.rt) ;
+                    lk.ts.alert(res.msg) ;
+                    view.treeTable() ;
                 }
             }) ;
-        }
+        },
+
     }) ;
 
 
     var VDev = Backbone.View.extend({
         initialize:function(){
-            this.model_dev =  new MDev() ;
+            this._menus = arguments[0]._menus ;
+
             /**tree table 组件触发事件  自定义事件*/
             this.on("TreeTableRoleDel",this.TreeTableRoleDel_handler) ;
             this.on("TreeTableRoleEdit",this.TreeTableRoleEdit_handler) ;
@@ -41,7 +60,9 @@ define(function(require) {
             this.$el.append(this._tmpBtnInRow()) ;
             this.$el.append(this._tmpBtnStr()) ;
 
+
             this.$el.append(this.$tabletree) ;
+            this.undelegateEvents() ;
             this.delegateEvents(this.events) ;
             return this ;
         }
@@ -54,20 +75,75 @@ define(function(require) {
            return templateBtnInRow ;
         }
         ,_tmpBtnStr:function(){
-            var btnStr = " <div class='layui-btn-group'>\n" +
-                "        <button class='layui-btn' id='btn-add-item'>添加菜单组</button>\n" +
-                "    </div>" ;
+            /**在数据库中配置的功能，每一个配置会对应一个事件方法，要写全*/
+            var btnStr = "<div class='layui-btn-group'>" ;
+            $.each(this._menus,function(i,m){
+                btnStr+="<button class='layui-btn' id='btn-"+m.py.toLowerCase()+"'>"+m.name+"</button>"
+            }) ;
+            btnStr+="</div>"
+
             return btnStr ;
         }
         ,events:{
-            "click #btn-add-item":"click_btn_add_item_handler",
+            "click #btn-xinzeng":"click_btn_xinzeng_handler",
+            "click #btn-shuaxin":"click_btn_shuaxin_handler"
         }
         //其它组件事件
         ,TreeTableRoleDel_handler:function(data){
-            console.dir(data) ;
+            var d = {id:data[0].id} ;
+            this.layerItem("delItem",data[0]) ;
         }
-        ,click_btn_add_item_handler:function(e){
+        ,TreeTableRoleAddChild_handler:function(data){
+            var d = {fid:data[0].id} ;
+            if(data[0].c_type=='btn'){
+                lk.ts.alert("按键无法添加子项")　;
+                return false ;
+            }else if(data[0].c_type=='group'){
+                d.c_type='menu'
+            }else if(data[0].c_type=='menu'){
+                d.c_type='btn'
+            }else{
+                lk.ts.alert("异常")　;
+                return false ;
+            }
+
+            this.layerItem("saveItem",d) ;
+        }
+        ,TreeTableRoleEdit_handler:function(data){
+            this.layerItem("updateItem",data[0]) ;
+        }
+
+        ,click_btn_xinzeng_handler:function(e){
+            this.layerItem("saveItem") ;
+        }
+        ,click_btn_shuaxin_handler:function(e){
             this.treeTable() ;
+        }
+        ,layerItem:function(modelMethodName,data){
+            var me = this ;
+            if(!this.$itemForm) this.$itemForm = ls.d.getHtml("app/dev/item.form.html") ;
+            layui.use(['layer','form'], function() { //独立版的layer无需执行这一句
+                var $ = layui.jquery, layer = layui.layer , form = layui.form; //独立版的layer无需执行这一句
+                layer.open({
+                    type: 1 //此处以iframe举例
+                    ,title: '新增菜单'
+                    ,maxmin: true
+                    ,area:"auto"
+                    ,content:me.$itemForm[0].outerHTML
+                    ,zIndex: layer.zIndex //重点1
+                    ,success: function(layero){
+                        form.render();
+                    }
+                });
+                form.on('submit(submit)', function(data){
+                    var mitem = new MItem(data.field) ;
+                    mitem[modelMethodName](me) ;
+                    return false ;
+                }) ;
+                if(data){
+                    form.val("item_form",data) ;
+                }
+            });
         }
         ,treeTable:function(){
             var me = this ;
@@ -86,25 +162,17 @@ define(function(require) {
                         treeDefaultClose: false,
                         treeLinkage: false,
                         elem: '#treeTable_item'
-                        // ,parseData:function(res){
-                        //     return {
-                        //         "code": res.code, //解析接口状态
-                        //         "msg": res.msg, //解析提示文本
-                        //         "count": res.count, //解析数据长度
-                        //         "data": res.rt //解析数据列表
-                        //     }
-                        // }
                         ,url: 'dev/findAllItems.act'
                         ,method:'post'
                         ,page: false,
                         cols: [[
-                            {field: 'id', title: 'id'},
-                            {field: 'name', title: '显示'},
-                            {field: 'fid', title: '父节点id'},
-                            {field: 'c_type', title: '类型'},
+                            {field: 'id', title: 'id',width:"4%"},
+                            {field: 'name', title: '名称',width:"15%"},
+                            {field: 'fid', title: '父节点id',width:"8%"},
+                            {field: 'c_type', title: '类型',width:"10%"},
                             {field: 'js', title: 'js入口文件'},
-                            {field: 'icon', title: '图标'},
-                            {field: 'px', title: '排序'},
+                            {field: 'icon', title: '图标',width:"8%"},
+                            {field: 'px', title: '排序',width:"8%"},
                             {templet: '#oper-col', title: '操作'}
                         ]],
                         done: function () {

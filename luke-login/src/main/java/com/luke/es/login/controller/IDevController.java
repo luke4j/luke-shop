@@ -15,7 +15,9 @@ public interface IDevController {
 
     @RequestMapping(path = "findAllItems.act",method = RequestMethod.POST)
     ActResult findAllItems(HttpServletRequest request,HttpServletResponse response,ActResult actResult) throws Exception ;
+    @RequestMapping(path = "addItem.act",method = RequestMethod.POST)
     ActResult addItem(HttpServletRequest request, HttpServletResponse response , ActResult actResult, VOInItem vo, BindingResult bindingResult) throws Exception ;
+    @RequestMapping(path = "delItem.act",method = RequestMethod.POST)
     ActResult delItem(HttpServletRequest request, HttpServletResponse response , ActResult actResult, VOInItem vo, BindingResult bindingResult) throws Exception ;
     @RequestMapping(path = "updateItem.act",method = RequestMethod.POST)
     ActResult updateItem(HttpServletRequest request, HttpServletResponse response , ActResult actResult, VOInItem vo, BindingResult bindingResult) throws Exception ;

@@ -36,7 +36,7 @@ public class LoginDao  extends DBDao implements ILoginDao {
     }
 
     public List<TU_Item> loadMenu(String itemIds) throws Exception {
-        String hql = "From TU_Item i where i.id in ("+itemIds+") order by c_type,px" ;
+        String hql = "From TU_Item i where i.id in ("+itemIds+") and i._isDel=false order by c_type,px" ;
         return this.find(hql);
     }
 }

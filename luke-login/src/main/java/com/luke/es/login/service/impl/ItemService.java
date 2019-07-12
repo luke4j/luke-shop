@@ -29,4 +29,17 @@ public class ItemService implements IItemService {
         BeanUtils.copyProperties(vo,item);
         item.setPy(LK.NameToPingYinLong(item.getName()));
     }
+
+    @Transactional
+    public void addItem(VOInItem vo) throws Exception {
+        TU_Item item = new TU_Item() ;
+        BeanUtils.copyProperties(vo,item);
+        item.setPy(LK.NameToPingYinLong(item.getName()));
+        this.itemDao.save(item) ;
+    }
+    @Transactional
+    public void delItem(Long id) throws Exception {
+        TU_Item item = this.itemDao.get(TU_Item.class,id) ;
+        item.set_isDel(true);
+    }
 }

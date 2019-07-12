@@ -2,6 +2,14 @@ define(function(require) {
     require("ls");
     require("../js/b/json2") ;
 
+    if(!layui.treetable){
+        layui.config({
+            base:'js/ui/layui/lay/modules/'
+        }).extend({
+            treetable: 'treetable'
+        }) ;
+    }
+
     /**用户数据模型*/
     var MCurrentUser = Backbone.Model.extend({
         defaults:{},
@@ -68,6 +76,7 @@ define(function(require) {
             this.$footer = $("<div>").addClass("layui-footer");
             $("body").append(this.$el);
             this.$el.append(this.$nav).append(this.$menu).append(this.$body).append(this.$footer);
+            this.$body.css({"margin-top":"8px","margin-left":"8px",})
 
             // this.$body.empty().append(testTreeTable(this.$body)) ;
 
@@ -172,7 +181,11 @@ define(function(require) {
             require([js],function(VC){
                 if(typeof (VC)=='function'){
                     me.$body.empty() ;
-                    new VC({_menus:JSON.parse($menu.attr("child")||'[]')}) ;
+                    if(me.TempView){
+                        me.TempView.undelegateEvents() ;
+                    }
+                    console.dir(JSON.parse($menu.attr("child")||'[]')) ;
+                    me.TempView = new VC({_menus:JSON.parse($menu.attr("child")||'[]')}) ;
                 }
             }) ;
         }
