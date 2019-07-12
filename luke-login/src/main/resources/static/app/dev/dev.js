@@ -1,15 +1,23 @@
 define(function(require) {
     require("ls");
 
+    if(!layui.treetable){
+        layui.config({
+            base:'js/ui/layui/lay/modules/'
+        }).extend({
+            treetable: 'treetable'
+        }) ;
+    }
+
     var MDev = Backbone.Model.extend({
         defaults:{},
         updateDate:function(){
-            console.dir(this) ;
+            var me = this ;
             ls.d.ajax({
                 url:'dev/updateItem.act',
                 data:this.attributes,
                 success:function(res){
-
+                    me.set(res.rt) ;
                 }
             }) ;
         }
@@ -18,115 +26,98 @@ define(function(require) {
 
     var VDev = Backbone.View.extend({
         initialize:function(){
-
-            this._menus = arguments[0]._menus ;
-            this.$table = $("<table>") ;
-            this.$table.addClass("layui-hide").attr("id","dev_item_table").attr("lay-filter","dev_item_table") ;
-            var $body = ls.p.getWorkSpaceBody() ;
-            $body.append(this.$table) ;
+            this.model_dev =  new MDev() ;
+            /**tree table 组件触发事件  自定义事件*/
+            this.on("TreeTableRoleDel",this.TreeTableRoleDel_handler) ;
+            this.on("TreeTableRoleEdit",this.TreeTableRoleEdit_handler) ;
+            this.on("TreeTableRoleAddChild",this.TreeTableRoleAddChild_handler) ;
             this.render() ;
         },
-        toolbar:function(){
-            var $tmp = $("<div>") ;
-            var $tb = $("<div>").addClass("layui-btn-group") ;
-            $tmp.append($tb) ;
-            $.each(this._menus,function(i,m){
-                $tb.append($("<div>").addClass("layui-btn").attr("luke-menu-btn",m.c_type+"_"+m.py).text(m.name))
-            }) ;
-            return $tmp ;
+        render:function(){
+            var $wsBody = ls.p.getWorkSpaceBody() ;
+            this.$el = $wsBody ;
+            this.$tabletree = $("<table id='treeTable_item' lay-filter='treeTable_item'>") ;
+            this.treeTable() ;
+            this.$el.append(this._tmpBtnInRow()) ;
+            this.$el.append(this._tmpBtnStr()) ;
+
+            this.$el.append(this.$tabletree) ;
+            this.delegateEvents(this.events) ;
+            return this ;
         }
-        ,render:function(){
+        ,_tmpBtnInRow:function(){
+            var templateBtnInRow = "<script type='text/html' id='oper-col'>\n" +
+                "    <a class='layui-btn layui-btn-primary layui-btn-xs' lay-event='TreeTableRoleEdit'>修改</a>\n" +
+                "    <a class='layui-btn layui-btn-danger layui-btn-xs' lay-event='TreeTableRoleDel'>删除</a>\n" +
+                "    <a class='layui-btn layui-btn-primary layui-btn-xs' lay-event='TreeTableRoleAddChild'>添加子项</a>\n" +
+                "</script>" ;
+           return templateBtnInRow ;
+        }
+        ,_tmpBtnStr:function(){
+            var btnStr = " <div class='layui-btn-group'>\n" +
+                "        <button class='layui-btn' id='btn-add-item'>添加菜单组</button>\n" +
+                "    </div>" ;
+            return btnStr ;
+        }
+        ,events:{
+            "click #btn-add-item":"click_btn_add_item_handler",
+        }
+        //其它组件事件
+        ,TreeTableRoleDel_handler:function(data){
+            console.dir(data) ;
+        }
+        ,click_btn_add_item_handler:function(e){
+            this.treeTable() ;
+        }
+        ,treeTable:function(){
             var me = this ;
-            layui.use('table', function(){
-                var table = layui.table;
-                table.render({
-                    id:'id_table_menu'
-                    ,elem: '#dev_item_table'
-                    ,toolbar:me.toolbar().html()
-                    // ,toolbar: 'default'
-                    ,url:'dev/findAllItems.act'
-                    // ,page: true //开启分页
-                    ,method:'post'
-                    ,height:'full-200'
-                    ,parseData:function(res){
-                        return {
-                            "code": res.code, //解析接口状态
-                            "msg": res.msg, //解析提示文本
-                            "count": res.count, //解析数据长度
-                            "data": res.rt //解析数据列表
+            var table ,layer,treetable ;
+            layui.use(['layer', 'table', 'treetable'], function () {
+                table = layui.table;
+                layer = layui.layer;
+                treetable = layui.treetable;
+                var showTreeTable = function(){
+                    layer.load(2);
+                    treetable.render({
+                        treeColIndex: 1,
+                        treeSpid: 0,
+                        treeIdName: 'id',
+                        treePidName: 'fid',
+                        treeDefaultClose: false,
+                        treeLinkage: false,
+                        elem: '#treeTable_item'
+                        // ,parseData:function(res){
+                        //     return {
+                        //         "code": res.code, //解析接口状态
+                        //         "msg": res.msg, //解析提示文本
+                        //         "count": res.count, //解析数据长度
+                        //         "data": res.rt //解析数据列表
+                        //     }
+                        // }
+                        ,url: 'dev/findAllItems.act'
+                        ,method:'post'
+                        ,page: false,
+                        cols: [[
+                            {field: 'id', title: 'id'},
+                            {field: 'name', title: '显示'},
+                            {field: 'fid', title: '父节点id'},
+                            {field: 'c_type', title: '类型'},
+                            {field: 'js', title: 'js入口文件'},
+                            {field: 'icon', title: '图标'},
+                            {field: 'px', title: '排序'},
+                            {templet: '#oper-col', title: '操作'}
+                        ]],
+                        done: function () {
+                            layer.closeAll('loading');
                         }
-                    }
-                    ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
-                    ,cols: [[
-                         {type:'radio'}
-                        ,{field:'id', width:80, title: 'ID', sort: true}
-                        ,{field:'name', title: '名称',edit: 'text'}
-                        ,{field:'c_type', title: '类型',edit: 'text'}
-                        ,{field:'js', width:80, title: 'js文件',edit: 'text', width: '30%', minWidth: 100}
-                        ,{field:'px', width:80, title: '组内排序',edit: 'text', sort: true}
-                        ,{field:'fid', width:80, title: '父ID',edit: 'text'}
-                        ,{field:'icon', title: '图标CSS',edit: 'text'}
-                    ]]
-                });
-
-                //监听单元格编辑
-                table.on('edit(dev_item_table)', function(obj){
-                    var value = obj.value //得到修改后的值
-                        ,data = obj.data //得到所在行所有键值
-                        ,field = obj.field; //得到字段
-                    // layer.msg('[ID: '+ data.id +'] ' + field + ' 字段更改为：'+ value);
-                    var model_update = new MDev(data) ;
-                    model_update.updateDate() ;
-
-                });
-                //基本用不到了。。。
-                //这个是配合 toolbar: 'default'
-                // table.on('toolbar(dev_item_table)', function(obj){
-                //     var checkStatus = table.checkStatus(obj.config.id);
-                //     switch(obj.event){
-                //         case 'add':
-                //             layer.msg('添加');
-                //             break;
-                //         case 'delete':
-                //             layer.msg('删除');
-                //             break;
-                //         case 'update':
-                //             layer.msg('编辑');
-                //             break;
-                //     };
-                // });
-                $('[luke-menu-btn]').on('click', function(e){
-                    // me.luke_menu_btn_handler.call(this,e,table) ;
-                    me["luke_menu_"+$(e.currentTarget).attr("luke-menu-btn")+"_handler"].call(this,e,table) ;
-                });
-
-            });
-        }
-
-        ,luke_menu_btn_XinZeng_handler:function(e,table){
-            // var checkStatus = table.checkStatus('id_table_menu')  ,data = checkStatus.data;
-            // layer.alert(JSON.stringify(data));
-            layui.use('layer', function() { //独立版的layer无需执行这一句
-                var $ = layui.jquery, layer = layui.layer; //独立版的layer无需执行这一句
-                layer.open({
-                    type: 1 //此处以iframe举例
-                    ,title: '新增菜单'
-                    // ,area: ['390px', '260px']
-                    ,maxmin: true
-                    ,content: '//layer.layui.com/test/settop.html'
-                    ,btn: ['继续弹出', '全部关闭'] //只是为了演示
-                    ,yes: function(){
-                        layer.alert("第一个按钮") ;
-                    }
-                    ,btn2: function(){
-                        layer.closeAll();
-                    }
-
-                    ,zIndex: layer.zIndex //重点1
-                    ,success: function(layero){
-                        layer.setTop(layero); //重点2
-                    }
-                });
+                    });
+                    table.on("tool(treeTable_item)",function(obj){
+                        var data = obj.data;
+                        var layEvent = obj.event;
+                        me.trigger(layEvent,[obj.data]) ;
+                    }) ;
+                } ;
+                showTreeTable() ;
             }) ;
         }
     }) ;

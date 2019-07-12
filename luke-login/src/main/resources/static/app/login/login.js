@@ -90,25 +90,22 @@ define(function(require){
             this.$loginName.focus() ;
             if(this.model.attributes.rememberMe){
                 $("#img_rememberMe").attr("src","app/login/img/checked.png")
-                var rm = ls.ck.getLoginData() ;
-                this.$loginName.val(rm.loginName) ;
-                this.$loginPwd.val(rm.loginPwd) ;
+                var rememberMe = ls.ck.getLoginData() ;
+                this.$loginName.val(rememberMe.loginName) ;
+                this.$loginPwd.val(rememberMe.loginPwd) ;
             }
             this.$el = $("#dv_login"),
-            this.delegateEvents(this.events()) ;
+            this.delegateEvents(this.events) ;
 
            return this ;
         },
         /**页面事件*/
-        events:function(){
-            return{
-                "click #btn_login":"btn_login_click_handler",//点击登录事件
-                "click #dv_rememberMe":"dv_rememberMe_click_handler",//点击记住我事件
-                "keypress #loginName":"loginName_keypress_handler",//密码窗回车事件
-                "keypress #loginPwd":"loginPwd_keypress_handler"//密码窗回车事件
-            } ;
+        events:{
+            "click #btn_login":"btn_login_click_handler",//点击登录事件
+            "click #dv_rememberMe":"dv_rememberMe_click_handler",//点击记住我事件
+            "keypress #loginName":"loginName_keypress_handler",//密码窗回车事件
+            "keypress #loginPwd":"loginPwd_keypress_handler"//密码窗回车事件
         },
-
         loginPwd_keypress_handler:function(je){
             if(je.keyCode==13){
                 this.btn_login_click_handler() ;

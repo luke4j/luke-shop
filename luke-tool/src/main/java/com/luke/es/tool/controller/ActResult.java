@@ -2,7 +2,6 @@ package com.luke.es.tool.controller;
 
 import com.luke.es.tool.tl.LKMap;
 
-import java.util.Map;
 
 /**
  * 所有contoller中的方法，返回json的，都是由这个类包装

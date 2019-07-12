@@ -216,6 +216,31 @@ key = "#vo.id" 是参数vo中的id属性值 ，在执行这个方法前，如果
 setInterval(function(){    ltime+=1000 ;    $("#nav_systime").text(lk.num.dateToStr(2,new Date(ltime))) ;},1000) ;
 ```
 
+## jquery
+
+### jquery.form
+
+```javascript
+ $("#al_upload") .ajaxSubmit({
+                type: 'post', // 提交方式 get/post
+                url: '/fileUpload.act', // 需要提交的 url
+                data: {
+                    // 'type': $("#type").val(),
+                    // 'img_file': $("#img_file").val()
+                },
+                success: function(data) {
+                    if(data.success=='true'){
+
+                        $("#img_al").attr("src","fileDownload.act?fileName="+data.file) ;
+                    }else{
+                        alert("上传失败") ;
+                    }
+                }
+            }) ;
+```
+
+
+
 ## Backbone
 
 ### 视图
@@ -440,3 +465,145 @@ define(function(require){
 <u>这种定义方式最主要的作用就是，在加载完这个js文件之后，就会执行define方法，返回Object对象，这个Object对象是你自己定义的</u>
 
 ## layui
+
+### treetable
+
+```json
+{
+    "code": 0,
+  	"msg": "ok",
+    "data":[{
+      "id": 1,
+      "name": "xx",
+      "sex": "male",
+      "pid": -1
+    },{}...]
+    "count": 11
+}
+```
+
+
+
+```javascript
+function testTreeTable ($body){
+
+        var templateBtnInRow = "<script type='text/html' id='oper-col'>\n" +
+            "    <a class='layui-btn layui-btn-primary layui-btn-xs' lay-event='edit'>修改</a>\n" +
+            "    <a class='layui-btn layui-btn-danger layui-btn-xs' lay-event='del'>删除</a>\n" +
+            "</script>" ;
+        $body.append(templateBtnInRow) ;
+        var btnStr = " <div class='layui-btn-group'>\n" +
+            "        <button class='layui-btn' id='btn-expand'>全部展开</button>\n" +
+            "        <button class='layui-btn' id='btn-fold'>全部折叠</button>\n" +
+            "        <button class='layui-btn' id='btn-refresh'>刷新表格</button>\n" +
+            "    </div>" ;
+        $body.append(btnStr) ;
+        $body.append("<table id='table1'lay-filter='table1'>") ;
+
+        layui.config({
+            // base: 'module/'
+            base:'js/ui/layui/lay/modules/'
+        }).extend({
+            treetable: 'treetable'
+        }).use(['layer', 'table', 'treetable'], function () {
+            var $ = layui.jquery;
+            var table = layui.table;
+            var layer = layui.layer;
+            var treetable = layui.treetable;
+
+            // 渲染表格
+            var renderTable = function () {
+                layer.load(2);
+                treetable.render({
+                    treeColIndex: 1,
+                    treeSpid: -1,
+                    treeIdName: 'id',
+                    treePidName: 'pid',
+                    treeDefaultClose: false,
+                    treeLinkage: false,
+                    elem: '#table1',
+                    url: 'app/dev/json/data.json',
+                    page: false,
+                    cols: [[
+                        {type: 'numbers'},
+                        {field: 'name', title: 'name'},
+                        {field: 'id', title: 'id'},
+                        {field: 'sex', title: 'sex'},
+                        {field: 'pid', title: 'pid'},
+                        {templet: '#oper-col', title: 'oper'}   //这里需要一个模板
+                    ]],
+                    done: function () {
+                        layer.closeAll('loading');
+                    }
+                });
+            };
+
+            renderTable();
+
+            $('#btn-expand').click(function () {
+                treetable.expandAll('#table1');
+            });
+
+            $('#btn-fold').click(function () {
+                treetable.foldAll('#table1');
+            });
+
+            $('#btn-refresh').click(function () {
+                renderTable();
+            });
+
+            //监听工具条
+            table.on('tool(table1)', function (obj) {
+                var data = obj.data;
+                var layEvent = obj.event;
+
+                if (layEvent === 'del') {
+                    layer.msg('删除' + data.id);
+                } else if (layEvent === 'edit') {
+                    layer.msg('修改' + data.id);
+                }
+            });
+
+
+
+        }) ;
+    } ;
+```
+
+
+
+
+
+
+
+## bootstrap3
+
+ie兼容
+
+```html
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>Bootstrap 模板</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <!-- 引入 Bootstrap -->
+      <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+ 
+      <!-- HTML5 Shiv 和 Respond.js 用于让 IE8 支持 HTML5元素和媒体查询 -->
+      <!-- 注意： 如果通过 file://  引入 Respond.js 文件，则该文件无法起效果 -->
+      <!--[if lt IE 9]>
+         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+         <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+      <![endif]-->
+   </head>
+   <body>
+      <h1>Hello, world!</h1>
+ 
+      <!-- jQuery (Bootstrap 的 JavaScript 插件需要引入 jQuery) -->
+      <script src="https://code.jquery.com/jquery.js"></script>
+      <!-- 包括所有已编译的插件 -->
+      <script src="js/bootstrap.min.js"></script>
+   </body>
+</html>
+```
+

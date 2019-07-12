@@ -1,7 +1,7 @@
 package com.luke.es.login.controller.impl;
 
 import com.luke.es.global.BController;
-import com.luke.es.login.controller.IItemController;
+import com.luke.es.login.controller.IDevController;
 import com.luke.es.login.service.IItemService;
 import com.luke.es.md.TU_Item;
 import com.luke.es.md.vo.dev.VOInItem;
@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @RestController
-public class ItemController extends BController implements IItemController {
+public class DevController extends BController implements IDevController {
 
     @Resource
     IItemService itemService ;
