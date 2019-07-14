@@ -468,7 +468,7 @@ define(function(require){
 
 
 
-### layer
+### 弹出窗 layer
 
 ```javascript
   layui.use(['layer'], function() { //独立版的layer无需执行这一句
@@ -496,7 +496,9 @@ define(function(require){
 
 
 
-### treetable
+### 表格数据 顶多金银月饼atreetable
+
+<u>数据格式</u>
 
 ```json
 {
@@ -512,7 +514,7 @@ define(function(require){
 }
 ```
 
-
+<u>代码</u>
 
 ```javascript
 function testTreeTable ($body){
@@ -601,6 +603,41 @@ function testTreeTable ($body){
 ```
 
 
+
+### 模板  laytpl
+
+```javascript
+//第一步：编写模版。你可以使用一个script标签存放模板，如：
+<script id="demo" type="text/html">
+  <h3>{{ d.title }}</h3>
+  <ul>
+  {{#  layui.each(d.list, function(index, item){ }}
+    <li>
+      <span>{{ item.modname }}</span>
+      <span>{{ item.alias }}：</span>
+      <span>{{ item.site || '' }}</span>
+    </li>
+  {{#  }); }}
+  {{#  if(d.list.length === 0){ }}
+    无数据
+  {{#  } }} 
+  </ul>
+</script>
+ 
+//第二步：建立视图。用于呈现渲染结果。
+<div id="view"></div>
+ 
+//第三步：渲染模版
+var data = { //数据
+  "title":"Layui常用模块"
+  ,"list":[{"modname":"弹层","alias":"layer","site":"layer.layui.com"},{"modname":"表单","alias":"form"}]
+}
+var getTpl = demo.innerHTML
+,view = document.getElementById('view');
+laytpl(getTpl).render(data, function(html){
+  view.innerHTML = html;
+});
+```
 
 
 

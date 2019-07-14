@@ -555,6 +555,13 @@ public class DBDao {
 
     }
 
+    public <T> List<T> findAll(String modelName) throws AppException{
+        try{
+            return this.find("From "+modelName+" t where t._isDel=false") ;
+        }catch (Exception e){
+            throw AppException.create(" findAll 参数异常：["+modelName+"] 异常") ;
+        }
+    }
 
 
 }

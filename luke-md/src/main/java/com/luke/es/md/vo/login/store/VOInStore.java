@@ -1,37 +1,17 @@
-package com.luke.es.md;
+package com.luke.es.md.vo.login.store;
 
-import com.luke.es.tool.model._M;
+import com.luke.es.tool.vo.VOIn;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Index;
-import javax.persistence.Table;
+public class VOInStore extends VOIn {
 
-@Entity
-@Table(indexes = {
-        @Index(columnList = "fid")
-})
-public class TS_Store extends _M {
-    @Column(length = 40)
+    Long id ;
     String name ;
-    @Column(length = 80)
     String py ;
-    @Column(length = 80)
     String addr ;
-    @Column(length = 15)
     String tel ;
     Long adminId ;
-
-    /***
-     * 站点类型：直属；非直属（加盟）
-     */
-    @Column(length = 10)
     String c_type ;
-    /**
-     * 是否加工
-     */
     Boolean isdo ;
-
     Long fid ;
 
 
@@ -41,6 +21,14 @@ public class TS_Store extends _M {
 
     public void setPy(String py) {
         this.py = py;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -82,7 +70,6 @@ public class TS_Store extends _M {
     public void setC_type(String c_type) {
         this.c_type = c_type;
     }
-
 
     public Boolean getIsdo() {
         return isdo;

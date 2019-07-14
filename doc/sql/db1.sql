@@ -13,7 +13,7 @@ values
 (1,false,now(),'group',0,'','','开发管理',1,'kfgl'),
 (2,false,now(),'menu',1,'','app/dev/dev','开发功能',1,'kfgn'),
 (3,false,now(),'btn',2,'','','新增',1,'XinZeng') ,
-(15,false,now(),'btn',2,'','','刷新',1,'ShuaXin') ,
+(15,false,now(),'btn',2,'','','刷新',2,'ShuaXin') ,
 (4,false,now(),'group',0,'','','基本数据',2,'yhgl'),
 (5,false,now(),'menu',4,'','app/role/role','角色数据',1,'jssj'),
 (6,false,now(),'btn',5,'','','新增',1,'XinZeng'),
@@ -27,9 +27,7 @@ values
 (14,false,now(),'btn',10,'','','查询',4,'ChaXun'),
 (16,false,now(),'menu',4,'','app/store/store','站点数据',2,'zdsj'),
 (17,false,now(),'btn',16,'','','新增',1,'XinZeng'),
-(18,false,now(),'btn',16,'','','修改',2,'XiuGai'),
-(19,false,now(),'btn',16,'','','删除',3,'ShanChu'),
-(20,false,now(),'btn',16,'','','查询',4,'ChaXun')
+(18,false,now(),'btn',16,'','','刷新',2,'ShuaXin')
 ;
 -- explain
 select * from tu_item order by c_type,px;
