@@ -674,3 +674,10 @@ ie兼容
 </html>
 ```
 
+## mysql
+
+导出数据库
+
+```mysql
+mysqldump --user=root --password=root --default-character-set=utf8 "db_erp"  > db_drp.2019-07-15.sql
+```

@@ -64,7 +64,9 @@ define(function(require) {
             var templateBtnInRow = "<script type='text/html' id='oper-col'>\n" +
                 "    <a class='layui-btn layui-btn-primary layui-btn-xs' lay-event='TreeTableRoleEdit'>修改</a>\n" +
                 "    <a class='layui-btn layui-btn-danger layui-btn-xs' lay-event='TreeTableRoleDel'>删除</a>\n" +
+                "{{# if(d.c_type!='btn'){ }}"+
                 "    <a class='layui-btn layui-btn-primary layui-btn-xs' lay-event='TreeTableRoleAddChild'>添加子项</a>\n" +
+                "{{# } }}"+
                 "</script>" ;
            return templateBtnInRow ;
         }

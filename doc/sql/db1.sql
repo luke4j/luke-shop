@@ -1,11 +1,9 @@
-select * from tu_user ;
+delete from tu_user where id = 1 ;
 insert into tu_user (id,_is_del,_wtime,login_name,login_pwd) values(1,false,now(),'admin','21232f297a57a5a743894a0e4a801fc3') ;
+
 delete from tu_info where id = 1 ;
 insert into tu_info(id,_is_del,_wtime,birthday,cw_role_id,in_time,name,out_time,role_id,sex,store_id,tel,user_id,xl,zw,zzmm)
 values(1,false,now(),'1984-01-16',null,'2003-09-01','于洋',null,1,'男',null,'18613806246','1','幼儿园','小工','群众') ;
-select * from tu_info ;
-
-
 
 delete from tu_item ;
 insert into tu_item (id,_is_del,_wtime,c_type,fid,icon,js,name,px,py)
@@ -29,8 +27,6 @@ values
 (17,false,now(),'btn',16,'','','新增',1,'XinZeng'),
 (18,false,now(),'btn',16,'','','刷新',2,'ShuaXin')
 ;
--- explain
-select * from tu_item order by c_type,px;
 
 delete from tu_role where id = 1 ;
 insert into tu_role (id,_is_del,_wtime,item_ids,name)
@@ -40,4 +36,4 @@ values(1,false,now(),('1,2,3,4,5,6,7,8,9,10,
 31,32,33,34,35,36,37,38,39,40,
 41,42,43,44,45,46,47,48,49,50,
 51,52,53,54,55,56,57,58,59,60'),'admin') ;
-select * from tu_role ;
+

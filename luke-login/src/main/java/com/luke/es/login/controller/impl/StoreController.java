@@ -41,4 +41,6 @@ public class StoreController extends BController implements IStoreController {
         this.storeService.updateModel(vo,super.getCurrentUser(request)) ;
         return actResult;
     }
+
+
 }

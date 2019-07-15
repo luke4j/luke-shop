@@ -1,12 +1,26 @@
 define(function(require) {
     require("ls");
 
+    var MUserList = Backbone.Model.extend({
+        getuserList:function(form){
+            ls.d.ajax({
+                url:'user/findAllUser4List.act',
+                success:function(res){
+                    $.each(res.rt,function(i,u){
+                        $("select[name=adminId]").append($("<option>").val(u.val).text(u.text)) ;
+                    }) ;
+                    form.render() ;
+                }
+            })
+        }
+    }) ;
+
     var M = Backbone.Model.extend({
         defaults: {
             id: '', name: '', addr: '', tel: '', adminId: '', c_type: '',isdo:'', fid: ''
         }
         ,addForm:function(view){
-            if(this.isdo=="") this.set("isdo",false) ;
+            if(this.get('isdo')=="") this.set("isdo",false) ;
             // lk.ts.alert("model addForm") ;
             ls.d.ajax({
                 url:"store/addModel.act",
@@ -50,9 +64,6 @@ define(function(require) {
         }
         ,events:{
             "click #btn-xinzeng":"click_btn_xinzeng_handler",
-            "click #btn-shanchu":"click_btn_shanchu_handler",
-            "click #btn-xuigai":"click_btn_xuigai_handler",
-            "click #btn-chaxun":"click_btn_chaxun_handler",
             "click #btn-shuaxin":"click_btn_shuaxin_handler"
         }
         ,click_btn_xinzeng_handler:function(e){
@@ -107,6 +118,9 @@ define(function(require) {
                     ,content:me.$form[0].outerHTML
                     ,zIndex: layer.zIndex //重点1
                     ,success: function(layero){
+
+                        new MUserList().getuserList(form) ;
+
                         form.render();
                     }
                 });
@@ -167,13 +181,17 @@ define(function(require) {
         }
         //--------------------------其它组件触发事件------------------------------------
         ,TreeTableEdit_handler:function(data){
-
+            console.dir(data) ;
+            this.layerForm("addForm") ;
+            return false ;
         }
         ,TreeTableDel_handler:function(data){
 
         }
         ,TreeTableAddChild_handler:function(data){
-
+            console.dir(data) ;
+            this.layerForm("addForm") ;
+            return false ;
         }
 
     }) ;

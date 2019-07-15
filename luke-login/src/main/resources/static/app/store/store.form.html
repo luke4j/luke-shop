@@ -39,15 +39,13 @@
                 <input type="checkbox" name="isdo" value="true" lay-skin="switch">
             </div>
         </div>
-        <div class="layui-form-item">
+        <div class="layui-form-item" admin>
             <label class="layui-form-label">管理员</label>
             <div class="layui-input-block">
-                <input type="text" name="admin" placeholder="请输入" autocomplete="off" class="layui-input">
+                <select name="adminId" >
+                </select>
             </div>
         </div>
-
-        <input type="hidden" name="adminId" placeholder="请输入" autocomplete="off" class="layui-input">
-
         <div class="layui-form-item">
             <div class="layui-input-block">
                 <button class="layui-btn" lay-submit lay-filter="submit">提交</button>
