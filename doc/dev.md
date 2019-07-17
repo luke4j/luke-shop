@@ -496,7 +496,7 @@ define(function(require){
 
 
 
-### 表格数据 顶多金银月饼atreetable
+### 表格数据 treetable
 
 <u>数据格式</u>
 
@@ -636,6 +636,53 @@ var getTpl = demo.innerHTML
 ,view = document.getElementById('view');
 laytpl(getTpl).render(data, function(html){
   view.innerHTML = html;
+});
+```
+
+### 表单
+
+#### 表单初始赋值
+
+语法：*form.val('lay-filter的值', object);*
+
+```javascript
+//formTest 即 class="layui-form" 所在元素对应的 lay-filter="" 对应的值
+form.val("formTest", {
+  "username": "贤心" // "name": "value"
+  ,"sex": "女"
+  ,"auth": 3
+  ,"check[write]": true
+  ,"open": false
+  ,"desc": "我爱layui"
+})
+```
+
+
+
+#### 事件监听
+
+语法：form.on('event(过滤器值)', callback);
+
+form模块在 layui 事件机制中注册了专属事件，所以当你使用layui.onevent()自定义模块事件时，请勿占用form名。form支持的事件如下：
+
+| event    | 描述                       |
+| -------- | -------------------------- |
+| select   | 监听select下拉选择事件     |
+| checkbox | 监听checkbox复选框勾选事件 |
+| switch   | 监听checkbox复选框开关事件 |
+| radio    | 监听radio单选框事件        |
+| submit   | 监听表单提交事件           |
+
+
+
+例:
+
+默认情况下，事件所监听的是全部的form模块元素，但如果你只想监听某一个元素，使用事件过滤器即可。
+如：*<select lay-filter="test"></select>*
+
+```javascript
+form.on('select(test)', function(data){
+  console.log(data);
 });
 ```
 

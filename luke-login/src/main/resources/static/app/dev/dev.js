@@ -100,7 +100,9 @@ define(function(require) {
         }
 
         ,click_btn_xinzeng_handler:function(e){
-            this.layerItem("saveItem") ;
+            this.layerItem("saveItem",{
+                fid:0
+            }) ;
         }
         ,click_btn_shuaxin_handler:function(e){
             this.treeTable() ;
