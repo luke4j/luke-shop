@@ -55,7 +55,26 @@ ls.d.getHtml = function(html_url){
         }
     }) ;
     return $html ;
-}
+} ;
+/** 人员下拉列表select数据负值 */
+/**
+ * 异步为select元素添加数据,完成之后刷新
+ * @param $select
+ * @param layuiForm
+ */
+ls.d.setUserList = function($select,layuiForm){
+    ls.d.ajax({
+        url:'user/findAllUser4List.act',
+        success:function(res){
+            $.each(res.rt,function(i,u){
+                $select.append($("<option>").val(u.val).text(u.text)) ;
+            }) ;
+            layuiForm.render() ;
+        }
+    })
+} ;
+
+
 
 //cookies方法组
 ls.ck = {} ;

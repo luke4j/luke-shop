@@ -563,5 +563,13 @@ public class DBDao {
         }
     }
 
+    public <T> List<T> findAllBack(String modelName) throws AppException{
+        try{
+            return this.find("From "+modelName+" t ") ;
+        }catch (Exception e){
+            throw AppException.create(" findAllBack 参数异常：["+modelName+"] 异常") ;
+        }
+    }
+
 
 }

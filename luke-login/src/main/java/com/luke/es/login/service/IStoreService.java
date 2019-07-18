@@ -12,7 +12,10 @@ public interface IStoreService {
 
     void addModel(VOInStore vo, VOutUser currentUser)throws Exception;
 
-    void delModel(VOInItem vo, VOutUser currentUser)throws Exception;
+    void delModel(VOInStore vo, VOutUser currentUser)throws Exception;
 
-    void updateModel(VOInItem vo, VOutUser currentUser)throws Exception;
+    void updateModel(VOInStore vo, VOutUser currentUser)throws Exception;
+
+    List<TS_Store> findAllBack()throws Exception;
+
 }

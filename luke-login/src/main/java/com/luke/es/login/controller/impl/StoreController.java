@@ -7,6 +7,8 @@ import com.luke.es.md.TS_Store;
 import com.luke.es.md.vo.dev.VOInItem;
 import com.luke.es.md.vo.login.store.VOInStore;
 import com.luke.es.tool.controller.ActResult;
+import com.luke.es.tool.vo.IVO;
+import com.luke.es.tool.vo.VOIn;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,17 +29,24 @@ public class StoreController extends BController implements IStoreController {
         return actResult;
     }
 
+
+    public ActResult findAllBack(HttpServletRequest request, HttpServletResponse response, ActResult actResult) throws Exception {
+        List<TS_Store> lstStore = this.storeService.findAllBack() ;
+        actResult.setRt(lstStore);
+        return actResult;
+    }
+
     public ActResult addModel(HttpServletRequest request, HttpServletResponse response, ActResult actResult, VOInStore vo, BindingResult bindingResult) throws Exception {
         this.storeService.addModel(vo,super.getCurrentUser(request)) ;
         return actResult;
     }
 
-    public ActResult delModel(HttpServletRequest request, HttpServletResponse response, ActResult actResult, VOInItem vo, BindingResult bindingResult) throws Exception {
+    public ActResult delModel(HttpServletRequest request, HttpServletResponse response, ActResult actResult, VOInStore vo, BindingResult bindingResult) throws Exception {
         this.storeService.delModel(vo,super.getCurrentUser(request)) ;
         return actResult;
     }
 
-    public ActResult updateModel(HttpServletRequest request, HttpServletResponse response, ActResult actResult, VOInItem vo, BindingResult bindingResult) throws Exception {
+    public ActResult updateModel(HttpServletRequest request, HttpServletResponse response, ActResult actResult, VOInStore vo, BindingResult bindingResult) throws Exception {
         this.storeService.updateModel(vo,super.getCurrentUser(request)) ;
         return actResult;
     }

@@ -13,7 +13,7 @@ import java.io.OutputStream;
 
 public class TestImage {
 
-    @Test
+//    @Test
     public void yaSuoTuPian() throws Exception{
         Thumbnails
                 .of("C:\\Users\\luke\\Pictures\\my\\01_3.mkv - 副本.jpg")

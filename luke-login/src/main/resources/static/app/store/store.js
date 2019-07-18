@@ -1,43 +1,42 @@
 define(function(require) {
     require("ls");
 
-    var MUserList = Backbone.Model.extend({
-        getuserList:function(form){
-            ls.d.ajax({
-                url:'user/findAllUser4List.act',
-                success:function(res){
-                    $.each(res.rt,function(i,u){
-                        $("select[name=adminId]").append($("<option>").val(u.val).text(u.text)) ;
-                    }) ;
-                    form.render() ;
-                }
-            })
-        }
-    }) ;
-
     var M = Backbone.Model.extend({
         defaults: {
             id: '', name: '', addr: '', tel: '', adminId: '', c_type: '',isdo:'', fid: ''
         }
-        ,addForm:function(view){
+        ,addModel:function(view){
             if(this.get('isdo')=="") this.set("isdo",false) ;
-            // lk.ts.alert("model addForm") ;
             ls.d.ajax({
                 url:"store/addModel.act",
                 data:this.attributes
                 ,success:function(res){
+                    lk.ts.alert(res.msg) ;
                     view.treeTable() ;
                 }
             }) ;
         }
-        ,find:function(data){
+        ,updateModel:function(view){
+            if(this.get('isdo')=="") this.set("isdo",false) ;
             ls.d.ajax({
-                url:'store/findAll.act',
-                data:data,
-                success:function(res){
-
+                url:"store/updateModel.act",
+                data:this.attributes
+                ,success:function(res){
+                    lk.ts.alert(res.msg) ;
+                    view.treeTable() ;
                 }
-            })
+            }) ;
+        }
+        ,delModel:function(view){
+            if(this.get('isdo')=="") this.set("isdo",false) ;
+            ls.d.ajax({
+                url:"store/delModel.act",
+                data:this.attributes
+                ,success:function(res){
+                    lk.ts.alert(res.msg) ;
+                    view.treeTable() ;
+                }
+            }) ;
         }
     }) ;
 
@@ -67,7 +66,7 @@ define(function(require) {
             "click #btn-shuaxin":"click_btn_shuaxin_handler"
         }
         ,click_btn_xinzeng_handler:function(e){
-            this.layerForm("addForm") ;
+            this.layerForm("addModel",{fid:0}) ;
             return false ;
         }
         ,click_btn_shuaxin_handler:function(e){
@@ -106,7 +105,6 @@ define(function(require) {
         }
         ,layerForm:function(modelMethodName,data){
             var me = this ;
-
             if(!this.$form) this.$form = ls.d.getHtml("app/store/store.form.html") ;
             layui.use(['layer','form'], function() { //独立版的layer无需执行这一句
                 var $ = layui.jquery, layer = layui.layer , form = layui.form; //独立版的layer无需执行这一句
@@ -118,9 +116,7 @@ define(function(require) {
                     ,content:me.$form[0].outerHTML
                     ,zIndex: layer.zIndex //重点1
                     ,success: function(layero){
-
-                        new MUserList().getuserList(form) ;
-
+                        ls.d.setUserList($("select[name=adminId]"),form) ;
                         form.render();
                     }
                 });
@@ -173,7 +169,7 @@ define(function(require) {
                     table.on("tool(treeTable_store)",function(obj){
                         var data = obj.data;
                         var layEvent = obj.event;
-                        me.trigger(layEvent,[obj.data[0]]) ;
+                        me.trigger(layEvent,[data]) ;
                     }) ;
                 } ;
                 showTreeTable() ;
@@ -181,16 +177,19 @@ define(function(require) {
         }
         //--------------------------其它组件触发事件------------------------------------
         ,TreeTableEdit_handler:function(data){
-            console.dir(data) ;
-            this.layerForm("addForm") ;
+            data = data[0] ;
+            this.layerForm("updateModel",data) ;
+            $("input[name=fid]").removeAttr("disabled") ;
             return false ;
         }
         ,TreeTableDel_handler:function(data){
-
+            data = data[0] ;
+            this.layerForm("delModel",data) ;
+            return false ;
         }
         ,TreeTableAddChild_handler:function(data){
-            console.dir(data) ;
-            this.layerForm("addForm") ;
+            data = data[0] ;
+            this.layerForm("addModel",{fid:data.id}) ;
             return false ;
         }
 

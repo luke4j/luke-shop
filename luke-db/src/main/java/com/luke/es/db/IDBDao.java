@@ -230,4 +230,6 @@ public interface IDBDao {
     <T> T delObject(T obj) throws AppException;
 
     <T> List<T> findAll(String modelName) throws AppException ;
+
+    <T> List<T> findAllBack(String modelName) throws AppException ;
 }

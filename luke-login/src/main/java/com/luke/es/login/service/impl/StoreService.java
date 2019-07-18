@@ -25,6 +25,11 @@ public class StoreService implements IStoreService {
         return lstStore;
     }
 
+    public List<TS_Store> findAllBack() throws Exception {
+        List<TS_Store> lstStore = this.storeDao.findAllBack("TS_Store") ;
+        return lstStore;
+    }
+
     @Transactional
     public void addModel(VOInStore vo, VOutUser currentUser) throws Exception {
         TS_Store store = new TS_Store() ;
@@ -34,13 +39,13 @@ public class StoreService implements IStoreService {
     }
 
     @Transactional
-    public void delModel(VOInItem vo, VOutUser currentUser) throws Exception {
+    public void delModel(VOInStore vo, VOutUser currentUser) throws Exception {
         TS_Store store = this.storeDao.get(TS_Store.class,vo.getId()) ;
-        store.setIsdo(true);
+        store.set_isDel(true);
     }
 
     @Transactional
-    public void updateModel(VOInItem vo, VOutUser currentUser) throws Exception {
+    public void updateModel(VOInStore vo, VOutUser currentUser) throws Exception {
         TS_Store store = this.storeDao.get(TS_Store.class,vo.getId()) ;
         BeanUtils.copyProperties(vo,store);
     }
