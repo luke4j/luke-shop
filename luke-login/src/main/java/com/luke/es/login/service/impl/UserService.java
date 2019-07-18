@@ -27,13 +27,13 @@ public class UserService implements IUserService {
         return users;
     }
 
-    public List<UIVOUser> findAll(boolean b, Page page) throws Exception {
-        List<UIVOUser> users = this.userDao.findAllUnion(b,page) ;
+    public List<UIVOUser> findAll(boolean b,UIVOUser vo, Page page) throws Exception {
+        List<UIVOUser> users = this.userDao.findAllUnion(b,vo,page) ;
         return users;
     }
 
-    public List<UIVOUser> findAllBack(Page page) throws Exception {
-        List<UIVOUser> users = this.userDao.findAllUnion(null,page) ;
+    public List<UIVOUser> findAllBack(UIVOUser vo,Page page) throws Exception {
+        List<UIVOUser> users = this.userDao.findAllUnion(null,vo,page) ;
         return users;
     }
 

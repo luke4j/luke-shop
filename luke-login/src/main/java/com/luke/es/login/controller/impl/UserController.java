@@ -29,14 +29,14 @@ public class UserController extends BController implements IUserController {
         return actResult ;
     }
 
-    public ActResult findAll(HttpServletRequest request, HttpServletResponse response, Page page, ActResult actResult) throws Exception {
-        List<UIVOUser> users = this.userService.findAll(false,page) ;
+    public ActResult findAll(HttpServletRequest request, HttpServletResponse response, Page page,UIVOUser vo, ActResult actResult) throws Exception {
+        List<UIVOUser> users = this.userService.findAll(false,vo,page) ;
         actResult.setRt(users);
         return actResult;
     }
 
-    public ActResult findAllBack(HttpServletRequest request, HttpServletResponse response,Page page,  ActResult actResult) throws Exception {
-        List<UIVOUser> users = this.userService.findAllBack(page) ;
+    public ActResult findAllBack(HttpServletRequest request, HttpServletResponse response,Page page,UIVOUser vo,  ActResult actResult) throws Exception {
+        List<UIVOUser> users = this.userService.findAllBack(vo,page) ;
         actResult.setRt(users);
         return actResult;
     }

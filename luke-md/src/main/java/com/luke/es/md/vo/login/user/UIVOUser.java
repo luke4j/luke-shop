@@ -2,14 +2,16 @@ package com.luke.es.md.vo.login.user;
 
 import com.luke.es.md.TU_Info;
 import com.luke.es.md.TU_User;
+import com.luke.es.tool.annotation.QLParam;
+import com.luke.es.tool.annotation.QLParam_GX;
+import com.luke.es.tool.vo.VOIn;
 
-public class UIVOUser {
+public class UIVOUser extends VOIn {
 
     public UIVOUser(){} ;
     public UIVOUser(TU_User user, TU_Info info,String storeName,String roleName,String cwRoleName){
         this.id = user.getId() ;
         this.loginName = user.getLoginName() ;
-        this.loginPwd = user.getLoginPwd() ;
         this.name = info.getName() ;
         this.storeId = info.getStoreId() ;
         this.roleId = info.getRoleId() ;
@@ -27,23 +29,34 @@ public class UIVOUser {
         this.cwRole = cwRoleName ;
     } ;
 
+    @QLParam(bm = "u")
     private Long id;
+    @QLParam(bm = "u")
     private String loginName;
-    private String loginPwd;
+    @QLParam(bm = "i")
     private String name;
+    @QLParam(bm = "i")
     private Long storeId;
     private String store;
+    @QLParam(bm = "i")
     private Long roleId;
     private String role;
+    @QLParam(bm = "i")
     private Long cwRoleId;
     private String cwRole;
     private Long birthday;
+    @QLParam(bm = "i")
     private String sex;
+    @QLParam(bm = "i")
     private String zw;
+    @QLParam(bm = "i")
     private String tel;
+    @QLParam(bm = "i")
     private Long inTime;
     private Long outTime;
+    @QLParam(bm = "i")
     private String xl;
+    @QLParam(bm = "i")
     private String zzmm ;
 
     public Long getId() {
@@ -62,13 +75,7 @@ public class UIVOUser {
         this.loginName = loginName;
     }
 
-    public String getLoginPwd() {
-        return loginPwd;
-    }
 
-    public void setLoginPwd(String loginPwd) {
-        this.loginPwd = loginPwd;
-    }
 
     public String getName() {
         return name;

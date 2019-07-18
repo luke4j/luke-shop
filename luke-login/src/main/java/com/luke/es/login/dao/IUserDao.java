@@ -20,5 +20,5 @@ public interface IUserDao extends IDBDao {
     TU_Info getUnique(Long userId)throws Exception;
 
 
-    List<UIVOUser> findAllUnion(Boolean b, Page page)throws Exception;
+    List<UIVOUser> findAllUnion(Boolean b,UIVOUser vo, Page page)throws Exception;
 }

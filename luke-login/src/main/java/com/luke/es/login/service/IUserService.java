@@ -10,9 +10,9 @@ import java.util.List;
 public interface IUserService {
     List<UIVOList> findAllUser4List(VOutUser currentUser) throws Exception ;
 
-    List<UIVOUser> findAll(boolean b, Page page)throws Exception ;
+    List<UIVOUser> findAll(boolean b,UIVOUser vo, Page page)throws Exception ;
 
-    List<UIVOUser> findAllBack(Page page)throws Exception ;
+    List<UIVOUser> findAllBack(UIVOUser vo,Page page)throws Exception ;
 
     void delModel(VOutUser currentUser, Long id)throws Exception ;
 

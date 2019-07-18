@@ -24,7 +24,7 @@ public class UserDao extends DBDao implements IUserDao {
         return this.getUnique("From TU_Info i where i.user_id=:userId",new LKMap().put1("userId",userId)) ;
     }
 
-    public List<UIVOUser> findAllUnion(Boolean b, Page page) throws Exception {
+    public List<UIVOUser> findAllUnion(Boolean b, UIVOUser vo,Page page) throws Exception {
         String hql = "" ;
         String countHql = "" ;
         String hql_select = "select new com.luke.es.md.vo.login.user.UIVOUser(u,i,s.name,r.name,c.name) " ;
@@ -41,8 +41,13 @@ public class UserDao extends DBDao implements IUserDao {
             countHql+=" where u._isDel=:isDel " ;
             param.put1("isDel",b) ;
         }
+        if(vo!=null){
+
+        }
         hql += " order by u.id " ;
         page.setHql(countHql);
         return this.find(hql,param,page) ;
     }
+
+
 }

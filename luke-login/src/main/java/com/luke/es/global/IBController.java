@@ -16,12 +16,6 @@ import javax.servlet.http.HttpServletResponse;
 
 public interface IBController {
 
-    @RequestMapping(path = "findAll.act",method = RequestMethod.POST)
-    ActResult findAll(HttpServletRequest request, HttpServletResponse response, Page page, ActResult actResult) throws Exception ;
-
-
-    @RequestMapping(path = "findAllBack.act",method = RequestMethod.POST)
-    ActResult findAllBack(HttpServletRequest request, HttpServletResponse response,Page page,  ActResult actResult) throws Exception ;
 
 
     @RequestMapping(path = "delModel.act",method = RequestMethod.POST)
