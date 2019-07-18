@@ -18,8 +18,6 @@ public interface IStoreController extends IBController {
     @RequestMapping(path = "addModel.act",method = RequestMethod.POST)
     ActResult addModel(HttpServletRequest request, HttpServletResponse response , ActResult actResult, VOInStore vo, BindingResult bindingResult) throws Exception ;
 
-    @RequestMapping(path = "delModel.act",method = RequestMethod.POST)
-    ActResult delModel(HttpServletRequest request, HttpServletResponse response , ActResult actResult, VOInStore vo, BindingResult bindingResult) throws Exception ;
 
     @RequestMapping(path = "updateModel.act",method = RequestMethod.POST)
     ActResult updateModel(HttpServletRequest request, HttpServletResponse response , ActResult actResult, VOInStore vo, BindingResult bindingResult) throws Exception ;

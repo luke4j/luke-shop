@@ -1,7 +1,9 @@
 package com.luke.es.login.controller;
 
 
+import com.luke.es.global.IBController;
 import com.luke.es.md.vo.login.VOInLogin;
+import com.luke.es.md.vo.login.user.UIVOUser;
 import com.luke.es.tool.controller.ActResult;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,9 +13,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @RequestMapping(path = "user")
-public interface IUserController {
+public interface IUserController extends IBController {
 
     @RequestMapping(path = "findAllUser4List.act",method = RequestMethod.POST)
     ActResult findAllUser4List(HttpServletRequest request, HttpServletResponse response, ActResult actResult , VOInLogin vo, BindingResult bindingResult) throws Exception ;
 
+    @RequestMapping(path = "addModel.act",method = RequestMethod.POST)
+    ActResult addModel(HttpServletRequest request, HttpServletResponse response, ActResult actResult , UIVOUser vo, BindingResult bindingResult) throws Exception ;
+
+    @RequestMapping(path = "updateModel.act",method = RequestMethod.POST)
+    ActResult updateModel(HttpServletRequest request, HttpServletResponse response, ActResult actResult , UIVOUser vo, BindingResult bindingResult) throws Exception ;
 }

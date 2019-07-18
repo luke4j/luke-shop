@@ -393,12 +393,19 @@ public class DBDao {
             }else{
                 query = this.getSession().createQuery(ql,toBean) ;
             }
-
             query = this.setParams(query,param) ;
+            if(page!=null&&page.getHql()!=null){
+                Query queryCount = this.getSession().createQuery(page.getHql()) ;
+                queryCount = this.setParams(queryCount,param) ;
+                Object obj = queryCount.getSingleResult() ;
+                page.setCount((Long)obj);
+            }
+
             if(LK.ObjIsNotNull(page)){
                 query.setMaxResults(page.getLimit()) ;
                 query.setFirstResult(page.getStart()) ;
             }
+
             return query.getResultList() ;
         }catch (Throwable e){
             throw AppException.create(this.getClass(),e.getMessage()) ;

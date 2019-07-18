@@ -4,6 +4,7 @@ import com.luke.es.md.vo.dev.VOInItem;
 import com.luke.es.md.vo.login.store.VOInStore;
 import com.luke.es.tool.controller.ActResult;
 import com.luke.es.tool.vo.IVO;
+import com.luke.es.tool.vo.Page;
 import com.luke.es.tool.vo.VOIn;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,12 +17,15 @@ import javax.servlet.http.HttpServletResponse;
 public interface IBController {
 
     @RequestMapping(path = "findAll.act",method = RequestMethod.POST)
-    ActResult findAll(HttpServletRequest request, HttpServletResponse response, ActResult actResult) throws Exception ;
+    ActResult findAll(HttpServletRequest request, HttpServletResponse response, Page page, ActResult actResult) throws Exception ;
 
 
     @RequestMapping(path = "findAllBack.act",method = RequestMethod.POST)
-    ActResult findAllBack(HttpServletRequest request, HttpServletResponse response, ActResult actResult) throws Exception ;
+    ActResult findAllBack(HttpServletRequest request, HttpServletResponse response,Page page,  ActResult actResult) throws Exception ;
 
+
+    @RequestMapping(path = "delModel.act",method = RequestMethod.POST)
+    ActResult delModel(HttpServletRequest request, HttpServletResponse response , ActResult actResult,  Long id, BindingResult bindingResult) throws Exception ;
 
 
 }

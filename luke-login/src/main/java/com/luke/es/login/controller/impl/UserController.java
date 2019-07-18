@@ -5,7 +5,10 @@ import com.luke.es.login.controller.IUserController;
 import com.luke.es.login.service.IUserService;
 import com.luke.es.md.vo.UIVOList;
 import com.luke.es.md.vo.login.VOInLogin;
+import com.luke.es.md.vo.login.user.UIVOUser;
 import com.luke.es.tool.controller.ActResult;
+import com.luke.es.tool.vo.Page;
+import com.luke.es.tool.vo.VOutUser;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,5 +27,32 @@ public class UserController extends BController implements IUserController {
         List<UIVOList> users = this.userService.findAllUser4List(getCurrentUser(request)) ;
         actResult.setRt(users);
         return actResult ;
+    }
+
+    public ActResult findAll(HttpServletRequest request, HttpServletResponse response, Page page, ActResult actResult) throws Exception {
+        List<UIVOUser> users = this.userService.findAll(false,page) ;
+        actResult.setRt(users);
+        return actResult;
+    }
+
+    public ActResult findAllBack(HttpServletRequest request, HttpServletResponse response,Page page,  ActResult actResult) throws Exception {
+        List<UIVOUser> users = this.userService.findAllBack(page) ;
+        actResult.setRt(users);
+        return actResult;
+    }
+
+    public ActResult delModel(HttpServletRequest request, HttpServletResponse response, ActResult actResult, Long id, BindingResult bindingResult) throws Exception {
+        this.userService.delModel(getCurrentUser(request),id) ;
+        return null;
+    }
+
+    public ActResult addModel(HttpServletRequest request, HttpServletResponse response, ActResult actResult, UIVOUser vo, BindingResult bindingResult) throws Exception {
+       this.userService.addModel(getCurrentUser(request),vo) ;
+        return actResult;
+    }
+
+    public ActResult updateModel(HttpServletRequest request, HttpServletResponse response, ActResult actResult, UIVOUser vo, BindingResult bindingResult) throws Exception {
+        this.userService.updateModel(getCurrentUser(request),vo) ;
+        return actResult;
     }
 }

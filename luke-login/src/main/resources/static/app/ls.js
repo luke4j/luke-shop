@@ -73,6 +73,14 @@ ls.d.setUserList = function($select,layuiForm){
         }
     })
 } ;
+ls.d.tableDateParseData = function(res){
+    return {
+        "code": res.code, //解析接口状态
+        "msg": res.msg, //解析提示文本
+        "count": res.count, //解析数据长度
+        "data": res.rt //解析数据列表
+    };
+} ;
 
 
 

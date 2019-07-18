@@ -39,8 +39,8 @@ public class StoreService implements IStoreService {
     }
 
     @Transactional
-    public void delModel(VOInStore vo, VOutUser currentUser) throws Exception {
-        TS_Store store = this.storeDao.get(TS_Store.class,vo.getId()) ;
+    public void delModel(Long id , VOutUser currentUser) throws Exception {
+        TS_Store store = this.storeDao.get(TS_Store.class,id) ;
         store.set_isDel(true);
     }
 

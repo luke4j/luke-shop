@@ -8,6 +8,7 @@ import com.luke.es.md.vo.dev.VOInItem;
 import com.luke.es.md.vo.login.store.VOInStore;
 import com.luke.es.tool.controller.ActResult;
 import com.luke.es.tool.vo.IVO;
+import com.luke.es.tool.vo.Page;
 import com.luke.es.tool.vo.VOIn;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,14 +24,14 @@ public class StoreController extends BController implements IStoreController {
     @Resource
     IStoreService storeService ;
 
-    public ActResult findAll(HttpServletRequest request, HttpServletResponse response, ActResult actResult) throws Exception {
+    public ActResult findAll(HttpServletRequest request, HttpServletResponse response, Page page, ActResult actResult) throws Exception {
         List<TS_Store> lstStore = this.storeService.findAll() ;
         actResult.setRt(lstStore);
         return actResult;
     }
 
 
-    public ActResult findAllBack(HttpServletRequest request, HttpServletResponse response, ActResult actResult) throws Exception {
+    public ActResult findAllBack(HttpServletRequest request, HttpServletResponse response,Page page,  ActResult actResult) throws Exception {
         List<TS_Store> lstStore = this.storeService.findAllBack() ;
         actResult.setRt(lstStore);
         return actResult;
@@ -41,8 +42,8 @@ public class StoreController extends BController implements IStoreController {
         return actResult;
     }
 
-    public ActResult delModel(HttpServletRequest request, HttpServletResponse response, ActResult actResult, VOInStore vo, BindingResult bindingResult) throws Exception {
-        this.storeService.delModel(vo,super.getCurrentUser(request)) ;
+    public ActResult delModel(HttpServletRequest request, HttpServletResponse response, ActResult actResult, Long id, BindingResult bindingResult) throws Exception {
+        this.storeService.delModel(id,super.getCurrentUser(request)) ;
         return actResult;
     }
 

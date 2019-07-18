@@ -12,7 +12,7 @@ public interface IStoreService {
 
     void addModel(VOInStore vo, VOutUser currentUser)throws Exception;
 
-    void delModel(VOInStore vo, VOutUser currentUser)throws Exception;
+    void delModel(Long id, VOutUser currentUser)throws Exception;
 
     void updateModel(VOInStore vo, VOutUser currentUser)throws Exception;
 

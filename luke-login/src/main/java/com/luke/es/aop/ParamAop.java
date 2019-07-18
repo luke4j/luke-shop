@@ -60,6 +60,9 @@ public class ParamAop {
         if(actResult!=null&&(actResult.getRt() instanceof List) && page == null ){
             actResult.setCount(((List)actResult.getRt()).size()+0l);
         }
+        if(page!=null&&actResult!=null){
+            actResult.setCount(page.getCount());
+        }
         return obj ;
     }
 }

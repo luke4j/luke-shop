@@ -208,6 +208,14 @@ key = "#vo.id" 是参数vo中的id属性值 ，在执行这个方法前，如果
 
 <u>缓存这个东西好用，但是程序不清楚时，不应该用，否则程序数据与后台数据会出现不一至的现象</u>
 
+
+
+# JPA
+
+<u>jpa对于关联查询放宽了,不用在类中建关系就可以直接用left join 连接</u>
+
+
+
 # js
 
 ## js
@@ -638,6 +646,72 @@ laytpl(getTpl).render(data, function(html){
   view.innerHTML = html;
 });
 ```
+
+模板中{{#  code...   }} 这里的代码是逻辑代码,不会显示
+
+模板中{{  code...   }} 这里的代码是可以显示在页面的变量 
+
+没有在{{  }}   中的代码是写死的显示在页面中的值
+
+<u>使用时可以写测试 代码 ,用来查看运行时模板中的变量 </u>
+
+```javascript
+ // "{{# console.dir(d)}}" ;
+ // "{{# console.dir(arguments)}}" ;
+```
+
+
+
+
+
+### 数据表格 table
+
+```javascript
+layui.use('table', function(){
+                var table = layui.table;
+                var colDefWidth = 80 ;
+                table.render({
+                    elem: '#treeTable_users'	//页面table元素ID
+                    // ,height: 312
+                    ,url: 'user/findAll.act' //数据接口
+                    ,method:'post'
+                    ,page: true //开启分页
+                    ,parseData:ls.d.tableDateParseData  //自己的数据转成表格所需要的格式
+                    ,cols: [[ //表头
+                        {field: 'id', title: 'ID', fixed: 'left'}
+                        ,{field: 'loginName', title: '登录名', fixed: 'left'}
+                        ,{field: 'name', title: '姓名', fixed: 'left'}
+                        ,{field: 'store', title: '站点'}
+                        ,{field: 'role', title: '角色'}
+                        ,{field: 'cwRole', title: '财务角色', width: 100}
+                        ,{field: 'birthday', title: '生日',templet:"#_tmpCol_birthday"}
+                        ,{field: 'sex', title: '性别'}
+                        ,{field: 'zw', title: '职务'}
+                        ,{field: 'tel', title: '电话'}
+                        ,{field: 'inTime', title: '入职时间',templet:"#_tmpCol_birthday"}
+                        ,{field: 'xl', title: '学历'}
+                        ,{field: 'zzmm', title: '政治面貌', width: 100},
+                        {templet: '#oper-col', title: '操作'}
+                    ]]
+                });
+
+            });
+```
+
+
+
+```javascript
+ls.d.tableDateParseData = function(res){
+    return {
+        "code": res.code, //解析接口状态
+        "msg": res.msg, //解析提示文本
+        "count": res.count, //解析数据长度
+        "data": res.rt //解析数据列表
+    };
+} ;
+```
+
+
 
 ### 表单
 
