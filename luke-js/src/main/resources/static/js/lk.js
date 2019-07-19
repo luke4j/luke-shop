@@ -33,7 +33,8 @@ lk.ts.alert = function(msg){
         }
         idx = layer.open({
             title: '提示',
-            zIndex:layer.zIndex++,
+            //TODO 单独使用时,会出现BUG,待修改
+            // zIndex:layer.zIndex++,
             content: msg
         });
     }) ;

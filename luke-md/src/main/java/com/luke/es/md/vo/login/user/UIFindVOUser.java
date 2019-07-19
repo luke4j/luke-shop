@@ -1,24 +1,45 @@
 package com.luke.es.md.vo.login.user;
 
-public class UIFindVOUser {
+import com.luke.es.tool.annotation.QLParam;
+import com.luke.es.tool.annotation.QLParam_GX;
+import com.luke.es.tool.annotation.QLParam_LX;
+import com.luke.es.tool.vo.IVO;
 
+public class UIFindVOUser implements IVO {
+
+    @QLParam(bm = "u")
     private Long id;
+    @QLParam(bm = "u",gx = QLParam_GX.Like)
     private String loginName;
-    private String loginPwd;
+    @QLParam(bm = "i",gx = QLParam_GX.Like)
     private String name;
+    @QLParam(bm = "i")
     private Long storeId;
-    private String store;
+    @QLParam(bm = "i")
     private Long roleId;
-    private String role;
+    @QLParam(bm = "i")
     private Long cwRoleId;
-    private String cwRole;
-    private String birthday;
+    @QLParam(bm = "i",sx = "birthday" ,gx = QLParam_GX.GtEq,lx = QLParam_LX.Date)
+    private Long birthday_s;
+    @QLParam(bm = "i",sx = "birthday" ,gx = QLParam_GX.LtEq,lx = QLParam_LX.Date)
+    private Long birthday_e;
+    @QLParam(bm = "i")
     private String sex;
+    @QLParam(bm = "i")
     private String zw;
+    @QLParam(bm = "i")
     private String tel;
-    private String inTime;
-    private String outTime;
+    @QLParam(bm = "i",sx = "inTime",gx = QLParam_GX.GtEq,lx = QLParam_LX.Date)
+    private Long inTime_s;
+    @QLParam(bm = "i",sx = "inTime",gx = QLParam_GX.LtEq,lx = QLParam_LX.Date)
+    private Long inTime_e;
+    @QLParam(bm = "i",sx = "outTime",gx = QLParam_GX.GtEq,lx = QLParam_LX.Date)
+    private Long outTime_s;
+    @QLParam(bm = "i",sx = "outTime",gx = QLParam_GX.LtEq,lx = QLParam_LX.Date)
+    private Long outTime_e;
+    @QLParam(bm = "i")
     private String xl;
+    @QLParam(bm = "i")
     private String zzmm ;
 
     public Long getId() {
@@ -37,13 +58,7 @@ public class UIFindVOUser {
         this.loginName = loginName;
     }
 
-    public String getLoginPwd() {
-        return loginPwd;
-    }
 
-    public void setLoginPwd(String loginPwd) {
-        this.loginPwd = loginPwd;
-    }
 
     public String getName() {
         return name;
@@ -61,13 +76,7 @@ public class UIFindVOUser {
         this.storeId = storeId;
     }
 
-    public String getStore() {
-        return store;
-    }
 
-    public void setStore(String store) {
-        this.store = store;
-    }
 
     public Long getRoleId() {
         return roleId;
@@ -77,13 +86,7 @@ public class UIFindVOUser {
         this.roleId = roleId;
     }
 
-    public String getRole() {
-        return role;
-    }
 
-    public void setRole(String role) {
-        this.role = role;
-    }
 
     public Long getCwRoleId() {
         return cwRoleId;
@@ -93,21 +96,8 @@ public class UIFindVOUser {
         this.cwRoleId = cwRoleId;
     }
 
-    public String getCwRole() {
-        return cwRole;
-    }
 
-    public void setCwRole(String cwRole) {
-        this.cwRole = cwRole;
-    }
 
-    public String getBirthday() {
-        return birthday;
-    }
-
-    public void setBirthday(String birthday) {
-        this.birthday = birthday;
-    }
 
     public String getSex() {
         return sex;
@@ -133,21 +123,7 @@ public class UIFindVOUser {
         this.tel = tel;
     }
 
-    public String getInTime() {
-        return inTime;
-    }
 
-    public void setInTime(String inTime) {
-        this.inTime = inTime;
-    }
-
-    public String getOutTime() {
-        return outTime;
-    }
-
-    public void setOutTime(String outTime) {
-        this.outTime = outTime;
-    }
 
     public String getXl() {
         return xl;
@@ -163,5 +139,53 @@ public class UIFindVOUser {
 
     public void setZzmm(String zzmm) {
         this.zzmm = zzmm;
+    }
+
+    public Long getBirthday_s() {
+        return birthday_s;
+    }
+
+    public void setBirthday_s(Long birthday_s) {
+        this.birthday_s = birthday_s;
+    }
+
+    public Long getBirthday_e() {
+        return birthday_e;
+    }
+
+    public void setBirthday_e(Long birthday_e) {
+        this.birthday_e = birthday_e;
+    }
+
+    public Long getInTime_s() {
+        return inTime_s;
+    }
+
+    public void setInTime_s(Long inTime_s) {
+        this.inTime_s = inTime_s;
+    }
+
+    public Long getInTime_e() {
+        return inTime_e;
+    }
+
+    public void setInTime_e(Long inTime_e) {
+        this.inTime_e = inTime_e;
+    }
+
+    public Long getOutTime_s() {
+        return outTime_s;
+    }
+
+    public void setOutTime_s(Long outTime_s) {
+        this.outTime_s = outTime_s;
+    }
+
+    public Long getOutTime_e() {
+        return outTime_e;
+    }
+
+    public void setOutTime_e(Long outTime_e) {
+        this.outTime_e = outTime_e;
     }
 }

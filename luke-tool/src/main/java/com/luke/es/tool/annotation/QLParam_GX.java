@@ -8,6 +8,10 @@ public enum QLParam_GX {
     GtEq,
     /**小于等于*/
     LtEq ,
+    /**小于*/
+    Lt,
+    /**大于*/
+    Gt,
 
     In ;
 

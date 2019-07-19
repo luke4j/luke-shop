@@ -2,8 +2,6 @@ package com.luke.es.md.vo.login.user;
 
 import com.luke.es.md.TU_Info;
 import com.luke.es.md.TU_User;
-import com.luke.es.tool.annotation.QLParam;
-import com.luke.es.tool.annotation.QLParam_GX;
 import com.luke.es.tool.vo.VOIn;
 
 public class UIVOUser extends VOIn {
@@ -29,34 +27,22 @@ public class UIVOUser extends VOIn {
         this.cwRole = cwRoleName ;
     } ;
 
-    @QLParam(bm = "u")
     private Long id;
-    @QLParam(bm = "u")
     private String loginName;
-    @QLParam(bm = "i")
     private String name;
-    @QLParam(bm = "i")
     private Long storeId;
     private String store;
-    @QLParam(bm = "i")
     private Long roleId;
     private String role;
-    @QLParam(bm = "i")
     private Long cwRoleId;
     private String cwRole;
     private Long birthday;
-    @QLParam(bm = "i")
     private String sex;
-    @QLParam(bm = "i")
     private String zw;
-    @QLParam(bm = "i")
     private String tel;
-    @QLParam(bm = "i")
     private Long inTime;
     private Long outTime;
-    @QLParam(bm = "i")
     private String xl;
-    @QLParam(bm = "i")
     private String zzmm ;
 
     public Long getId() {

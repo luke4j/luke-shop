@@ -73,7 +73,7 @@ define(function(require) {
             this.$menu = $("<div>").addClass("layui-side layui-bg-black");
             this.$menu.append($("<div>").addClass("layui-side-scroll").append($("<ul>").addClass("layui-nav layui-nav-tree")));
             this.$body = $("<div>").addClass("layui-body").attr("id","_workSpaceBody");
-            this.$footer = $("<div>").addClass("layui-footer");
+            this.$footer = $("<div>").addClass("layui-footer").text("@luke   tel:18613806246");
             $("body").append(this.$el);
             this.$el.append(this.$nav).append(this.$menu).append(this.$body).append(this.$footer);
             this.$body.css({"margin-top":"8px","margin-left":"8px","margin-right":"8px","overflow-y":"hidden"})

@@ -81,7 +81,13 @@ ls.d.tableDateParseData = function(res){
         "data": res.rt //解析数据列表
     };
 } ;
-
+ls.d.defSuccess = function(res){
+    if(res.success){
+        lk.ts.alert(res.msg) ;
+    }else{
+        lk.ts.alert(res.msg) ;
+    }
+}
 
 
 //cookies方法组

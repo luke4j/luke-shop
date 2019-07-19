@@ -711,6 +711,84 @@ ls.d.tableDateParseData = function(res){
 } ;
 ```
 
+#### 程序中的页面事件逻辑 
+
+table数据表格中用模板添加操作列时
+
+##### 1.监听表格事件并触发视图注册事件 
+
+```javascript
+//注：tool是工具条事件名，treeTable_item是table原始容器的属性 lay-filter="对应的值"
+// layEvent 是事件模板内元素 lay-event='TreeTableRoleDel' 属性值
+table.on("tool(treeTable_item)",function(obj){
+                        var data = obj.data;
+                        var layEvent = obj.event;
+                        me.trigger(layEvent,[obj.data]) ;
+                    }) ;
+```
+
+##### 2.视图添加监听自定义事件 
+
+```javascript
+
+this.on("TreeTableRoleDel",this.TreeTableRoleDel_handler) ;
+```
+
+##### 3.视图监听事件中添加参数调用显示代码,并将数据传入
+
+```javascript
+TreeTableRoleDel_handler:function(data){
+            var d = {id:data[0].id} ;
+            this.layerItem("delItem",data[0]) ;
+        }
+```
+
+##### 4.显示代码将数据展示出来,等待请求后台操作,请求后台时调用数据Model中的相应方法请求
+
+```javascript
+layerItem:function(modelMethodName,data){
+            var me = this ;
+            if(!this.$itemForm) this.$itemForm = ls.d.getHtml("app/dev/item.form.html") ;
+            layui.use(['layer','form'], function() { //独立版的layer无需执行这一句
+                var $ = layui.jquery, layer = layui.layer , form = layui.form; //独立版的layer无需执行这一句
+                layer.open({
+                    type: 1 //此处以iframe举例
+                    ,title: '新增菜单'
+                    ,maxmin: true
+                    ,area:"auto"
+                    ,content:me.$itemForm[0].outerHTML
+                    ,zIndex: layer.zIndex //重点1
+                    ,success: function(layero){
+                        form.render();
+                    }
+                });
+                form.on('submit(submit)', function(data){
+                    var mitem = new MItem(data.field) ;
+                    mitem[modelMethodName](me) ;
+                    return false ;
+                }) ;
+                if(data){
+                    form.val("item_form",data) ;
+                }
+            });
+        }
+```
+
+##### 5.数据model中的方法请求操作完成后再刷新页面
+
+```javascript
+  delItem:function(view){
+            ls.d.ajax({
+                url:'dev/delItem.act',
+                data:this.attributes,
+                success:function(res){
+                    lk.ts.alert(res.msg) ;
+                    view.treeTable() ;
+                }
+            }) ;
+        },
+```
+
 
 
 ### 表单

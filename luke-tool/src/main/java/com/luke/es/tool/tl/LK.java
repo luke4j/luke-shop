@@ -2,6 +2,7 @@ package com.luke.es.tool.tl;
 
 import com.luke.es.tool.annotation.QLParam;
 import com.luke.es.tool.annotation.QLParam_GX;
+import com.luke.es.tool.annotation.QLParam_LX;
 import com.luke.es.tool.exception.AppException;
 import com.luke.es.tool.vo.IVO;
 import net.sf.json.JSONObject;
@@ -41,7 +42,7 @@ public class LK {
     }
     private static String ql_gx(QLParam_GX gx){
         if(gx.equals(QLParam_GX.Like))
-            return " like " ;
+            return " like:" ;
         else if(gx.equals(QLParam_GX.Eq))
             return " =:" ;
         else if(gx.equals(QLParam_GX.GtEq))
@@ -50,53 +51,47 @@ public class LK {
             return " <=:" ;
         else if(gx.equals(QLParam_GX.In))
             return " in:" ;
+        else if(gx.equals(QLParam_GX.Gt))
+            return " >:" ;
+        else if(gx.equals(QLParam_GX.Lt))
+            return " <:" ;
         else throw AppException.create("不支持的操作关系") ;
     }
     public static String QL_UnionParam(String ql, IVO vo,Map param) throws Exception{
 
         Field[] fields = vo.getClass().getDeclaredFields() ;
-        Object obj = null ;String bm = "" ;String gx = "=:" ;
+        Object obj = null ;String bm = "" ;String gx = "=:" ;String col = null;String paramName = null ;
         for(Field field :fields){
-            field.setAccessible(true) ;
-            obj = field.get(vo) ;
             QLParam[] qlParams = field.getAnnotationsByType(QLParam.class) ;
             QLParam qp = null ;
             if(qlParams.length==1){
                 qp = qlParams[0] ;
             }
+            field.setAccessible(true) ;
+            obj = field.get(vo) ;
             if(qp!=null&&obj!=null){
                 bm = qp.bm() ;
                 gx = ql_gx(qp.gx()) ;
-                ql += QL_WhereOrAnd(ql)+" "+(bm.equals("")?"":bm+".")+field.getName()+gx +(bm.equals("")?"_":bm+"_")+ field.getName();
+                col = bm.equals("")?"":bm+"."+(qp.sx().equals("")?field.getName():qp.sx()) ;
+                paramName = (bm.equals("")?"_":bm+"_")+ field.getName() ;
+
+                ql += QL_WhereOrAnd(ql)+" "+col+gx +paramName;
+                if(qp.lx().equals(QLParam_LX.Date)){
+                    if(obj instanceof Long){
+                        param.put(paramName,new Date((Long)obj)) ;
+                    }else if(obj instanceof String){
+                        param.put(paramName,new Date(Long.parseLong((String)obj))) ;
+                    }
+
+                }else{
+                    param.put(paramName,obj) ;
+                }
             }
         }
         return ql ;
     }
 
-    public class QL{
-        String ql ;
-        Map param ;
-        public QL(String ql,Map param){
-            this.ql = ql ;
-            this.param = param ;
-        }
 
-        public String getQl() {
-            return ql;
-        }
-
-        public void setQl(String ql) {
-            this.ql = ql;
-        }
-
-        public Map getParam() {
-            return param;
-        }
-
-        public void setParam(Map param) {
-            this.param = param;
-        }
-    }
 
     public static String uuid() throws AppException {
         String uuid = UUID.randomUUID().toString();

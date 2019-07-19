@@ -2,6 +2,7 @@ package com.luke.es.aop;
 
 import com.luke.es.tool.controller.ActResult;
 import com.luke.es.tool.exception.AppException;
+import com.luke.es.tool.tl.Assertion;
 import com.luke.es.tool.tl.LK;
 import com.luke.es.tool.vo.Page;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -12,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -55,6 +57,11 @@ public class ParamAop {
             actResult.setSuccess(false);
             actResult.setMsg(bindingResult.getAllErrors().get(0).getDefaultMessage());
             actResult.setError(AppException.create("参数验证失败"));
+            String errormsg = "" ;
+            for(ObjectError error :bindingResult.getAllErrors()){
+                errormsg+=error.getDefaultMessage()+";" ;
+            }
+            Assertion.Error(errormsg);
         }
         Object obj = jp.proceed(jp.getArgs()) ;
         if(actResult!=null&&(actResult.getRt() instanceof List) && page == null ){
