@@ -70,6 +70,9 @@ public class LK {
             field.setAccessible(true) ;
             obj = field.get(vo) ;
             if(qp!=null&&obj!=null){
+                if(obj instanceof String){
+                    if(LK.StrIsEmpty((String)obj)) continue;
+                }
                 bm = qp.bm() ;
                 gx = ql_gx(qp.gx()) ;
                 col = bm.equals("")?"":bm+"."+(qp.sx().equals("")?field.getName():qp.sx()) ;

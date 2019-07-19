@@ -3,7 +3,6 @@ define(function(require) {
 
     var Model = Backbone.Model.extend({
         defaults: {
-            id: '', name: '', itemIds: ''
         }
         , addModel: function (view) {
             var table = layui.table;
@@ -32,6 +31,9 @@ define(function(require) {
         }
         , delModel: function (view) {
 
+        },
+        findAll:function(view){
+            view.tableDates(this.attributes)
         }
     });
 
@@ -57,9 +59,34 @@ define(function(require) {
         }
         ,click_btn_xinzeng_handler:function(){
             this.layerForm("addModel") ;
+            return false ;
         }
         ,click_btn_chaxun_handler:function(){
-            lk.ts.alert("查询") ;
+            this.layerFindForm("findAll") ;
+            return false ;
+        }
+
+        ,layerFindForm:function(modelMethodName){
+            var me = this ;
+            if(!this.$findform) this.$findform = ls.d.getHtml("app/role/role.find.form.html") ;
+            layui.use(['layer','form'], function() { //独立版的layer无需执行这一句
+                var $ = layui.jquery, layer = layui.layer , form = layui.form; //独立版的layer无需执行这一句
+                layer.open({
+                    type: 1 //此处以iframe举例
+                    ,title: '查询'
+                    ,maxmin: true
+                    ,area:"auto"
+                    // ,area:['700px', '500px']
+                    ,content:me.$findform[0].outerHTML
+                    ,zIndex: layer.zIndex //重点1
+                });
+                form.on('submit(submit)', function(data){
+                    var model = new Model(data.field) ;
+                    model[modelMethodName](me) ;
+                    return false ;
+                }) ;
+            });
+
         }
         ,layerForm:function(modelMethodName,data){
             var me = this ;
@@ -75,8 +102,8 @@ define(function(require) {
                     ,content:me.$form[0].outerHTML
                     ,zIndex: layer.zIndex //重点1
                     ,success: function(layero){
-                        ls.d.setUserList($("select[name=adminId]"),form) ;
-                        form.render();
+                        // ls.d.setUserList($("select[name=adminId]"),form) ;
+                        // form.render();
                     }
                 });
                 form.on('submit(submit)', function(data){
@@ -148,14 +175,17 @@ define(function(require) {
                 "</script>" ;
             return templateBtnInRow ;
         }
-        ,tableDates:function(){
+        ,tableDates:function(param){
             layui.use('table', function(){
                 var table = layui.table;
                 var colDefWidth = 80 ;
                 table.render({
                     elem: '#treeTable_role'
-                    // ,height: 312
+                    ,height: 'full-170'
+                    ,toolbar:true
+                    // ,defaultToolbar: ['filter', 'print', 'exports']
                     ,url: 'role/findAll.act' //数据接口
+                    ,where:param
                     ,method:'post'
                     ,page: true //开启分页
                     ,parseData:ls.d.tableDateParseData
@@ -163,7 +193,7 @@ define(function(require) {
                         {field: 'id', title: 'ID', fixed: 'left',width:40}
                         ,{field: 'name', title: '角色名',width:100}
                         ,{field: 'items', title: '权限名',templet:"#_tmpCol_items"}
-                        ,{templet: '#oper-col', title: '操作'}
+                        ,{templet: '#oper-col', title: '操作',width:120}
                     ]]
                 });
 

@@ -26,16 +26,18 @@ lk.ts.alert = function(msg){
         var layer = layui.layer ;
         if(typeof(msg)!="string"){
             layer.open({
-                title: '异常',
-                content: "参数不是字符，而是"+typeof(msg)
+                title: '异常'
+                ,zIndex: layer.zIndex
+                ,content: "参数不是字符，而是"+typeof(msg)
             });
             return false ;
         }
         idx = layer.open({
-            title: '提示',
+            title: '提示'
             //TODO 单独使用时,会出现BUG,待修改
             // zIndex:layer.zIndex++,
-            content: msg
+            ,zIndex: layer.zIndex
+            ,content: msg
         });
     }) ;
     return idx ;

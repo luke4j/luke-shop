@@ -23,13 +23,15 @@ public class RoleDao extends DBDao implements IRoleDao {
         LKMap param = new LKMap() ;
         hql = LK.QL_UnionParam(hql,vo,param) ;
         page.setHql("select count(*) "+hql);
+        hql+= " order by r.id " ;
         List<TU_Role> roles = this.find(hql,param,page) ;
         List<UIVORole> uivoRoles = new ArrayList<UIVORole>(roles.size()) ;
         UIVORole uivoRole = null ;
         List<TU_Item> items = null ;
         for (TU_Role role:roles ) {
-            items = this.find("From TU_Item i where i.id in("+role.getItemIds()+")");
-
+            if(LK.StrIsNotEmpty(role.getItemIds())){
+                items = this.find("From TU_Item i where i.id in("+role.getItemIds()+") order by i.id");
+            }
             uivoRole = new UIVORole() ;
             BeanUtils.copyProperties(role,uivoRole);
 
