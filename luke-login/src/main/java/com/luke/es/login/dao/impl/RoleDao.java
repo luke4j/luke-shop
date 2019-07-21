@@ -4,6 +4,7 @@ import com.luke.es.db.DBDao;
 import com.luke.es.login.dao.IRoleDao;
 import com.luke.es.md.TU_Item;
 import com.luke.es.md.TU_Role;
+import com.luke.es.md.vo.login.role.UIVOCheckItems4Tree;
 import com.luke.es.md.vo.login.role.UIVORole;
 import com.luke.es.md.vo.login.role.VOFindRole;
 import com.luke.es.tool.tl.LK;
@@ -39,5 +40,10 @@ public class RoleDao extends DBDao implements IRoleDao {
             uivoRoles.add(uivoRole) ;
         }
         return uivoRoles;
+    }
+
+    public List<UIVOCheckItems4Tree> findAllItems4Tree() throws Exception {
+        String hql = "select new com.luke.es.md.vo.login.role.UIVOCheckItems4Tree(i.id,i.fid,i.name) from TU_Item i where i._isDel = false " ;
+        return this.find(hql);
     }
 }

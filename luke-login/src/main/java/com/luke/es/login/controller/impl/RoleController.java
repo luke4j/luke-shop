@@ -3,6 +3,7 @@ package com.luke.es.login.controller.impl;
 import com.luke.es.global.BController;
 import com.luke.es.login.controller.IRoleController;
 import com.luke.es.login.service.IRoleService;
+import com.luke.es.md.vo.login.role.UIVOCheckItems4Tree;
 import com.luke.es.md.vo.login.role.UIVORole;
 import com.luke.es.md.vo.login.role.VOFindRole;
 import com.luke.es.tool.controller.ActResult;
@@ -46,5 +47,9 @@ public class RoleController extends BController implements IRoleController {
         return null;
     }
 
-
+    public ActResult findCheckedItems(HttpServletRequest request, HttpServletResponse response, ActResult actResult, VOFindRole vo, BindingResult bindingResult) throws Exception {
+        List<UIVOCheckItems4Tree> treeNodes = this.roleService.findCheckedItems(vo) ;
+        actResult.setRt(treeNodes);
+        return actResult;
+    }
 }

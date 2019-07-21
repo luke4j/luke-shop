@@ -30,4 +30,8 @@ public interface IRoleController extends IBController {
 
     @RequestMapping(path = "updateModel.act",method = RequestMethod.POST)
     ActResult updateModel(HttpServletRequest request, HttpServletResponse response, ActResult actResult , UIVORole vo, BindingResult bindingResult) throws Exception ;
+
+    @RequestMapping(path = "findCheckedItems.act",method = RequestMethod.POST)
+    ActResult findCheckedItems(HttpServletRequest request, HttpServletResponse response, ActResult actResult , VOFindRole vo, BindingResult bindingResult) throws Exception ;
+
 }

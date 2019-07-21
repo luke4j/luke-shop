@@ -41,6 +41,8 @@ define(function(require) {
         initialize: function () {
             /**tree table 组件触发事件  自定义事件*/
             // this.on("TreeTableRoleDel",this.TreeTableRoleDel_handler) ;
+            this.on("TreeTableEdit",this.TreeTableEdit_handler) ;
+            this.on("TreeTableDel",this.TreeTableDel_handler) ;
             this.render();
         }
         , render: function () {
@@ -102,6 +104,7 @@ define(function(require) {
                     ,content:me.$form[0].outerHTML
                     ,zIndex: layer.zIndex //重点1
                     ,success: function(layero){
+                        console.dir(data) ;
                         // ls.d.setUserList($("select[name=adminId]"),form) ;
                         // form.render();
                     }
@@ -114,13 +117,14 @@ define(function(require) {
                 if(data){
                     form.val("form",data) ;
                 }
-                if(modelMethodName=='addModel'){
+                if(modelMethodName=='addModel'||modelMethodName=="updateModel"){
+                    // me.showItemTree(data) ;
                     me.showItemTree() ;
                 }
 
             });
         }
-        ,showItemTree:function(){
+        ,showItemTree:function(data){
             var $divItemTree = $("div[itemTree]") ;
             var table ,layer,treetable ;
             layui.use(['layer', 'table', 'treetable'], function () {
@@ -138,7 +142,8 @@ define(function(require) {
                         treeDefaultClose: false,
                         treeLinkage: false,
                         elem: '#treeTable_item'
-                        ,url: 'dev/findAllItems.act'
+                        ,url: 'role/findCheckedItems.act'
+                        ,where:{id:data?data.id:''}  //roleID
                         ,method:'post'
                         ,page: false,
                         cols: [[
@@ -147,6 +152,9 @@ define(function(require) {
                             ,{field: 'id', title: 'id'}
                         ]],
                         done: function () {
+
+
+
                             layer.closeAll('loading');
                         }
                     });
@@ -176,6 +184,7 @@ define(function(require) {
             return templateBtnInRow ;
         }
         ,tableDates:function(param){
+            var me = this ;
             layui.use('table', function(){
                 var table = layui.table;
                 var colDefWidth = 80 ;
@@ -196,8 +205,19 @@ define(function(require) {
                         ,{templet: '#oper-col', title: '操作',width:120}
                     ]]
                 });
+                table.on("tool(treeTable_role)",function(obj){
+                    var data = obj.data;
+                    var layEvent = obj.event;
+                    me.trigger(layEvent,[obj.data]) ;
+                }) ;
 
             });
+        }
+        ,TreeTableEdit_handler:function(data){
+            data = data[0] ;
+            console.dir(data) ;
+            this.layerForm("updateModel",data) ;
+            return false ;
         }
     });
 
