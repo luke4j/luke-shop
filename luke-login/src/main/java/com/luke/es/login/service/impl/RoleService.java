@@ -47,4 +47,16 @@ public class RoleService implements IRoleService {
         }
         return rt;
     }
+
+    @Transactional
+    public void updateModel(VOutUser currentUser, UIVORole vo) throws Exception {
+        TU_Role role = this.roleDao.get(TU_Role.class,vo.getId()) ;
+        BeanUtils.copyProperties(vo,role);
+    }
+
+    @Transactional
+    public void delModel(VOutUser currentUser, Long id) throws Exception {
+        TU_Role role = this.roleDao.get(TU_Role.class,id) ;
+        role.set_isDel(true);
+    }
 }

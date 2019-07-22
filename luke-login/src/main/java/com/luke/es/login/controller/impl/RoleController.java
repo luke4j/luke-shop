@@ -35,7 +35,8 @@ public class RoleController extends BController implements IRoleController {
     }
 
     public ActResult delModel(HttpServletRequest request, HttpServletResponse response, ActResult actResult, Long id, BindingResult bindingResult) throws Exception {
-        return null;
+        this.roleService.delModel(getCurrentUser(request),id) ;
+        return actResult;
     }
 
     public ActResult addModel(HttpServletRequest request, HttpServletResponse response, ActResult actResult, @Valid UIVORole vo, BindingResult bindingResult) throws Exception {
@@ -44,8 +45,11 @@ public class RoleController extends BController implements IRoleController {
     }
 
     public ActResult updateModel(HttpServletRequest request, HttpServletResponse response, ActResult actResult, UIVORole vo, BindingResult bindingResult) throws Exception {
-        return null;
+        this.roleService.updateModel(getCurrentUser(request),vo) ;
+        return actResult;
     }
+
+
 
     public ActResult findCheckedItems(HttpServletRequest request, HttpServletResponse response, ActResult actResult, VOFindRole vo, BindingResult bindingResult) throws Exception {
         List<UIVOCheckItems4Tree> treeNodes = this.roleService.findCheckedItems(vo) ;

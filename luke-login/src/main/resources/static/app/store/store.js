@@ -110,7 +110,7 @@ define(function(require) {
                 var $ = layui.jquery, layer = layui.layer , form = layui.form; //独立版的layer无需执行这一句
                 layer.open({
                     type: 1 //此处以iframe举例
-                    ,title: '新增菜单'
+                    ,title: '菜单'
                     ,maxmin: true
                     ,area:"auto"
                     ,content:me.$form[0].outerHTML

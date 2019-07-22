@@ -15,4 +15,8 @@ public interface IRoleService {
     void addModel(VOutUser currentUser, UIVORole vo)throws Exception ;
 
     List<UIVOCheckItems4Tree> findCheckedItems(VOFindRole vo)throws Exception ;
+
+    void updateModel(VOutUser currentUser, UIVORole vo)throws Exception ;
+
+    void delModel(VOutUser currentUser, Long id)throws Exception ;
 }

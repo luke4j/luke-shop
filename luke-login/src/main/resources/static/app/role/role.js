@@ -4,7 +4,7 @@ define(function(require) {
     var Model = Backbone.Model.extend({
         defaults: {
         }
-        , addModel: function (view) {
+        ,setTreeChecked:function(){
             var table = layui.table;
             var checks = table.checkStatus("treeTable_item") ;
             var ids = "" ;
@@ -17,6 +17,9 @@ define(function(require) {
 
             }
             this.set("itemIds",ids) ;
+        }
+        , addModel: function (view) {
+            this.setTreeChecked() ;
             ls.d.ajax({
                 url:'role/addModel.act'
                 ,data:this.attributes
@@ -27,14 +30,28 @@ define(function(require) {
             }) ;
         }
         , updateModel: function (view) {
-
+            this.setTreeChecked() ;
+            ls.d.ajax({
+                url:'role/updateModel.act'
+                ,data:this.attributes
+                ,success:function(res){
+                    lk.ts.alert(res.msg) ;
+                    view.tableDates() ;
+                }
+            }) ;
         }
-        , delModel: function (view) {
-
-        },
-        findAll:function(view){
-            view.tableDates(this.attributes)
+        ,delModel: function (view) {
+            this.setTreeChecked() ;
+            ls.d.ajax({
+                url:'role/updateModel.act'
+                ,data:this.attributes
+                ,success:function(res){
+                    lk.ts.alert(res.msg) ;
+                    view.tableDates() ;
+                }
+            }) ;
         }
+
     });
 
     var View = Backbone.View.extend({
@@ -97,14 +114,14 @@ define(function(require) {
                 var $ = layui.jquery, layer = layui.layer , form = layui.form; //独立版的layer无需执行这一句
                 layer.open({
                     type: 1 //此处以iframe举例
-                    ,title: '新增角色'
+                    ,title: '角色'
                     ,maxmin: true
                     // ,area:"auto"
                     ,area:['700px', '500px']
                     ,content:me.$form[0].outerHTML
                     ,zIndex: layer.zIndex //重点1
                     ,success: function(layero){
-                        console.dir(data) ;
+                        // console.dir(data) ;
                         // ls.d.setUserList($("select[name=adminId]"),form) ;
                         // form.render();
                     }
@@ -117,10 +134,7 @@ define(function(require) {
                 if(data){
                     form.val("form",data) ;
                 }
-                if(modelMethodName=='addModel'||modelMethodName=="updateModel"){
-                    // me.showItemTree(data) ;
-                    me.showItemTree() ;
-                }
+                me.showItemTree(data) ;
 
             });
         }
@@ -152,9 +166,6 @@ define(function(require) {
                             ,{field: 'id', title: 'id'}
                         ]],
                         done: function () {
-
-
-
                             layer.closeAll('loading');
                         }
                     });
@@ -215,8 +226,13 @@ define(function(require) {
         }
         ,TreeTableEdit_handler:function(data){
             data = data[0] ;
-            console.dir(data) ;
             this.layerForm("updateModel",data) ;
+            return false ;
+        },
+        TreeTableDel_handler:function(data){
+            data = data[0] ;
+            data._isDel = true ;
+            this.layerForm("delModel",data) ;
             return false ;
         }
     });
