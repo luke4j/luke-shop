@@ -167,6 +167,7 @@ define(function(require) {
                         ]],
                         done: function () {
                             layer.closeAll('loading');
+                            ls.p.setTreeChecked("treeTable_item",data.items) ;
                         }
                     });
                 } ;
