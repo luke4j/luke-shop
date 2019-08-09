@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -35,17 +36,30 @@ public class RoleService implements IRoleService {
 
     public List<UIVOCheckItems4Tree> findCheckedItems(VOFindRole vo) throws Exception {
         List<UIVOCheckItems4Tree> rt = this.roleDao.findAllItems4Tree() ;
-        if(vo.getId()==null) return rt ;
+        List<UIVOCheckItems4Tree> jg = new ArrayList<UIVOCheckItems4Tree>(rt.size()) ;
+        if(vo.getId()==null) return this.dg(jg,rt,0l) ;
         TU_Role role = this.roleDao.get(TU_Role.class,vo.getId()) ;
         for(String itemId:role.getItemIds().split(",")){
             for(UIVOCheckItems4Tree node:rt){
                 if(node.getId().longValue()==Long.parseLong(itemId)){
-                    node.setLay_checked(true);
+                    node.setChecked(true);
                     break ;
                 }
             }
         }
-        return rt;
+        return this.dg(jg,rt,0l) ;
+    }
+
+    private List<UIVOCheckItems4Tree> dg (List<UIVOCheckItems4Tree> jg ,List<UIVOCheckItems4Tree> data,Long fid){
+        if(jg==null)
+            jg = new ArrayList<UIVOCheckItems4Tree>(data.size()) ;
+        for(UIVOCheckItems4Tree ele :data){
+            if(ele.getFid().longValue()==fid.longValue()){
+                jg.add(ele) ;
+                ele.setChildren(dg(ele.getChildren(),data,ele.getId())) ;
+            }
+        }
+        return jg ;
     }
 
     @Transactional

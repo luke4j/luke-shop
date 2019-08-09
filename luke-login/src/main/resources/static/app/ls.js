@@ -12,49 +12,6 @@ ls.p.getWorkSpaceBody = function(){
     return $("#_workSpaceBody") ;
 } ;
 
-/**
- *
- * @param treeTableId
- * @param checkData
- */
-ls.p.setTreeChecked = function(treeTableId,checkData){
-    var $treeParent = $("#"+treeTableId).parent() ;
-    var $ids = $("[data-field=id]",$treeParent) ;
-    $.each($ids,function(i,he_id){
-        var $he_id = $(he_id) ;
-        var id = $("div",$he_id).text() ;
-        if(checkData){
-            $.each(checkData,function(j,obj){
-                if(obj.id==id){
-                    $("input[type=checkbox]",$he_id.parent()).parent().click() ;
-                }
-            }) ;
-        }
-
-    }) ;
-    layui.form.render() ;
-} ;
-/**
- *
- * @param treeTableId
- * @returns {string}
- */
-ls.p.getTreeChecked = function(treeTableId){
-    var ids = "" ;
-    var $treeParent = $("#"+treeTableId).parent() ;
-    var $ids = $("[data-field=id]",$treeParent) ;
-    $.each($ids,function(i,he_id){
-        var $he_id = $(he_id) ;
-        var id = $("div",$he_id).text() ;
-        if(i==0){
-            ids+=id ;
-        }else{
-            ids+=","+id ;
-        }
-    }) ;
-    return ids ;
-}
-
 
 // 数据方法组
 ls.d = {} ;

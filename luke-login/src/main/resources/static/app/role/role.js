@@ -4,22 +4,25 @@ define(function(require) {
     var Model = Backbone.Model.extend({
         defaults: {
         }
-        ,setTreeChecked:function(){
-            var table = layui.table;
-            var checks = table.checkStatus("treeTable_item") ;
-            var ids = "" ;
-            for(var i in checks.data){
-                if(i==0){
-                    ids+=checks.data[i].id ;
-                }else{
-                    ids+=","+checks.data[i].id ;
+        ,dgSetItems:function(checks,fid){
+            var me = this ;
+            for(var i in checks){
+                if(checks[i].fid == fid){
+                    if(me.attributes.itemIds){
+                        me.set("itemIds",me.get("itemIds")+","+checks[i].id) ;
+                    }else{
+                        me.set("itemIds",checks[i].id) ;
+                    }
+                    me.dgSetItems(checks[i].children,checks[i].id) ;
                 }
-
             }
-            this.set("itemIds",ids) ;
+        }
+        ,setItems:function(){
+            var checks = layui.tree.getChecked("treeTable_item") ;
+            this.dgSetItems(checks,0) ;
         }
         , addModel: function (view) {
-            this.setTreeChecked() ;
+            this.setItems() ;
             ls.d.ajax({
                 url:'role/addModel.act'
                 ,data:this.attributes
@@ -30,7 +33,8 @@ define(function(require) {
             }) ;
         }
         , updateModel: function (view) {
-            this.setTreeChecked() ;
+            console.dir(this.attributes) ;
+            this.setItems() ;
             ls.d.ajax({
                 url:'role/updateModel.act'
                 ,data:this.attributes
@@ -58,29 +62,57 @@ define(function(require) {
         initialize: function () {
             /**tree table 组件触发事件  自定义事件*/
             // this.on("TreeTableRoleDel",this.TreeTableRoleDel_handler) ;
-            this.on("TreeTableEdit",this.TreeTableEdit_handler) ;
-            this.on("TreeTableDel",this.TreeTableDel_handler) ;
+            // this.on("TreeTableEdit",this.TreeTableEdit_handler) ;
+            // this.on("TreeTableDel",this.TreeTableDel_handler) ;
             this.render();
         }
         , render: function () {
             var $wsBody = ls.p.getWorkSpaceBody();
             this.$el = $wsBody;
+            this.$el.append("<table id='test'>")
             this.$el.append(this._tmpCol_items()) ;
-            this.$el.append(this._tmpBtnInRow()) ;
+            // /**页面主数据，角色数据表格*/
             this.$tabletree = $("<table id='treeTable_role' lay-filter='treeTable_role'>");
             this.$el.append(this.$tabletree);
             this.tableDates();
             return this;
         }
         ,events:{
-            "click #btn-xinzeng":"click_btn_xinzeng_handler",
-            "click #btn-chaxun":"click_btn_chaxun_handler"
+            "click #btn-xinzeng":"click_btn_xinzeng_handler"
+            ,"click #btn-chaxun":"click_btn_chaxun_handler"
+            ,"click #btn-xiugai":"click_btn_xiugai_handler"
+            ,"click #btn-shanchu":"click_btn_shanchu_handler"
         }
+        /**
+         * 页面新增事件
+         * <br>弹出新增窗体
+         * */
         ,click_btn_xinzeng_handler:function(){
             this.layerForm("addModel") ;
             return false ;
         }
+        /**
+         * 页面查询事件
+         * <br>弹出查询条件窗体
+         * */
         ,click_btn_chaxun_handler:function(){
+            this.layerFindForm("findAll") ;
+            return false ;
+        }
+        /**
+         * 页面选择修改事件
+         * <br>弹出修改窗体
+         * */
+        ,click_btn_xiugai_handler:function(){
+            var checkeds = layui.table.checkStatus('treeTable_role') ;
+            this.layerForm("updateModel",checkeds.data[0]) ;
+            return false ;
+        }
+        /**
+         * 页面选择删除事件
+         * <br>弹出删除窗体
+         * */
+        ,click_btn_shanchu_handler:function(){
             this.layerFindForm("findAll") ;
             return false ;
         }
@@ -110,8 +142,8 @@ define(function(require) {
         ,layerForm:function(modelMethodName,data){
             var me = this ;
             if(!this.$form) this.$form = ls.d.getHtml("app/role/role.form.html") ;
-            layui.use(['layer','form'], function() { //独立版的layer无需执行这一句
-                var $ = layui.jquery, layer = layui.layer , form = layui.form; //独立版的layer无需执行这一句
+            layui.use(['layer','form'], function() {
+                var $ = layui.jquery, layer = layui.layer , form = layui.form;
                 layer.open({
                     type: 1 //此处以iframe举例
                     ,title: '角色'
@@ -120,10 +152,9 @@ define(function(require) {
                     ,area:['700px', '500px']
                     ,content:me.$form[0].outerHTML
                     ,zIndex: layer.zIndex //重点1
-                    ,success: function(layero){
-                        // console.dir(data) ;
-                        // ls.d.setUserList($("select[name=adminId]"),form) ;
-                        // form.render();
+                    ,success: function($div){
+                        // console.dir(layero) ;
+                        //打开窗体成功后执行
                     }
                 });
                 form.on('submit(submit)', function(data){
@@ -139,40 +170,29 @@ define(function(require) {
             });
         }
         ,showItemTree:function(data){
-            var $divItemTree = $("div[itemTree]") ;
-            var table ,layer,treetable ;
-            layui.use(['layer', 'table', 'treetable'], function () {
-                table = layui.table;
-                layer = layui.layer;
-                treetable = layui.treetable;
-                var showTreeTable = function(){
-                    layer.load(2);
-                    treetable.render({
-                        treeColIndex: 1,
-                        height: '300',
-                        treeSpid: 0,
-                        treeIdName: 'id',
-                        treePidName: 'fid',
-                        treeDefaultClose: false,
-                        treeLinkage: false,
+            function tree(treeData){
+                layui.use(['tree', 'util'], function() {
+                    var tree = layui.tree
+                        , layer = layui.layer
+                        , util = layui.util ;
+                    tree.render({
                         elem: '#treeTable_item'
-                        ,url: 'role/findCheckedItems.act'
-                        ,where:{id:data?data.id:''}  //roleID
-                        ,method:'post'
-                        ,page: false,
-                        cols: [[
-                            {type:'checkbox'}
-                            ,{field: 'name', title: '名称'}
-                            ,{field: 'id', title: 'id'}
-                        ]],
-                        done: function () {
-                            layer.closeAll('loading');
-                            ls.p.setTreeChecked("treeTable_item",data.items) ;
-                        }
+                        ,data: treeData
+                        ,showCheckbox: true  //是否显示复选框
+                        ,id: 'treeTable_item'
                     });
-                } ;
-                showTreeTable() ;
+
+                }) ;
+            } ;
+            ls.d.ajax({
+                url: 'role/findCheckedItems.act'
+                ,async:true
+                , data: {id: data ? data.id : ''}
+                , success: function (resp) {
+                    tree(resp.rt) ;
+                }
             }) ;
+
         }
         ,_tmpCol_items:function(){
             var template = "<script type='text/html' id='_tmpCol_items'>\n" +
@@ -187,14 +207,8 @@ define(function(require) {
             "</script>" ;
             return template ;
         }
-        /**数据表格中的功能模板*/
-        ,_tmpBtnInRow:function(){
-            var templateBtnInRow = "<script type='text/html' id='oper-col'>\n" +
-                "    <a class='layui-btn layui-btn-primary layui-btn-xs' lay-event='TreeTableEdit'>修改</a>\n" +
-                "    <a class='layui-btn layui-btn-danger layui-btn-xs' lay-event='TreeTableDel'>删除</a>\n" +
-                "</script>" ;
-            return templateBtnInRow ;
-        }
+
+        /**页面主数据，角色数据表格*/
         ,tableDates:function(param){
             var me = this ;
             layui.use('table', function(){
@@ -211,10 +225,10 @@ define(function(require) {
                     ,page: true //开启分页
                     ,parseData:ls.d.tableDateParseData
                     ,cols: [[ //表头
-                        {field: 'id', title: 'ID', fixed: 'left',width:40}
+                        {type:'radio'}
+                        ,{field: 'id', title: 'ID',width:40}
                         ,{field: 'name', title: '角色名',width:100}
                         ,{field: 'items', title: '权限名',templet:"#_tmpCol_items"}
-                        ,{templet: '#oper-col', title: '操作',width:120}
                     ]]
                 });
                 table.on("tool(treeTable_role)",function(obj){

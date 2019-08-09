@@ -1,5 +1,8 @@
 package com.luke.es.md.vo.login.role;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class UIVOCheckItems4Tree {
 
     public UIVOCheckItems4Tree(){} ;
@@ -7,6 +10,7 @@ public class UIVOCheckItems4Tree {
         this.id = id ;
         this.fid = fid ;
         this.name = name ;
+        this.title = name ;
     } ;
 
 
@@ -14,18 +18,54 @@ public class UIVOCheckItems4Tree {
     Long fid ;
     String name ;
 
-    Boolean lay_checked = false ;
+    List<UIVOCheckItems4Tree> children  ;
+    String title ;
+    Boolean spread = true ;
+    Boolean disabled = false;
+    Boolean checked = false ;
 
-    public Boolean getLay_checked() {
-        return lay_checked;
+    public List<UIVOCheckItems4Tree> getChildren() {
+        return children;
     }
 
-    public void setLay_checked(Boolean lay_checked) {
-        this.lay_checked = lay_checked;
+    public void setChildren(List<UIVOCheckItems4Tree> children) {
+        this.children = children;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public Boolean getSpread() {
+        return spread;
+    }
+
+    public void setSpread(Boolean spread) {
+        this.spread = spread;
+    }
+
+    public Boolean getDisabled() {
+        return disabled;
+    }
+
+    public void setDisabled(Boolean disabled) {
+        this.disabled = disabled;
     }
 
     public Long getId() {
         return id;
+    }
+
+    public Boolean getChecked() {
+        return checked;
+    }
+
+    public void setChecked(Boolean checked) {
+        this.checked = checked;
     }
 
     public void setId(Long id) {
