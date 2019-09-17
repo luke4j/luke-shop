@@ -4,6 +4,7 @@ import com.luke.es.tool.annotation.QLParam;
 import com.luke.es.tool.annotation.QLParam_GX;
 import com.luke.es.tool.annotation.QLParam_LX;
 import com.luke.es.tool.exception.AppException;
+import com.luke.es.tool.model._M;
 import com.luke.es.tool.vo.IVO;
 import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
@@ -31,6 +32,17 @@ import java.util.regex.Pattern;
 public class LK {
 
     private static Logger logger = LoggerFactory.getLogger(LK.class) ;
+
+
+    public static Map<Long ,_M> LstPojoToMap(List<?> lst){
+        Map<Long ,_M> rt = new HashMap<Long ,_M>(lst.size()) ;
+        _M m1 = null ;
+        for (Object m :lst){
+            m1 = (_M)m ;
+            rt.put(m1.getId(),m1) ;
+        }
+        return rt ;
+    }
 
 
     public static String QL_WhereOrAnd(String ql){
@@ -596,5 +608,6 @@ public class LK {
         }
         return isMobile;
     }
+
 
 }

@@ -1,6 +1,7 @@
 package com.luke.es.login.dao;
 
 import com.luke.es.db.IDBDao;
+import com.luke.es.md.TU_Item;
 import com.luke.es.md.vo.login.role.UIVOCheckItems4Tree;
 import com.luke.es.md.vo.login.role.UIVORole;
 import com.luke.es.md.vo.login.role.VOFindRole;
@@ -19,4 +20,7 @@ public interface IRoleDao extends IDBDao {
      * @throws Exception
      */
     List<UIVOCheckItems4Tree> findAllItems4Tree()throws Exception ;
+
+    /**查询权限所有的按钮*/
+    List<TU_Item> findRoleBtn(Long id)throws Exception ;
 }

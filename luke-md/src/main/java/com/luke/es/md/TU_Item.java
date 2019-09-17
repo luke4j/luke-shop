@@ -23,6 +23,7 @@ public class TU_Item extends _M {
     @Column(length = 20)
     String icon ;
 
+    /**排序*/
     Integer px = 0 ;
 
     public String getPy() {

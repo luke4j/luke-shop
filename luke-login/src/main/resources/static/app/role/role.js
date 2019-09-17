@@ -33,7 +33,6 @@ define(function(require) {
             }) ;
         }
         , updateModel: function (view) {
-            console.dir(this.attributes) ;
             this.setItems() ;
             ls.d.ajax({
                 url:'role/updateModel.act'
@@ -45,7 +44,6 @@ define(function(require) {
             }) ;
         }
         ,delModel: function (view) {
-            this.setTreeChecked() ;
             ls.d.ajax({
                 url:'role/updateModel.act'
                 ,data:this.attributes
@@ -113,7 +111,7 @@ define(function(require) {
          * <br>弹出删除窗体
          * */
         ,click_btn_shanchu_handler:function(){
-            this.layerFindForm("findAll") ;
+            this.layerFindForm("delModel") ;
             return false ;
         }
 

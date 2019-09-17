@@ -2,10 +2,13 @@ package com.luke.es.login.service.impl;
 
 import com.luke.es.login.dao.IRoleDao;
 import com.luke.es.login.service.IRoleService;
+import com.luke.es.md.TU_Item;
 import com.luke.es.md.TU_Role;
 import com.luke.es.md.vo.login.role.UIVOCheckItems4Tree;
 import com.luke.es.md.vo.login.role.UIVORole;
 import com.luke.es.md.vo.login.role.VOFindRole;
+import com.luke.es.tool.model._M;
+import com.luke.es.tool.tl.LK;
 import com.luke.es.tool.vo.Page;
 import com.luke.es.tool.vo.VOutUser;
 import org.springframework.beans.BeanUtils;
@@ -15,6 +18,7 @@ import javax.annotation.Resource;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class RoleService implements IRoleService {
@@ -35,13 +39,19 @@ public class RoleService implements IRoleService {
     }
 
     public List<UIVOCheckItems4Tree> findCheckedItems(VOFindRole vo) throws Exception {
+        /**所有功能权限 */
         List<UIVOCheckItems4Tree> rt = this.roleDao.findAllItems4Tree() ;
         List<UIVOCheckItems4Tree> jg = new ArrayList<UIVOCheckItems4Tree>(rt.size()) ;
+
         if(vo.getId()==null) return this.dg(jg,rt,0l) ;
+        /**查询所有按钮*/
         TU_Role role = this.roleDao.get(TU_Role.class,vo.getId()) ;
-        for(String itemId:role.getItemIds().split(",")){
+        List<TU_Item> lstBtnItems = this.roleDao.findRoleBtn(vo.getId()) ;
+        Map<Long,_M> mapBtnItems = LK.LstPojoToMap(lstBtnItems) ;
+
+        for(Long itemId:mapBtnItems.keySet()){
             for(UIVOCheckItems4Tree node:rt){
-                if(node.getId().longValue()==Long.parseLong(itemId)){
+                if(node.getId().longValue()==itemId.longValue()){
                     node.setChecked(true);
                     break ;
                 }

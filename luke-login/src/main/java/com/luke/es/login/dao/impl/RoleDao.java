@@ -46,4 +46,9 @@ public class RoleDao extends DBDao implements IRoleDao {
         String hql = "select new com.luke.es.md.vo.login.role.UIVOCheckItems4Tree(i.id,i.fid,i.name) from TU_Item i where i._isDel = false " ;
         return this.find(hql);
     }
+
+    public List<TU_Item> findRoleBtn(Long id) throws Exception {
+        TU_Role role = this.get(TU_Role.class,id) ;
+        return this.find("From TU_Item i where i.id in ("+role.getItemIds()+") and i.c_type='btn'") ;
+    }
 }
