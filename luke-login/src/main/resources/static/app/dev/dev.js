@@ -148,7 +148,7 @@ define(function(require) {
                         treeSpid: 0,
                         treeIdName: 'id',
                         treePidName: 'fid',
-                        treeDefaultClose: false,
+                        treeDefaultClose: true,
                         treeLinkage: false,
                         elem: '#treeTable_item'
                         ,url: 'dev/findAllItems.act'
