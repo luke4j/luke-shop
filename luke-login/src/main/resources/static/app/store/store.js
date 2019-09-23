@@ -52,7 +52,6 @@ define(function(require) {
             var $wsBody = ls.p.getWorkSpaceBody() ;
             this.$el = $wsBody ;
 
-            this.$el.append(this._tmpBtnInRow()) ;
             this.$el.append(this._tmpCol_isdo()) ;
             this.$el.append(this._tmpCol_cType()) ;
             this.$tabletree = $("<table id='treeTable_store' lay-filter='treeTable_store'>") ;
@@ -63,24 +62,44 @@ define(function(require) {
         }
         ,events:{
             "click #btn-xinzeng":"click_btn_xinzeng_handler",
+            "click #btn-xiugai":"click_btn_xiugai_handler",
+            "click #btn-shanchu":"click_btn_shanchu_handler",
+            "click #btn-tianjiazixiang":"click_btn_tianjiazixiang_handler",
             "click #btn-shuaxin":"click_btn_shuaxin_handler"
         }
+        /**修改事件*/
+        ,click_btn_xiugai_handler:function(){
+            var checkedTreeTableData = layui.table.checkStatus('storeTreeTable') ;
+            lk.exception.lenght(checkedTreeTableData.data.length,lk.static.CHECK_ONE) ;
+            this.layerForm("updateModel",checkedTreeTableData.data[0]) ;
+            $("input[name=fid]").removeAttr("disabled") ;
+            return false ;
+
+        }
+        /**删除事件*/
+        ,click_btn_shanchu_handler:function(){
+            var checkedTreeTableData = layui.table.checkStatus('storeTreeTable') ;
+            lk.exception.lenght(checkedTreeTableData.data.length,lk.static.CHECK_ONE) ;
+            this.layerForm("delModel",checkedTreeTableData.data[0]) ;
+            return false ;
+        }
+        /**新增事件*/
         ,click_btn_xinzeng_handler:function(e){
             this.layerForm("addModel",{fid:0}) ;
             return false ;
         }
+        /**刷新事件*/
         ,click_btn_shuaxin_handler:function(e){
             this.treeTable() ;
         }
-        /**数据表格中的功能模板*/
-        ,_tmpBtnInRow:function(){
-            var templateBtnInRow = "<script type='text/html' id='oper-col'>\n" +
-                "    <a class='layui-btn layui-btn-primary layui-btn-xs' lay-event='TreeTableEdit'>修改</a>\n" +
-                "    <a class='layui-btn layui-btn-danger layui-btn-xs' lay-event='TreeTableDel'>删除</a>\n" +
-                "    <a class='layui-btn layui-btn-primary layui-btn-xs' lay-event='TreeTableAddChild'>添加子项</a>\n" +
-                "</script>" ;
-            return templateBtnInRow ;
+        /**添加子项事件*/
+        ,click_btn_tianjiazixiang_handler:function(){
+            var checkedTreeTableData = layui.table.checkStatus('storeTreeTable') ;
+            lk.exception.lenght(checkedTreeTableData.data.length,lk.static.CHECK_ONE) ;
+            this.layerForm("addModel",{fid:checkedTreeTableData.data[0].id}) ;
+            return false ;
         }
+        /**数据表格中的功能模板*/
         ,_tmpCol_isdo:function(){
             var template = "<script type='text/html' id='_tmpCol_isdo'>\n" +
                 // "{{# console.dir(d)}}" ;
@@ -106,10 +125,10 @@ define(function(require) {
         ,layerForm:function(modelMethodName,data){
             var me = this ;
             if(!this.$form) this.$form = ls.d.getHtml("app/store/store.form.html") ;
-            layui.use(['layer','form'], function() { //独立版的layer无需执行这一句
-                var $ = layui.jquery, layer = layui.layer , form = layui.form; //独立版的layer无需执行这一句
+            layui.use(['layer','form'], function() {
+                var $ = layui.jquery, layer = layui.layer , form = layui.form;
                 layer.open({
-                    type: 1 //此处以iframe举例
+                    type: 1
                     ,title: '菜单'
                     ,maxmin: true
                     ,area:"auto"
@@ -140,6 +159,7 @@ define(function(require) {
                 var showTreeTable = function(){
                     layer.load(2);
                     treetable.render({
+                        id:'storeTreeTable',
                         treeColIndex: 1,
                         height: 'full-160',
                         treeSpid: 0,
@@ -152,15 +172,15 @@ define(function(require) {
                         ,method:'post'
                         ,page: false,
                         cols: [[
-                            {field: 'id', title: 'id',width:"4%"},
+                            {type:'radio'},
                             {field: 'name', title: '名称',width:"15%"},
-                            {field: 'fid', title: '父节点id',width:"8%"},
+                            // {field: 'id', title: 'id',width:"4%"},
+                            // {field: 'fid', title: '父节点id',width:"8%"},
                             {field: 'c_type', title: '类型',width:"10%"},
                             // {field: 'c_type', title: '类型',templet:"#_tmpCol_cType",width:"10%"},
                             {field: 'addr', title: '地址'},
                             {field: 'tel', title: '电话',width:"8%"},
-                            {field: 'isdo', title: '是否可加工',templet:"#_tmpCol_isdo",width:"8%"},
-                            {templet: '#oper-col', title: '操作'}
+                            {field: 'isdo', title: '是否可加工',templet:"#_tmpCol_isdo",width:"8%"}
                         ]],
                         done: function () {
                             layer.closeAll('loading');
@@ -175,23 +195,7 @@ define(function(require) {
                 showTreeTable() ;
             }) ;
         }
-        //--------------------------其它组件触发事件------------------------------------
-        ,TreeTableEdit_handler:function(data){
-            data = data[0] ;
-            this.layerForm("updateModel",data) ;
-            $("input[name=fid]").removeAttr("disabled") ;
-            return false ;
-        }
-        ,TreeTableDel_handler:function(data){
-            data = data[0] ;
-            this.layerForm("delModel",data) ;
-            return false ;
-        }
-        ,TreeTableAddChild_handler:function(data){
-            data = data[0] ;
-            this.layerForm("addModel",{fid:data.id}) ;
-            return false ;
-        }
+
 
     }) ;
 

@@ -224,7 +224,7 @@ define(function(require) {
                     ,parseData:ls.d.tableDateParseData
                     ,cols: [[ //表头
                         {type:'radio'}
-                        ,{field: 'id', title: 'ID',width:40}
+                        ,{field: 'id', title: 'ID',width:60}
                         ,{field: 'name', title: '角色名',width:100}
                         ,{field: 'items', title: '权限名',templet:"#_tmpCol_items"}
                     ]]

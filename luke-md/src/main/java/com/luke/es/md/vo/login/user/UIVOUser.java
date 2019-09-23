@@ -2,6 +2,7 @@ package com.luke.es.md.vo.login.user;
 
 import com.luke.es.md.TU_Info;
 import com.luke.es.md.TU_User;
+import com.luke.es.tool.tl.LK;
 import com.luke.es.tool.vo.VOIn;
 
 public class UIVOUser extends VOIn {
@@ -14,12 +15,12 @@ public class UIVOUser extends VOIn {
         this.storeId = info.getStoreId() ;
         this.roleId = info.getRoleId() ;
         this.cwRoleId = info.getCwRoleId() ;
-        this.birthday = info.getBirthday() == null?null:info.getBirthday().getTime();
+        this.birthday = info.getBirthday() == null?null: LK.DateToStr_YMD(info.getBirthday());
         this.sex = info.getSex() ;
         this.zw = info.getZw() ;
         this.tel = info.getTel() ;
-        this.inTime = info.getInTime()==null?null:info.getInTime().getTime() ;
-        this.outTime = info.getOutTime()==null?null:info.getOutTime().getTime() ;
+        this.inTime = info.getInTime()==null?null:LK.DateToStr_YMD(info.getInTime()) ;
+        this.outTime = info.getOutTime()==null?null:LK.DateToStr_YMD(info.getOutTime()) ;
         this.xl = info.getXl() ;
         this.zzmm = info.getZzmm() ;
         this.store = storeName ;
@@ -36,12 +37,12 @@ public class UIVOUser extends VOIn {
     private String role;
     private Long cwRoleId;
     private String cwRole;
-    private Long birthday;
+    private String birthday;
     private String sex;
     private String zw;
     private String tel;
-    private Long inTime;
-    private Long outTime;
+    private String inTime;
+    private String outTime;
     private String xl;
     private String zzmm ;
 
@@ -159,27 +160,27 @@ public class UIVOUser extends VOIn {
         this.cwRole = cwRole;
     }
 
-    public Long getBirthday() {
+    public String getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Long birthday) {
+    public void setBirthday(String birthday) {
         this.birthday = birthday;
     }
 
-    public Long getInTime() {
+    public String getInTime() {
         return inTime;
     }
 
-    public void setInTime(Long inTime) {
+    public void setInTime(String inTime) {
         this.inTime = inTime;
     }
 
-    public Long getOutTime() {
+    public String getOutTime() {
         return outTime;
     }
 
-    public void setOutTime(Long outTime) {
+    public void setOutTime(String outTime) {
         this.outTime = outTime;
     }
 }

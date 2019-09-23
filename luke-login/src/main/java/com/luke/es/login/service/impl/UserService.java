@@ -6,6 +6,7 @@ import com.luke.es.md.TU_Info;
 import com.luke.es.md.TU_User;
 import com.luke.es.md.vo.UIVOList;
 import com.luke.es.md.vo.login.user.UIVOUser;
+import com.luke.es.tool.tl.LK;
 import com.luke.es.tool.vo.Page;
 import com.luke.es.tool.vo.VOutUser;
 import org.springframework.beans.BeanUtils;
@@ -51,11 +52,13 @@ public class UserService implements IUserService {
         TU_Info info = new TU_Info() ;
         BeanUtils.copyProperties(vo,user);
         BeanUtils.copyProperties(vo,info);
-        if(vo.getBirthday()!=null)
-            info.setBirthday(new Date(vo.getBirthday()));
+        if(LK.StrIsNotEmpty(vo.getBirthday()))
+            info.setBirthday(LK.StrToDate_YMD(vo.getBirthday()));
 
         info.setId(null);
         info.setUserId(user.getId());
+        this.userDao.save(user) ;
+        this.userDao.save(info) ;
     }
     @Transactional
     public void updateModel(VOutUser currentUser, UIVOUser vo) throws Exception {

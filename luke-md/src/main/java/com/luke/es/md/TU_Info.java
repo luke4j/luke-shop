@@ -71,9 +71,6 @@ public class TU_Info extends _M {
     @Column(length = 10)
     String zzmm ;
 
-
-
-
     public Long getUserId() {
         return userId;
     }

@@ -1,6 +1,24 @@
 var lk = lk||{} ;
 
+lk.static = {} ;
+/**请选择一条数据*/
+lk.static.CHECK_ONE = "请选择一条数据" ;
+/**新增*/
+lk.static.BTN_TEXT_ADD_NEW = "新增" ;
+/**更新*/
+lk.static.BTN_TEXT_UPDATE = "更新" ;
+/**删除*/
+lk.static.BTN_TEXT_DEL = "删除" ;
+/**查询*/
+lk.static.BTN_TEXT_FIND = "查询" ;
 
+lk.exception = {} ;
+lk.exception.lenght = function(bln,msg){
+    if(bln==0){
+        lk.ts.alert(msg) ;
+        throw new Error("长度为0-->:"+msg) ;
+    }
+} ;
 
 //提示弹出窗方法组
 lk.ts = {} ;
