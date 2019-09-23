@@ -54,10 +54,13 @@ public class UserService implements IUserService {
         BeanUtils.copyProperties(vo,info);
         if(LK.StrIsNotEmpty(vo.getBirthday()))
             info.setBirthday(LK.StrToDate_YMD(vo.getBirthday()));
+        if(LK.StrIsNotEmpty(vo.getInTime()))
+            info.setInTime(LK.StrToDate_YMD(vo.getInTime()));
+        if(LK.StrIsNotEmpty(vo.getOutTime()))
+            info.setOutTime(LK.StrToDate_YMD(vo.getOutTime()));
 
-        info.setId(null);
-        info.setUserId(user.getId());
         this.userDao.save(user) ;
+        info.setUserId(user.getId());
         this.userDao.save(info) ;
     }
     @Transactional

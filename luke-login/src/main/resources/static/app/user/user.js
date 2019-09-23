@@ -118,7 +118,6 @@ define(function(require) {
                     ,content:me.$form[0].outerHTML
                     ,zIndex: layer.zIndex
                     ,success: function(layero){
-                        console.dir(layero) ;
                         laydate.render({
                             elem: '#brithday'
                         });
@@ -127,8 +126,10 @@ define(function(require) {
                         });
                         laydate.render({
                             elem: '#outTime'
-                        });
+                        }) ;
                         form.render();
+                        $("#storeName").focus(me,me.alertStore) ;
+
                     }
                 });
                 form.on('submit(submit)', function(data){
@@ -140,6 +141,63 @@ define(function(require) {
                     form.val("form",data) ;
                 }
             });
+        }
+        ,alertStore:function(){
+            var me = this ;
+            layer.open({
+                type: 1
+                ,title: "选择站点"
+                ,maxmin: true
+                ,area:"500px"
+                ,content:"<table id='windowStore'></table>"
+                ,zIndex: ++layer.zIndex
+                ,offset: '100px'
+                ,btn:['确定']
+                ,btn1:function(){
+                    alert(1) ;
+                }
+                ,success:function(){
+                    layui.use(['layer', 'table', 'treetable'], function () {
+                        table = layui.table;
+                        layer = layui.layer;
+                        treetable = layui.treetable;
+                        var showTreeTable = function(){
+                            layer.load(2);
+                            treetable.render({
+                                id:'windowStoreTree',
+                                treeColIndex: 1,
+                                // height: 'full-160',
+                                treeSpid: 0,
+                                treeIdName: 'id',
+                                treePidName: 'fid',
+                                treeDefaultClose: false,
+                                treeLinkage: false,
+                                elem: '#windowStore'
+                                ,url: 'store/findAll.act'
+                                ,method:'post'
+                                ,page: false,
+                                cols: [[
+                                    {type:'radio'},
+                                    {field: 'name', title: '名称',width:300},
+                                    {field: 'c_type', title: '类型'}
+                                ]],
+                                done: function () {
+                                    layer.closeAll('loading');
+                                }
+                            });
+                            table.on("tool(treeTable_store)",function(obj){
+                                var data = obj.data;
+                                var layEvent = obj.event;
+                                me.trigger(layEvent,[data]) ;
+                            }) ;
+                        } ;
+                        showTreeTable() ;
+                    }) ;
+
+
+                }
+            });
+            layer.full() ;
         }
     }) ;
 
