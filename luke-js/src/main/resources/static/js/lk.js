@@ -11,6 +11,7 @@ lk.static.BTN_TEXT_UPDATE = "更新" ;
 lk.static.BTN_TEXT_DEL = "删除" ;
 /**查询*/
 lk.static.BTN_TEXT_FIND = "查询" ;
+lk.static.PLEASE_CHECK_DATA="请选择数据" ;
 
 lk.exception = {} ;
 lk.exception.lenght = function(bln,msg){
@@ -330,4 +331,256 @@ lk.num.uuid = function uuid() {
     var uuid = s.join("");
     return uuid;
 } ;
+
+
+/**系统共用的弹出窗*/
+lk.window = {} ;
+/**
+ * 设置站点弹出窗
+ * @param fnSetStoreVal 为回调函数 ，参数为选择的站点的名称与id
+ */
+lk.window.alertStore =  function(event){
+    layui.use(['layer', 'table', 'treetable'], function () {
+        var table = layui.table, layer = layui.layer, treetable = layui.treetable;
+        var index = layer.open({
+            type: 1
+            , title: "选择站点"
+            , maxmin: true
+            , area: "500px"
+            , content: "<table id='windowStore'></table>"
+            , zIndex: ++layer.zIndex
+            , offset: '100px'
+            , btn: ['确定']
+            , btn1: function () {
+                if(typeof(event.data)=='function'){
+                    var checkStatus = table.checkStatus('_layui_id_windowStoreTree');
+                    var checkData = checkStatus.data ;
+                    if(checkStatus.data.length==0){
+                        lk.ts.alert(lk.static.PLEASE_CHECK_DATA) ;
+                        return false ;
+                    }
+                    event.data(checkStatus.data[0].name, checkStatus.data[0].id);
+                    /**关闭指定的弹出窗*/
+                    layer.close(index);
+                }
+            }
+            /**弹出成功后渲染元素，主要是加载数据*/
+            ,success: function () {
+                var showTreeTable = function () {
+                    layer.load(2);
+                    treetable.render({
+                        id: '_layui_id_windowStoreTree',
+                        treeColIndex: 1,
+                        height: 'full-260',
+                        treeSpid: 0,
+                        treeIdName: 'id',
+                        treePidName: 'fid',
+                        treeDefaultClose: false,
+                        treeLinkage: false,
+                        elem: '#windowStore'
+                        , url: 'store/findAll.act'
+                        , method: 'post'
+                        , page: false,
+                        cols: [[
+                            {type: 'radio'},
+                            {field: 'name', title: '名称', width: 300},
+                            {field: 'c_type', title: '类型'}
+                        ]],
+                        done: function () {
+                            layer.closeAll('loading');
+                        }
+                    });
+                };
+                showTreeTable();
+            }
+        });
+    }) ;
+} ;
+
+/**
+ * 设置角色弹出窗
+ * @param fnSetStoreVal 为回调函数 ，参数为选择的站点的名称与id
+ */
+lk.window.alertRole =  function(event){
+    layui.use(['layer', 'table', 'treetable'], function () {
+        var table = layui.table, layer = layui.layer, treetable = layui.treetable;
+        var index = layer.open({
+            type: 1
+            , title: "选择站点"
+            , maxmin: true
+            , area: "500px"
+            , content: "<table id='windowStore'></table>"
+            , zIndex: ++layer.zIndex
+            , offset: '100px'
+            , btn: ['确定']
+            , btn1: function () {
+                if(typeof(event.data)=='function'){
+                    var checkStatus = table.checkStatus('_layui_id_windowStoreTree');
+                    var checkData = checkStatus.data ;
+                    if(checkStatus.data.length==0){
+                        lk.ts.alert(lk.static.PLEASE_CHECK_DATA) ;
+                        return false ;
+                    }
+                    event.data(checkStatus.data[0].name, checkStatus.data[0].id);
+                    /**关闭指定的弹出窗*/
+                    layer.close(index);
+                }
+            }
+            /**弹出成功后渲染元素，主要是加载数据*/
+            ,success: function () {
+                var showTreeTable = function () {
+                    layer.load(2);
+                    treetable.render({
+                        id: '_layui_id_windowStoreTree',
+                        treeColIndex: 1,
+                        height: 'full-260',
+                        treeSpid: 0,
+                        treeIdName: 'id',
+                        treePidName: 'fid',
+                        treeDefaultClose: false,
+                        treeLinkage: false,
+                        elem: '#windowStore'
+                        , url: 'store/findAll.act'
+                        , method: 'post'
+                        , page: false,
+                        cols: [[
+                            {type: 'radio'},
+                            {field: 'name', title: '名称', width: 300},
+                            {field: 'c_type', title: '类型'}
+                        ]],
+                        done: function () {
+                            layer.closeAll('loading');
+                        }
+                    });
+                };
+                showTreeTable();
+            }
+        });
+    }) ;
+} ;
+/**
+ * 设置财务角色弹出窗
+ * @param fnSetStoreVal 为回调函数 ，参数为选择的站点的名称与id
+ */
+lk.window.alertCWRole =  function(event){
+    layui.use(['layer', 'table', 'treetable'], function () {
+        var table = layui.table, layer = layui.layer, treetable = layui.treetable;
+        var index = layer.open({
+            type: 1
+            , title: "选择站点"
+            , maxmin: true
+            , area: "500px"
+            , content: "<table id='windowStore'></table>"
+            , zIndex: ++layer.zIndex
+            , offset: '100px'
+            , btn: ['确定']
+            , btn1: function () {
+                if(typeof(event.data)=='function'){
+                    var checkStatus = table.checkStatus('_layui_id_windowStoreTree');
+                    var checkData = checkStatus.data ;
+                    if(checkStatus.data.length==0){
+                        lk.ts.alert(lk.static.PLEASE_CHECK_DATA) ;
+                        return false ;
+                    }
+                    event.data(checkStatus.data[0].name, checkStatus.data[0].id);
+                    /**关闭指定的弹出窗*/
+                    layer.close(index);
+                }
+            }
+            /**弹出成功后渲染元素，主要是加载数据*/
+            ,success: function () {
+                var showTreeTable = function () {
+                    layer.load(2);
+                    treetable.render({
+                        id: '_layui_id_windowStoreTree',
+                        treeColIndex: 1,
+                        height: 'full-260',
+                        treeSpid: 0,
+                        treeIdName: 'id',
+                        treePidName: 'fid',
+                        treeDefaultClose: false,
+                        treeLinkage: false,
+                        elem: '#windowStore'
+                        , url: 'store/findAll.act'
+                        , method: 'post'
+                        , page: false,
+                        cols: [[
+                            {type: 'radio'},
+                            {field: 'name', title: '名称', width: 300},
+                            {field: 'c_type', title: '类型'}
+                        ]],
+                        done: function () {
+                            layer.closeAll('loading');
+                        }
+                    });
+                };
+                showTreeTable();
+            }
+        });
+    }) ;
+} ;
+/**
+ * 设置系统变量
+ * @param event.data {fid,callback}
+ */
+lk.window.alertSysVal =  function(event){
+    layui.use(['layer', 'table', 'treetable'], function () {
+        var table = layui.table, layer = layui.layer, treetable = layui.treetable;
+        var index = layer.open({
+            type: 1
+            , title: "选择站点"
+            , maxmin: true
+            , area: "500px"
+            , content: "<table id='windowStore'></table>"
+            , zIndex: ++layer.zIndex
+            , offset: '100px'
+            , btn: ['确定']
+            , btn1: function () {
+                if(typeof(event.data)=='function'){
+                    var checkStatus = table.checkStatus('_layui_id_windowStoreTree');
+                    var checkData = checkStatus.data ;
+                    if(checkStatus.data.length==0){
+                        lk.ts.alert(lk.static.PLEASE_CHECK_DATA) ;
+                        return false ;
+                    }
+                    event.data(checkStatus.data[0].name, checkStatus.data[0].id);
+                    /**关闭指定的弹出窗*/
+                    layer.close(index);
+                }
+            }
+            /**弹出成功后渲染元素，主要是加载数据*/
+            ,success: function () {
+                var showTreeTable = function () {
+                    layer.load(2);
+                    treetable.render({
+                        id: '_layui_id_windowStoreTree',
+                        treeColIndex: 1,
+                        height: 'full-260',
+                        treeSpid: 0,
+                        treeIdName: 'id',
+                        treePidName: 'fid',
+                        treeDefaultClose: false,
+                        treeLinkage: false,
+                        elem: '#windowStore'
+                        , url: 'store/findAll.act'
+                        , method: 'post'
+                        , page: false,
+                        cols: [[
+                            {type: 'radio'},
+                            {field: 'name', title: '名称', width: 300},
+                            {field: 'c_type', title: '类型'}
+                        ]],
+                        done: function () {
+                            layer.closeAll('loading');
+                        }
+                    });
+                };
+                showTreeTable();
+            }
+        });
+    }) ;
+} ;
+
+
+
 

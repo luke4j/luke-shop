@@ -49,6 +49,7 @@ public class UserService implements IUserService {
     @Transactional
     public void addModel(VOutUser currentUser, UIVOUser vo) throws Exception {
         TU_User user = new TU_User() ;
+        user.setLoginPwd(LK.MD5("123456"));
         TU_Info info = new TU_Info() ;
         BeanUtils.copyProperties(vo,user);
         BeanUtils.copyProperties(vo,info);

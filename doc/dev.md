@@ -247,6 +247,17 @@ setInterval(function(){    ltime+=1000 ;    $("#nav_systime").text(lk.num.dateTo
             }) ;
 ```
 
+### 事件参数
+
+```js
+
+// 事件 参数
+// 例 focus([[data],handler])
+// 参数说明
+data 可选参数/任意类型，触发事件时，可以通过event.data传递给事件处理函数的任意数据
+handler 可选/Function类型 指定的事件处理函数
+```
+
 
 
 ## Backbone
@@ -875,8 +886,164 @@ ie兼容
 
 ## mysql
 
-导出数据库
+### 导出数据库
 
 ```mysql
 mysqldump --user=root --password=root --default-character-set=utf8 "db_erp"  > db_drp.2019-07-15.sql
 ```
+
+### 导入数据库
+
+```mysql
+mysql -u root -proot
+-- 进入mysql后
+\. xxx.sql
+```
+
+### 函数
+
+```mysql
+-- 连接
+-- concat函数
+concat(str1,str2)
+
+-- 指定连接符号
+-- concat_ws
+concat_ws(':',str1,str2)
+-- group_concat  是将统一分组的内容进行连接
+select groupColumn,group_concat(col) from table group by groupColumn
+```
+
+
+
+## redis
+
+https://www.runoob.com/redis/redis-tutorial.html
+
+### 基本命令
+
+```redis
+-- 本地无密码
+redis-cli
+-- 检测redis服务是否启动 返回pong表示启动
+ping
+-- 连接远程redis
+redis-cli -h host -p port -a password
+```
+
+### 字符串操作
+
+```redis
+### 字符串操作
+Redis 字符串数据类型的相关命令用于管理 redis 字符串值，基本语法如下：
+
+语法
+redis 127.0.0.1:6379> COMMAND KEY_NAME
+实例
+redis 127.0.0.1:6379> SET runoobkey redis
+OK
+redis 127.0.0.1:6379> GET runoobkey
+"redis"
+在以上实例中我们使用了 SET 和 GET 命令，键为 runoobkey。
+
+Redis 字符串命令
+下表列出了常用的 redis 字符串命令：
+
+序号	命令及描述
+1	SET key value
+设置指定 key 的值
+2	GET key
+获取指定 key 的值。
+3	GETRANGE key start end
+返回 key 中字符串值的子字符
+4	GETSET key value
+将给定 key 的值设为 value ，并返回 key 的旧值(old value)。
+5	GETBIT key offset
+对 key 所储存的字符串值，获取指定偏移量上的位(bit)。
+6	MGET key1 [key2..]
+获取所有(一个或多个)给定 key 的值。
+7	SETBIT key offset value
+对 key 所储存的字符串值，设置或清除指定偏移量上的位(bit)。
+8	SETEX key seconds value
+将值 value 关联到 key ，并将 key 的过期时间设为 seconds (以秒为单位)。
+9	SETNX key value
+只有在 key 不存在时设置 key 的值。
+10	SETRANGE key offset value
+用 value 参数覆写给定 key 所储存的字符串值，从偏移量 offset 开始。
+11	STRLEN key
+返回 key 所储存的字符串值的长度。
+12	MSET key value [key value ...]
+同时设置一个或多个 key-value 对。
+13	MSETNX key value [key value ...]
+同时设置一个或多个 key-value 对，当且仅当所有给定 key 都不存在。
+14	PSETEX key milliseconds value
+这个命令和 SETEX 命令相似，但它以毫秒为单位设置 key 的生存时间，而不是像 SETEX 命令那样，以秒为单位。
+15	INCR key
+将 key 中储存的数字值增一。
+16	INCRBY key increment
+将 key 所储存的值加上给定的增量值（increment） 。
+17	INCRBYFLOAT key increment
+将 key 所储存的值加上给定的浮点增量值（increment） 。
+18	DECR key
+将 key 中储存的数字值减一。
+19	DECRBY key decrement
+key 所储存的值减去给定的减量值（decrement） 。
+20	APPEND key value
+如果 key 已经存在并且是一个字符串， APPEND 命令将指定的 value 追加到该 key 原来值（value）的末尾。
+```
+
+### 键操作
+
+```redis
+### Redis 键(key)
+Redis 键命令用于管理 redis 的键。
+
+语法
+Redis 键命令的基本语法如下：
+
+redis 127.0.0.1:6379> COMMAND KEY_NAME
+实例
+redis 127.0.0.1:6379> SET runoobkey redis
+OK
+redis 127.0.0.1:6379> DEL runoobkey
+(integer) 1
+在以上实例中 DEL 是一个命令， runoobkey 是一个键。 如果键被删除成功，命令执行后输出 (integer) 1，否则将输出 (integer) 0
+
+Redis keys 命令
+下表给出了与 Redis 键相关的基本命令：
+
+序号	命令及描述
+1	DEL key
+该命令用于在 key 存在时删除 key。
+2	DUMP key
+序列化给定 key ，并返回被序列化的值。
+3	EXISTS key
+检查给定 key 是否存在。
+4	EXPIRE key seconds
+为给定 key 设置过期时间，以秒计。
+5	EXPIREAT key timestamp
+EXPIREAT 的作用和 EXPIRE 类似，都用于为 key 设置过期时间。 不同在于 EXPIREAT 命令接受的时间参数是 UNIX 时间戳(unix timestamp)。
+6	PEXPIRE key milliseconds
+设置 key 的过期时间以毫秒计。
+7	PEXPIREAT key milliseconds-timestamp
+设置 key 过期时间的时间戳(unix timestamp) 以毫秒计
+8	KEYS pattern
+查找所有符合给定模式( pattern)的 key 。
+9	MOVE key db
+将当前数据库的 key 移动到给定的数据库 db 当中。
+10	PERSIST key
+移除 key 的过期时间，key 将持久保持。
+11	PTTL key
+以毫秒为单位返回 key 的剩余的过期时间。
+12	TTL key
+以秒为单位，返回给定 key 的剩余生存时间(TTL, time to live)。
+13	RANDOMKEY
+从当前数据库中随机返回一个 key 。
+14	RENAME key newkey
+修改 key 的名称
+15	RENAMENX key newkey
+仅当 newkey 不存在时，将 key 改名为 newkey 。
+16	TYPE key
+返回 key 所储存的值的类型。
+```
+

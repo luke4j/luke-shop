@@ -43,12 +43,12 @@ public class UserController extends BController implements IUserController {
 
     public ActResult delModel(HttpServletRequest request, HttpServletResponse response, ActResult actResult, Long id, BindingResult bindingResult) throws Exception {
         this.userService.delModel(getCurrentUser(request),id) ;
-        return null;
+        return actResult;
     }
 
     public ActResult addModel(HttpServletRequest request, HttpServletResponse response, ActResult actResult, UIVOUser vo, BindingResult bindingResult) throws Exception {
        this.userService.addModel(getCurrentUser(request),vo) ;
-        return actResult;
+        return actResult.ok();
     }
 
     public ActResult updateModel(HttpServletRequest request, HttpServletResponse response, ActResult actResult, UIVOUser vo, BindingResult bindingResult) throws Exception {
