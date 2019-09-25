@@ -569,6 +569,15 @@ public class DBDao {
             throw AppException.create(" findAll 参数异常：["+modelName+"] 异常") ;
         }
     }
+    public <T> List<T> findAll(Class clazz,Class toBean) throws AppException{
+        try{
+            String hql = "From "+clazz.getSimpleName()+" t where t._isDel=false" ;
+            return this.find(hql,toBean) ;
+        }catch (Exception e){
+            throw AppException.create(" findAll 参数异常：["+clazz.getSimpleName()+"] 异常") ;
+        }
+    }
+
 
     public <T> List<T> findAllBack(String modelName) throws AppException{
         try{

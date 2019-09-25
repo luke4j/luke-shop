@@ -20,7 +20,8 @@ public class SystemValueServiceImpl implements ISystemValueService {
     ISystemValueDao iSystemValueDao ;
 
     public List<VOSystemValueTree> findAll4Tree(DTOSystemValue dtoSystemValue) throws Exception {
-        return null;
+        List<VOSystemValueTree> lstSysSystemValues = this.iSystemValueDao.findAll(TSys_SystemValue.class.getSimpleName()) ;
+        return lstSysSystemValues;
     }
 
     public void delSystemValue(DTOSystemValue dtoSystemValue) throws Exception {
@@ -28,7 +29,7 @@ public class SystemValueServiceImpl implements ISystemValueService {
         TSys_SystemValue systemValue =  this.iSystemValueDao.get(TSys_SystemValue.class,dtoSystemValue.getId()) ;
         this.iSystemValueDao.delObj(systemValue) ;
     }
-
+    @Transactional
     public void saveSystemValue(DTOSystemValue dtoSystemValue) throws Exception {
         TSys_SystemValue systemValue = new TSys_SystemValue() ;
         BeanUtils.copyProperties(dtoSystemValue,systemValue);

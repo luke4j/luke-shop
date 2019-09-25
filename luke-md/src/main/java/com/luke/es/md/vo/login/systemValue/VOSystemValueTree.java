@@ -1,9 +1,11 @@
 package com.luke.es.md.vo.login.systemValue;
 
 
+import com.luke.es.tool.vo.VOut;
+
 import java.util.List;
 
-public class VOSystemValueTree {
+public class VOSystemValueTree extends VOut {
 
     Long id ;
     Long fid ;

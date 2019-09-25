@@ -3,6 +3,7 @@ package com.luke.es.login.service;
 import com.luke.es.md.vo.login.systemValue.DTOSystemValue;
 import com.luke.es.md.vo.login.systemValue.VOSystemValueTree;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 public interface ISystemValueService {
@@ -26,6 +27,7 @@ public interface ISystemValueService {
      * @param dtoSystemValue
      * @throws Exception
      */
+
     void saveSystemValue(DTOSystemValue dtoSystemValue)throws Exception;
 
     /**

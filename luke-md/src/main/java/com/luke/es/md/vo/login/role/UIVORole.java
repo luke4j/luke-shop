@@ -2,7 +2,6 @@ package com.luke.es.md.vo.login.role;
 
 import com.luke.es.md.TU_Item;
 import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.NotEmpty;
 
 import java.util.List;
 

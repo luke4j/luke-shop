@@ -1,6 +1,5 @@
 package com.luke.es.md.vo.login.role;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class UIVOCheckItems4Tree {

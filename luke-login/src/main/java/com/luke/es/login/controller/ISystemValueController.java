@@ -23,7 +23,7 @@ public interface ISystemValueController {
      * @return
      * @throws Exception
      */
-    @RequestMapping(path = "findAllUser4List.act",method = RequestMethod.POST)
+    @RequestMapping(path = "findAll.act",method = RequestMethod.POST)
     ActResult findAll(HttpServletRequest request, HttpServletResponse response, ActResult actResult , DTOSystemValue dtoSystemValue, BindingResult bindingResult) throws Exception ;
 
     /**

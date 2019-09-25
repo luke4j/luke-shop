@@ -1,0 +1,25 @@
+<template>
+    <form class="layui-form" style="margin-top: 10px;margin-right: 20px;"  lay-filter="form"> <!-- 提示：如果你不想用form，你可以换成div等任何一个普通元素 -->
+        <div class="layui-form-item">
+            <label class="layui-form-label">显示值</label>
+            <div class="layui-input-block">
+                <input type="text" name="xText" placeholder="请输入" autocomplete="off" class="layui-input" lay-verify="required">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">保存值</label>
+            <div class="layui-input-block">
+                <input type="text" name="xValue"  placeholder="请输入" autocomplete="off" class="layui-input" lay-verify="required">
+            </div>
+        </div>
+
+        <input type="hidden" name="id" placeholder="请输入" autocomplete="off" class="layui-input" disabled>
+        <input type="hidden" name="fid" value="0" placeholder="请输入" autocomplete="off" class="layui-input" disabled>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="submit">提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+</template>

@@ -581,6 +581,95 @@ lk.window.alertSysVal =  function(event){
     }) ;
 } ;
 
+/**页面直接要显示的内容*/
+lk.page = {} ;
+/**
+ * 页面中的TreeTable
+ * treeTableCfg.id
+ * treeTableCfg.elem
+ * treeTableCfg.url
+ * treeTableCfg.cols
+ * @param treeTableCfg
+ */
+lk.page.pageTreeTable = function(treeTableCfg){
+    var table, layer, treetable;
+    layui.use(['layer', 'table', 'treetable'], function () {
+        table = layui.table;
+        layer = layui.layer;
+        treetable = layui.treetable;
+        var appendTreeTable = function () {
+            layer.load(2);
+            treetable.render($.extend({
+                // id: 'layuiSystemValueTreeTable'
+                 treeColIndex: 1
+                , height: 'full-160'
+                , treeSpid: 0
+                , treeIdName: 'id'
+                , treePidName: 'fid'
+                , treeDefaultClose: true
+                , treeLinkage: false
+                // , elem: '#divSystemValueTreeTable'
+                // , url: 'systemValue/findAll.act'
+                , method: 'post'
+                , page: false,
+                cols: [[
+                    // {type: 'radio', width: "10%"},
+                    // {field: 'xText', title: '显示值', width: "30%"},
+                    // {field: 'id', title: 'ID', width: "30%"},
+                    // {field: 'xValue', title: '保存值', width: "30%"}
+                ]],
+                done: function () {
+                    layer.closeAll('loading');
+                }
+            },treeTableCfg));
+        };
+        appendTreeTable();
+    });
+} ;
+
+/**
+ * 页面中的弹出的新增与修改的弹出窗
+ * @param cfg
+ * cfg.title,
+ * cfg.modelMethodName,
+ * cfg.data
+ * cfg.Model
+ * cfg.view
+ * cfg.htmlTemplateUrl
+ */
+lk.page.alertLayuiForm = function(cfg){
+    if(!cfg.htmlTemplateUrl||!cfg.modelMethodName||!cfg.Model||!cfg.view){
+        lk.alert("请注意弹出窗的必须参数") ;
+        return false ;
+    }
+    if(!cfg.view.$form) {
+        cfg.view.$form = ls.d.getHtml(cfg.htmlTemplateUrl) ;
+    }
+    layui.use(['layer','form'], function() {
+        var $ = layui.jquery, layer = layui.layer, form = layui.form;
+        layer.open($.extend({
+              type: 1
+            , title: '请注意弹出窗标题参数'
+            , maxmin: true
+            , area: "auto"
+            , content: cfg.view.$form[0].outerHTML
+            , zIndex: layer.zIndex //重点1
+            , success: function (layero) {
+                // form.render();
+            }
+        },cfg));
+        /**提交事件，不同的业务，由事件决定modelMethodName，由model的方法来与后台交互*/
+        form.on('submit(submit)', function (data) {
+            var model = new cfg.Model(data.field);
+            model[cfg.modelMethodName](cfg.view);
+            return false;
+        });
+        if (cfg.data) {
+            form.val("form", cfg.data);
+        }
+    }) ;
+}
+
 
 
 
