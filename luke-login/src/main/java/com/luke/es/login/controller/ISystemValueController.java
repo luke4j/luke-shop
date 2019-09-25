@@ -26,6 +26,9 @@ public interface ISystemValueController {
     @RequestMapping(path = "findAll.act",method = RequestMethod.POST)
     ActResult findAll(HttpServletRequest request, HttpServletResponse response, ActResult actResult , DTOSystemValue dtoSystemValue, BindingResult bindingResult) throws Exception ;
 
+    @RequestMapping(path = "find4Alert.act",method = RequestMethod.POST)
+    ActResult find4Alert(HttpServletRequest request, HttpServletResponse response, ActResult actResult , DTOSystemValue dtoSystemValue, BindingResult bindingResult) throws Exception ;
+
     /**
      * 删除系统变量
      * @param request

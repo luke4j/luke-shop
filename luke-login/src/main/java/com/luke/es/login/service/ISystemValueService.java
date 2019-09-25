@@ -16,6 +16,14 @@ public interface ISystemValueService {
     List<VOSystemValueTree> findAll4Tree(DTOSystemValue dtoSystemValue) throws Exception;
 
     /**
+     * 为弹出窗提供数据
+     * @param dtoSystemValue
+     * @return
+     * @throws Exception
+     */
+    List<VOSystemValueTree> find4Alert(DTOSystemValue dtoSystemValue)throws Exception;
+
+    /**
      * 删除系统变量
      * @param dtoSystemValue
      * @throws Exception
@@ -36,4 +44,6 @@ public interface ISystemValueService {
      * @throws Exception
      */
     void updateSystemValue(DTOSystemValue dtoSystemValue)throws Exception;
+
+
 }

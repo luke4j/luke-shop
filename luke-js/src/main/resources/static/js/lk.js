@@ -406,16 +406,16 @@ lk.window.alertRole =  function(event){
         var table = layui.table, layer = layui.layer, treetable = layui.treetable;
         var index = layer.open({
             type: 1
-            , title: "选择站点"
+            , title: "选择角色"
             , maxmin: true
             , area: "500px"
-            , content: "<table id='windowStore'></table>"
+            , content: "<table id='windowRole'></table>"
             , zIndex: ++layer.zIndex
             , offset: '100px'
             , btn: ['确定']
             , btn1: function () {
                 if(typeof(event.data)=='function'){
-                    var checkStatus = table.checkStatus('_layui_id_windowStoreTree');
+                    var checkStatus = table.checkStatus('_layui_id_windowRole');
                     var checkData = checkStatus.data ;
                     if(checkStatus.data.length==0){
                         lk.ts.alert(lk.static.PLEASE_CHECK_DATA) ;
@@ -430,27 +430,29 @@ lk.window.alertRole =  function(event){
             ,success: function () {
                 var showTreeTable = function () {
                     layer.load(2);
-                    treetable.render({
-                        id: '_layui_id_windowStoreTree',
-                        treeColIndex: 1,
-                        height: 'full-260',
-                        treeSpid: 0,
-                        treeIdName: 'id',
-                        treePidName: 'fid',
-                        treeDefaultClose: false,
-                        treeLinkage: false,
-                        elem: '#windowStore'
-                        , url: 'store/findAll.act'
-                        , method: 'post'
-                        , page: false,
-                        cols: [[
-                            {type: 'radio'},
-                            {field: 'name', title: '名称', width: 300},
-                            {field: 'c_type', title: '类型'}
-                        ]],
-                        done: function () {
-                            layer.closeAll('loading');
-                        }
+                    layui.use('table', function(){
+                        var table = layui.table;
+                        var colDefWidth = 80 ;
+                        table.render({
+                            id:'_layui_id_windowRole'
+                            ,elem: '#windowRole'
+                            ,height: 'full-260'
+                            // ,toolbar:true
+                            // ,defaultToolbar: ['filter', 'print', 'exports']
+                            ,url: 'role/findAll.act' //数据接口
+                            // ,where:param
+                            ,method:'post'
+                            ,page: true //开启分页
+                            ,parseData:ls.d.tableDateParseData
+                            ,cols: [[ //表头
+                                {type:'radio'}
+                                ,{field: 'id', title: 'ID',width:'10%'}
+                                ,{field: 'name', title: '角色名',width:'80%'}
+                            ]],
+                            done: function () {
+                                layer.closeAll('loading');
+                            }
+                        });
                     });
                 };
                 showTreeTable();
@@ -528,22 +530,22 @@ lk.window.alertSysVal =  function(event){
         var table = layui.table, layer = layui.layer, treetable = layui.treetable;
         var index = layer.open({
             type: 1
-            , title: "选择站点"
+            , title: "选择"
             , maxmin: true
             , area: "500px"
-            , content: "<table id='windowStore'></table>"
+            , content: "<table id='sysVal'></table>"
             , zIndex: ++layer.zIndex
             , offset: '100px'
             , btn: ['确定']
             , btn1: function () {
                 if(typeof(event.data)=='function'){
-                    var checkStatus = table.checkStatus('_layui_id_windowStoreTree');
+                    var checkStatus = table.checkStatus('_layui_id_windowSysVal');
                     var checkData = checkStatus.data ;
                     if(checkStatus.data.length==0){
                         lk.ts.alert(lk.static.PLEASE_CHECK_DATA) ;
                         return false ;
                     }
-                    event.data(checkStatus.data[0].name, checkStatus.data[0].id);
+                    event.data(checkStatus.data[0].xText, checkStatus.data[0].xValue);
                     /**关闭指定的弹出窗*/
                     layer.close(index);
                 }
@@ -552,8 +554,8 @@ lk.window.alertSysVal =  function(event){
             ,success: function () {
                 var showTreeTable = function () {
                     layer.load(2);
-                    treetable.render({
-                        id: '_layui_id_windowStoreTree',
+                    table.render({
+                        id: '_layui_id_windowSysVal',
                         treeColIndex: 1,
                         height: 'full-260',
                         treeSpid: 0,
@@ -561,16 +563,16 @@ lk.window.alertSysVal =  function(event){
                         treePidName: 'fid',
                         treeDefaultClose: false,
                         treeLinkage: false,
-                        elem: '#windowStore'
-                        , url: 'store/findAll.act'
+                        elem: '#sysVal'
+                        ,where:{xText:'职务'}
+                        , url: 'systemValue/find4Alert.act'
                         , method: 'post'
-                        , page: false,
-                        cols: [[
-                            {type: 'radio'},
-                            {field: 'name', title: '名称', width: 300},
-                            {field: 'c_type', title: '类型'}
-                        ]],
-                        done: function () {
+                        , page: false
+                        ,cols:[[
+                            {type: 'radio', width: "10%"},
+                            {field: 'xText', title: '显示值', width: "90%"},
+                            ]]
+                        ,done: function () {
                             layer.closeAll('loading');
                         }
                     });
@@ -645,7 +647,7 @@ lk.page.alertLayuiForm = function(cfg){
     if(!cfg.view.$form) {
         cfg.view.$form = ls.d.getHtml(cfg.htmlTemplateUrl) ;
     }
-    layui.use(['layer','form'], function() {
+    layui.use(['layer','form','laydate','layedit'], function() {
         var $ = layui.jquery, layer = layui.layer, form = layui.form;
         layer.open($.extend({
               type: 1

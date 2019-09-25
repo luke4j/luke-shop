@@ -16,10 +16,24 @@ define(function (require) {
             }) ;
         }
         , delModel: function () {
-
+            ls.d.ajax({
+                url:"systemValue/delSystemValue.act",
+                data:this.attributes
+                ,success:function(res){
+                    lk.ts.alert(res.msg) ;
+                    view.pageSystemValueTreeTable() ;
+                }
+            }) ;
         }
         , updateModel: function () {
-
+            ls.d.ajax({
+                url:"systemValue/updateSystemValue.act",
+                data:this.attributes
+                ,success:function(res){
+                    lk.ts.alert(res.msg) ;
+                    view.pageSystemValueTreeTable() ;
+                }
+            }) ;
         }
     });
 
@@ -60,6 +74,13 @@ define(function (require) {
         ,click_btn_xinzeng_handler:function(){
             this.alertLayuiForm('新增','addModel') ;
         }
+        /*删除事件*/
+        ,click_btn_shanchu_handler:function(){
+            var checkedTreeTableData = layui.table.checkStatus('layuiSystemValueTreeTable') ;
+            lk.exception.lenght(checkedTreeTableData.data.length,lk.static.CHECK_ONE) ;
+            this.alertLayuiForm('删除','delModel',checkedTreeTableData.data[0]) ;
+        }
+        /*修改事件*/
         ,click_btn_xiugai_handler:function(){
             var checkedTreeTableData = layui.table.checkStatus('layuiSystemValueTreeTable') ;
             lk.exception.lenght(checkedTreeTableData.data.length,lk.static.CHECK_ONE) ;

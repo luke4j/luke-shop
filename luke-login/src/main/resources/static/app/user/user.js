@@ -135,6 +135,17 @@ define(function(require) {
                             $("#storeId").val(val) ;
                         }
                         $("#storeName").focus(setStoreVal,lk.window.alertStore) ;
+                        /**添加角色选择事件*/
+                        function setRoleVal(text,val){
+                            $("#roleName").val(text) ;
+                            $("#roleId").val(val) ;
+                        }
+                        $("#roleName").focus(setRoleVal,lk.window.alertRole) ;
+                        /**添加职务选择事件*/
+                        function setZWVal(text,val){
+                            $("#zw").val(text) ;
+                        }
+                        $("#zw").focus(setZWVal,lk.window.alertSysVal) ;
 
                     }
                 });

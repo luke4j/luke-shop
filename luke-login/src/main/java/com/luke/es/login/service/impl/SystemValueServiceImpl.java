@@ -6,6 +6,7 @@ import com.luke.es.md.TSys_SystemValue;
 import com.luke.es.md.vo.login.systemValue.DTOSystemValue;
 import com.luke.es.md.vo.login.systemValue.VOSystemValueTree;
 import com.luke.es.tool.exception.AppException;
+import com.luke.es.tool.tl.LKMap;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +25,14 @@ public class SystemValueServiceImpl implements ISystemValueService {
         return lstSysSystemValues;
     }
 
+    public List<VOSystemValueTree> find4Alert(DTOSystemValue dtoSystemValue) throws Exception {
+        TSys_SystemValue sysVal = this.iSystemValueDao.getUnique("From TSys_SystemValue t where t.xText=:xtype", new LKMap().put1("xtype",dtoSystemValue.getxText())) ;
+        if(!sysVal.getFid().equals(0L))
+            throw AppException.create("请查看系统变量设置") ;
+        return this.iSystemValueDao.find("From TSys_SystemValue t where t.fid=:fid",new LKMap().put1("fid",sysVal.getId()));
+    }
+
+    @Transactional
     public void delSystemValue(DTOSystemValue dtoSystemValue) throws Exception {
         if(dtoSystemValue.getId()==null) throw AppException.create("数据没有ID,不能删除，请联系管理") ;
         TSys_SystemValue systemValue =  this.iSystemValueDao.get(TSys_SystemValue.class,dtoSystemValue.getId()) ;
@@ -35,7 +44,7 @@ public class SystemValueServiceImpl implements ISystemValueService {
         BeanUtils.copyProperties(dtoSystemValue,systemValue);
         this.iSystemValueDao.save(systemValue) ;
     }
-
+    @Transactional
     public void updateSystemValue(DTOSystemValue dtoSystemValue) throws Exception {
         if(dtoSystemValue.getId()==null) throw AppException.create("数据没有ID,不能删除，请联系管理") ;
         TSys_SystemValue systemValue =  this.iSystemValueDao.get(TSys_SystemValue.class,dtoSystemValue.getId()) ;

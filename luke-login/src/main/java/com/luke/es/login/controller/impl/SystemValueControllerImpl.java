@@ -26,13 +26,19 @@ public class SystemValueControllerImpl extends BController implements  ISystemVa
         return actResult;
     }
 
+    public ActResult find4Alert(HttpServletRequest request, HttpServletResponse response, ActResult actResult, DTOSystemValue dtoSystemValue, BindingResult bindingResult) throws Exception {
+        List<VOSystemValueTree> lstVoSystemValueTrees = iSystemValueService.find4Alert(dtoSystemValue) ;
+        actResult.setRt(lstVoSystemValueTrees);
+        return actResult;
+    }
+
     public ActResult delSystemValue(HttpServletRequest request, HttpServletResponse response, ActResult actResult, DTOSystemValue dtoSystemValue, BindingResult bindingResult) throws Exception {
         iSystemValueService.delSystemValue(dtoSystemValue) ;
         return actResult.ok();
     }
 
     public ActResult updateSystemValue(HttpServletRequest request, HttpServletResponse response, ActResult actResult, DTOSystemValue dtoSystemValue, BindingResult bindingResult) throws Exception {
-        iSystemValueService.updateSystemValue(dtoSystemValue) ;
+//        iSystemValueService.updateSystemValue(dtoSystemValue) ;
         return actResult.ok("系统变量不能修改，只能添加，如果实在需要修改请联系管理员");
     }
 
