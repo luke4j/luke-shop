@@ -19,14 +19,14 @@
             <div class="layui-inline">
                 <label class="layui-form-label">站点</label>
                 <div class="layui-input-block">
-                    <input type="text" name="storeName" id="storeName"  placeholder="请输入" autocomplete="off" class="layui-input" lay-verify="required">
+                    <input type="text" name="storeName" id="storeName"  placeholder="请输入" autocomplete="off" class="layui-input" ><!-- lay-verify="required" -->
                     <input type="hidden" name="storeId" id="storeId" placeholder="请输入" autocomplete="off" class="layui-input" >
                 </div>
             </div>
             <div class="layui-inline">
                 <label class="layui-form-label">角色</label>
                 <div class="layui-input-block">
-                    <input type="text" name="roleName" id="roleName" placeholder="请输入" autocomplete="off" class="layui-input" lay-verify="required">
+                    <input type="text" name="roleName" id="roleName" placeholder="请输入" autocomplete="off" class="layui-input" >
                     <input type="hidden" name="roleId" id="roleId" placeholder="请输入" autocomplete="off" class="layui-input" >
                 </div>
             </div>
@@ -37,7 +37,7 @@
             <div class="layui-inline">
                 <label class="layui-form-label">财务角色</label>
                 <div class="layui-input-block">
-                    <input type="text" name="cwRoleName" placeholder="请输入" autocomplete="off" class="layui-input" lay-verify="required">
+                    <input type="text" name="cwRoleName" placeholder="请输入" autocomplete="off" class="layui-input" >
                     <input type="hidden" name="cwRoleId" placeholder="请输入" autocomplete="off" class="layui-input" >
                 </div>
             </div>
@@ -54,7 +54,7 @@
             <div class="layui-inline">
                 <label class="layui-form-label">职务</label>
                 <div class="layui-input-block">
-                    <input type="text" name="zw" id="zw" placeholder="请输入" autocomplete="off" class="layui-input" lay-verify="required">
+                    <input type="text" name="zw" id="zw" placeholder="请输入" autocomplete="off" class="layui-input" >
                 </div>
             </div>
             <div class="layui-inline">
@@ -68,8 +68,8 @@
         <div class="layui-form-item">
             <div class="layui-inline">
                 <label class="layui-form-label">生日</label>
-                <div class="layui-input-inline">
-                    <input type="text" name="birthday" id="brithday" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input" lay-verify="required">
+                <div class="layui-input-block">
+                    <input type="text" name="birthday" id="brithday" placeholder="yyyy-MM-dd"  autocomplete="off" class="layui-input" lay-verify="required">
                 </div>
             </div>
             <div class="layui-inline">
@@ -81,25 +81,26 @@
         </div>
 
         <div class="layui-form-item">
+            <!--<div class="layui-inline">-->
+                <!--<label class="layui-form-label">离职时间</label>-->
+                <!--<div class="layui-input-block">-->
+                    <!--<input type="text" name="outTime" id="outTime"  placeholder="yyyy-MM-dd"  autocomplete="off" class="layui-input" >-->
+                <!--</div>-->
+            <!--</div>-->
             <div class="layui-inline">
-                <label class="layui-form-label">离职时间</label>
+                <label class="layui-form-label">政治面貌</label>
                 <div class="layui-input-block">
-                    <input type="text" name="outTime" id="outTime"  placeholder="yyyy-MM-dd"  autocomplete="off" class="layui-input" >
+                    <input type="text" name="zzmm" id="zzmm" placeholder="请输入" autocomplete="off" class="layui-input" >
                 </div>
             </div>
             <div class="layui-inline">
                 <label class="layui-form-label">学历</label>
                 <div class="layui-input-block">
-                    <input type="text" name="xl" placeholder="请输入" autocomplete="off" class="layui-input" >
+                    <input type="text" name="xl" id="xl" placeholder="请输入" autocomplete="off" class="layui-input" >
                 </div>
             </div>
         </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">政治面貌</label>
-            <div class="layui-input-block">
-                <input type="text" name="zzmm" placeholder="请输入" autocomplete="off" class="layui-input" >
-            </div>
-        </div>
+
         <input type="hidden" name="id" placeholder="请输入" autocomplete="off" class="layui-input" disabled>
         <input type="hidden" name="_isDel" value="false" placeholder="请输入" autocomplete="off" class="layui-input" disabled>
         <div class="layui-form-item">

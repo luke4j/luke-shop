@@ -23,20 +23,20 @@ public class UIVOUser extends VOIn {
         this.outTime = info.getOutTime()==null?null:LK.DateToStr_YMD(info.getOutTime()) ;
         this.xl = info.getXl() ;
         this.zzmm = info.getZzmm() ;
-        this.store = storeName ;
-        this.role = roleName ;
-        this.cwRole = cwRoleName ;
+        this.storeName = storeName ;
+        this.roleName = roleName ;
+        this.cwRoleName = cwRoleName ;
     } ;
 
     private Long id;
     private String loginName;
     private String name;
     private Long storeId;
-    private String store;
+    private String storeName;
     private Long roleId;
-    private String role;
+    private String roleName;
     private Long cwRoleId;
-    private String cwRole;
+    private String cwRoleName;
     private String birthday;
     private String sex;
     private String zw;
@@ -45,6 +45,31 @@ public class UIVOUser extends VOIn {
     private String outTime;
     private String xl;
     private String zzmm ;
+
+
+    public String getStoreName() {
+        return storeName;
+    }
+
+    public void setStoreName(String storeName) {
+        this.storeName = storeName;
+    }
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
+    }
+
+    public String getCwRoleName() {
+        return cwRoleName;
+    }
+
+    public void setCwRoleName(String cwRoleName) {
+        this.cwRoleName = cwRoleName;
+    }
 
     public Long getId() {
         return id;
@@ -134,30 +159,6 @@ public class UIVOUser extends VOIn {
 
     public void setZzmm(String zzmm) {
         this.zzmm = zzmm;
-    }
-
-    public String getStore() {
-        return store;
-    }
-
-    public void setStore(String store) {
-        this.store = store;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    public String getCwRole() {
-        return cwRole;
-    }
-
-    public void setCwRole(String cwRole) {
-        this.cwRole = cwRole;
     }
 
     public String getBirthday() {

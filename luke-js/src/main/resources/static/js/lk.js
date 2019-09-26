@@ -526,6 +526,8 @@ lk.window.alertCWRole =  function(event){
  * @param event.data {fid,callback}
  */
 lk.window.alertSysVal =  function(event){
+    var xType = event.data.param ;
+    var setValue = event.data.setValue ;
     layui.use(['layer', 'table', 'treetable'], function () {
         var table = layui.table, layer = layui.layer, treetable = layui.treetable;
         var index = layer.open({
@@ -538,14 +540,15 @@ lk.window.alertSysVal =  function(event){
             , offset: '100px'
             , btn: ['确定']
             , btn1: function () {
-                if(typeof(event.data)=='function'){
+                if(typeof(setValue)=='function'){
                     var checkStatus = table.checkStatus('_layui_id_windowSysVal');
                     var checkData = checkStatus.data ;
                     if(checkStatus.data.length==0){
                         lk.ts.alert(lk.static.PLEASE_CHECK_DATA) ;
                         return false ;
                     }
-                    event.data(checkStatus.data[0].xText, checkStatus.data[0].xValue);
+                    // event.data(checkStatus.data[0].xText, checkStatus.data[0].xValue);
+                    setValue(checkStatus.data[0].xText, checkStatus.data[0].xValue) ;
                     /**关闭指定的弹出窗*/
                     layer.close(index);
                 }
@@ -555,27 +558,24 @@ lk.window.alertSysVal =  function(event){
                 var showTreeTable = function () {
                     layer.load(2);
                     table.render({
-                        id: '_layui_id_windowSysVal',
-                        treeColIndex: 1,
-                        height: 'full-260',
-                        treeSpid: 0,
-                        treeIdName: 'id',
-                        treePidName: 'fid',
-                        treeDefaultClose: false,
-                        treeLinkage: false,
-                        elem: '#sysVal'
-                        ,where:{xText:'职务'}
-                        , url: 'systemValue/find4Alert.act'
-                        , method: 'post'
-                        , page: false
+                        id:'_layui_id_windowSysVal'
+                        ,elem: '#sysVal'
+                        // ,height: 312
+                        ,url: 'systemValue/find4Alert.act' //数据接口
+                        ,method:'post'
+                        ,where:{xText:xType} //开启分页
+                        ,parseData:ls.d.tableDateParseData
                         ,cols:[[
                             {type: 'radio', width: "10%"},
                             {field: 'xText', title: '显示值', width: "90%"},
-                            ]]
+                        ]]
                         ,done: function () {
                             layer.closeAll('loading');
                         }
                     });
+
+
+
                 };
                 showTreeTable();
             }
@@ -630,7 +630,12 @@ lk.page.pageTreeTable = function(treeTableCfg){
 } ;
 
 /**
- * 页面中的弹出的新增与修改的弹出窗
+ * 页面中的弹出的新增与修改的弹出窗，
+ * 包括功能有
+ *  弹出窗
+ *  显示html模板元素
+ *  使用 Model的modelMethodName提交数据
+ *  使用 data 数据为表单负值
  * @param cfg
  * cfg.title,
  * cfg.modelMethodName,

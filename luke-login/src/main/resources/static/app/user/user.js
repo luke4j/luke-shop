@@ -18,11 +18,15 @@ define(function(require) {
             }) ;
         }
         ,updateModel:function(view){
-
+            console.dir(this.attributes) ;
         }
         ,delModel:function(view){
-
+            console.dir(this.attributes) ;
         }
+        ,findModel:function(view){
+            console.dir(this.attributes) ;
+        }
+
     }) ;
 
     var ViewUser = Backbone.View.extend({
@@ -40,11 +44,33 @@ define(function(require) {
             return this ;
         }
         ,events:{
-            "click #btn-xinzeng":"click_btn_xinzeng_handler",
-            "click #btn-shuaxin":"click_btn_shuaxin_handler"
+            "click #btn-xinzeng":"click_btn_xinzeng_handler"
+            ,"click #btn-xiugai":"click_btn_xiugai_handler"
+            ,"click #btn-shanchu":"click_btn_shanchu_handler"
+            ,"click #btn-chaxun":"click_btn_chaxun_handler"
         }
+        /*新增事件*/
         ,click_btn_xinzeng_handler:function(){
             this.alertUserLayerForm(lk.static.BTN_TEXT_ADD_NEW,'addModel') ;
+            return false ;
+        }
+        /*修改事件*/
+        ,click_btn_xiugai_handler:function(){
+            var checkedData = layui.table.checkStatus('userTableData') ;
+            lk.exception.lenght(checkedData.data.length,lk.static.CHECK_ONE) ;
+            this.alertUserLayerForm(lk.static.BTN_TEXT_UPDATE,'updateModel',checkedData.data[0]) ;
+            return false ;
+        }
+        /*删除事件*/
+        ,click_btn_shanchu_handler:function(){
+            var checkedData = layui.table.checkStatus('userTableData') ;
+            lk.exception.lenght(checkedData.data.length,lk.static.CHECK_ONE) ;
+            this.alertUserLayerForm(lk.static.BTN_TEXT_DEL,'delModel',checkedData.data[0]) ;
+            return false ;
+        }
+        /*查询事件*/
+        ,click_btn_chaxun_handler:function(){
+            this.alertUserLayerForm(lk.static.BTN_TEXT_FIND,'findModel') ;
             return false ;
         }
         ,_tmpCol_birthday:function(){
@@ -76,7 +102,8 @@ define(function(require) {
                 var table = layui.table;
                 var colDefWidth = 80 ;
                 table.render({
-                    elem: '#treeTable_users'
+                    id:'userTableData'
+                    ,elem: '#treeTable_users'
                     // ,height: 312
                     ,url: 'user/findAll.act' //数据接口
                     ,method:'post'
@@ -88,9 +115,9 @@ define(function(require) {
                         ,{field: 'id', title: 'ID', fixed: 'left'}
                         ,{field: 'loginName', title: '登录名', fixed: 'left'}
                         ,{field: 'name', title: '姓名', fixed: 'left'}
-                        ,{field: 'store', title: '站点'}
-                        ,{field: 'role', title: '角色'}
-                        ,{field: 'cwRole', title: '财务角色', width: 100}
+                        ,{field: 'storeName', title: '站点'}
+                        ,{field: 'roleName', title: '角色'}
+                        ,{field: 'cwRoleName', title: '财务角色', width: 100}
                         ,{field: 'birthday', title: '生日',templet:"#_tmpCol_birthday"}
                         ,{field: 'sex', title: '性别'}
                         ,{field: 'zw', title: '职务'}
@@ -103,61 +130,65 @@ define(function(require) {
 
             });
         }
+        ,alertUserLayerFormAddHandler:function(){
+            /**添加站点选择事件*/
+            function setStoreVal(text,val){
+                $("#storeName").val(text) ;
+                $("#storeId").val(val) ;
+            }
+            $("#storeName").focus(setStoreVal,lk.window.alertStore) ;
+            /**添加角色选择事件*/
+            function setRoleVal(text,val){
+                $("#roleName").val(text) ;
+                $("#roleId").val(val) ;
+            }
+            $("#roleName").focus(setRoleVal,lk.window.alertRole) ;
+            /**添加职务选择事件*/
+            function setZWVal(text,val){
+                $("#zw").val(text) ;
+            }
+            $("#zw").focus({setValue:setZWVal,param:'职务'},lk.window.alertSysVal) ;
+
+            /**添加政治面貌选择事件*/
+            function setZZMMVal(text,val){
+                $("#zzmm").val(text) ;
+            }
+            $("#zzmm").focus({setValue:setZZMMVal,param:'政治面貌'},lk.window.alertSysVal) ;
+
+
+            /**添加学历选择事件*/
+            function setXLVal(text,val){
+                $("#xl").val(text) ;
+            }
+            $("#xl").focus({setValue:setXLVal,param:'学历'},lk.window.alertSysVal) ;
+        }
         /**用户信息弹出窗*/
         ,alertUserLayerForm:function(title,modelMethodName,data){
             var me = this ;
-            if(!this.$form) this.$form = ls.d.getHtml("app/user/user.form.html") ;
-            layui.use(['layer','form','laydate','layedit'], function() {
-                var $ = layui.jquery, layer = layui.layer , form = layui.form
-                    ,laydate = layui.laydate ,layedit = layui.layedit ;
-                layer.open({
-                    type: 1
-                    ,title: title
-                    ,maxmin: true
-                    ,area:"680px"
-                    ,content:me.$form[0].outerHTML
-                    ,zIndex: layer.zIndex
-                    ,success: function(layero){
-                        /**渲染日期插件*/
-                        laydate.render({
-                            elem: '#brithday'
-                        });
-                        laydate.render({
-                            elem: '#inTime'
-                        });
-                        laydate.render({
-                            elem: '#outTime'
-                        }) ;
-                        form.render();
-                        /**添加站点选择事件*/
-                        function setStoreVal(text,val){
-                            $("#storeName").val(text) ;
-                            $("#storeId").val(val) ;
-                        }
-                        $("#storeName").focus(setStoreVal,lk.window.alertStore) ;
-                        /**添加角色选择事件*/
-                        function setRoleVal(text,val){
-                            $("#roleName").val(text) ;
-                            $("#roleId").val(val) ;
-                        }
-                        $("#roleName").focus(setRoleVal,lk.window.alertRole) ;
-                        /**添加职务选择事件*/
-                        function setZWVal(text,val){
-                            $("#zw").val(text) ;
-                        }
-                        $("#zw").focus(setZWVal,lk.window.alertSysVal) ;
-
-                    }
-                });
-                form.on('submit(submit)', function(data){
-                    var m = new ModelUser(data.field) ;
-                    m[modelMethodName](me) ;
-                    return false ;
-                }) ;
-                if(data){
-                    form.val("form",data) ;
+            lk.page.alertLayuiForm({
+                title:title
+                ,area:"680px"
+                ,modelMethodName:modelMethodName
+                ,data:data
+                ,htmlTemplateUrl:"app/user/user.form.html"
+                ,Model:ModelUser
+                ,view:this
+                ,success: function(layero){
+                    /**渲染日期插件*/
+                    layui.laydate.render({
+                        elem: '#brithday'
+                    });
+                    layui.laydate.render({
+                        elem: '#inTime'
+                    });
+                    layui.laydate.render({
+                        elem: '#outTime'
+                    }) ;
+                    me.alertUserLayerFormAddHandler() ;
+                    layui.form.render();
                 }
-            });
+            }) ;
+
         }
 
     }) ;
