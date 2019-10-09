@@ -5,6 +5,7 @@ import com.luke.es.login.dao.IUserDao;
 import com.luke.es.md.TU_Info;
 import com.luke.es.md.vo.UIVOList;
 import com.luke.es.md.vo.login.user.UIVOUser;
+import com.luke.es.tool.tl.LK;
 import com.luke.es.tool.tl.LKMap;
 import com.luke.es.tool.vo.Page;
 import org.springframework.stereotype.Component;
@@ -21,7 +22,7 @@ public class UserDao extends DBDao implements IUserDao {
     }
 
     public TU_Info getUnique(Long userId) throws Exception {
-        return this.getUnique("From TU_Info i where i.user_id=:userId",new LKMap().put1("userId",userId)) ;
+        return this.getUnique("From TU_Info i where i.userId=:userId",new LKMap().put1("userId",userId)) ;
     }
 
     public List<UIVOUser> findAllUnion(Boolean b, UIVOUser vo,Page page) throws Exception {
@@ -42,7 +43,8 @@ public class UserDao extends DBDao implements IUserDao {
             param.put1("isDel",b) ;
         }
         if(vo!=null){
-
+            countHql = LK.QL_UnionParam(countHql,vo,param) ;
+            hql = LK.QL_UnionParam(hql,vo,param) ;
         }
         hql += " order by u.id " ;
         page.setHql(countHql);

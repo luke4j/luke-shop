@@ -18,13 +18,27 @@ define(function(require) {
             }) ;
         }
         ,updateModel:function(view){
-            console.dir(this.attributes) ;
+            ls.d.ajax({
+                url:"user/updateModel.act",
+                data:this.attributes
+                ,success:function(res){
+                    lk.ts.alert(res.msg) ;
+                    view.pageUserTableData() ;
+                }
+            }) ;
         }
         ,delModel:function(view){
-            console.dir(this.attributes) ;
+            ls.d.ajax({
+                url:"user/delModel.act"
+                ,data:{id:this.attributes.id}
+                ,success:function(res){
+                    lk.ts.alert(res.msg) ;
+                    view.pageUserTableData() ;
+                }
+            }) ;
         }
         ,findModel:function(view){
-            console.dir(this.attributes) ;
+            view.pageUserTableData(this.attributes) ;
         }
 
     }) ;
@@ -97,7 +111,7 @@ define(function(require) {
             "</script>" ;
             return template ;
         }
-        ,pageUserTableData:function(){
+        ,pageUserTableData:function(params){
             layui.use('table', function(){
                 var table = layui.table;
                 var colDefWidth = 80 ;
@@ -106,6 +120,7 @@ define(function(require) {
                     ,elem: '#treeTable_users'
                     // ,height: 312
                     ,url: 'user/findAll.act' //数据接口
+                    ,where:params
                     ,method:'post'
                     ,page: true //开启分页
                     ,parseData:ls.d.tableDateParseData

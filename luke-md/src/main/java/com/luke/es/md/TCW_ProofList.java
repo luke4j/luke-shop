@@ -10,12 +10,30 @@ public class TCW_ProofList extends _M {
     Long proofId ;
     /**会计科目ID*/
     Long kmId ;
+    /**汇率*/
+    Double exchangeRate = 1D;
+    /**币种*/
+    String currencyType = "人民币" ;
     /**金额*/
     Double amount ;
-    /**发票ID*/
-    Long billId ;
     /**行号*/
     Integer lineNo ;
+
+    public Double getExchangeRate() {
+        return exchangeRate;
+    }
+
+    public void setExchangeRate(Double exchangeRate) {
+        this.exchangeRate = exchangeRate;
+    }
+
+    public String getCurrencyType() {
+        return currencyType;
+    }
+
+    public void setCurrencyType(String currencyType) {
+        this.currencyType = currencyType;
+    }
 
     public Long getProofId() {
         return proofId;
@@ -39,14 +57,6 @@ public class TCW_ProofList extends _M {
 
     public void setAmount(Double amount) {
         this.amount = amount;
-    }
-
-    public Long getBillId() {
-        return billId;
-    }
-
-    public void setBillId(Long billId) {
-        this.billId = billId;
     }
 
     public Integer getLineNo() {

@@ -39,6 +39,11 @@ CREATE TABLE `tcw_bill` (
   `take_id` bigint(20) DEFAULT NULL,
   `take_phone` varchar(255) DEFAULT NULL,
   `xtype` varchar(255) DEFAULT NULL,
+  `data_id` bigint(20) DEFAULT NULL,
+  `ls_id` bigint(20) DEFAULT NULL,
+  `print` bit(1) DEFAULT NULL,
+  `table_name` varchar(255) DEFAULT NULL,
+  `x_tag` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -134,6 +139,15 @@ CREATE TABLE `tcw_ls` (
   `amount` double NOT NULL,
   `cashier_id` bigint(20) NOT NULL,
   `notes` varchar(50) NOT NULL,
+  `data_id` bigint(20) DEFAULT NULL,
+  `proof_id` bigint(20) DEFAULT NULL,
+  `send_bank` varchar(50) NOT NULL,
+  `send_or_take` varchar(2) NOT NULL,
+  `serial` varchar(20) NOT NULL,
+  `state` varchar(10) NOT NULL,
+  `table_name` varchar(255) DEFAULT NULL,
+  `take_bank` varchar(50) NOT NULL,
+  `xtype` varchar(20) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -167,6 +181,12 @@ CREATE TABLE `tcw_proof` (
   `number` varchar(40) DEFAULT NULL,
   `state` varchar(20) DEFAULT NULL,
   `zt_id` bigint(20) DEFAULT NULL,
+  `bill_id` bigint(20) DEFAULT NULL,
+  `data_id` bigint(20) DEFAULT NULL,
+  `ls_id` bigint(20) DEFAULT NULL,
+  `serial` bigint(20) DEFAULT NULL,
+  `table_name` varchar(255) DEFAULT NULL,
+  `xtype` varchar(20) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -196,6 +216,8 @@ CREATE TABLE `tcw_proof_list` (
   `km_id` bigint(20) DEFAULT NULL,
   `line_no` int(11) DEFAULT NULL,
   `proof_id` bigint(20) DEFAULT NULL,
+  `currency_type` varchar(255) DEFAULT NULL,
+  `exchange_rate` double DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -933,7 +955,7 @@ CREATE TABLE `tu_info` (
 
 LOCK TABLES `tu_info` WRITE;
 /*!40000 ALTER TABLE `tu_info` DISABLE KEYS */;
-INSERT INTO `tu_info` VALUES (1,'\0','2019-07-22 12:02:30','1984-01-16 00:00:00',NULL,'2003-09-01 00:00:00','于洋',NULL,1,'男',NULL,'18613806246',1,'幼儿园','小工','群众'),(17,'\0','2019-09-26 13:35:05','2019-09-26 00:00:00',NULL,'2019-10-03 00:00:00','于洋',NULL,1,'男',2,'18613806246',17,'小学','店长','群众'),(18,'\0','2019-09-26 13:46:22','2019-09-26 00:00:00',NULL,'2019-09-26 00:00:00','小易',NULL,1,'女',3,'110112',18,'小学','店长','群众');
+INSERT INTO `tu_info` VALUES (1,'\0','2019-07-22 12:02:30','1984-01-16 00:00:00',NULL,'2003-09-01 00:00:00','于洋',NULL,1,'男',NULL,'18613806246',1,'幼儿园','小工','群众'),(17,'\0','2019-09-26 13:35:05','2019-09-26 00:00:00',NULL,'2019-10-03 00:00:00','于洋',NULL,18,'男',2,'18613806246',17,'小学','店长','群众'),(18,'','2019-09-26 13:46:22','2019-09-26 00:00:00',NULL,'2019-09-26 00:00:00','小易',NULL,1,'女',3,'110112',18,'小学','店长','群众');
 /*!40000 ALTER TABLE `tu_info` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -983,7 +1005,7 @@ CREATE TABLE `tu_role` (
   `item_ids` varchar(4000) DEFAULT NULL,
   `name` varchar(40) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -992,7 +1014,7 @@ CREATE TABLE `tu_role` (
 
 LOCK TABLES `tu_role` WRITE;
 /*!40000 ALTER TABLE `tu_role` DISABLE KEYS */;
-INSERT INTO `tu_role` VALUES (1,'\0','2019-07-22 12:02:30','4,16,18,17,135,136,137,10,14,11,23,24,5,22,21,9,6,41,42,43,138,139,140,141,142,1,2,15,3,25,26,104,105,106,27,107,108,109,28,111,112,113,29,116,31,114,115,32,117,118,30,33,103,34,95,96,97,36,102,121,122,123,124,37,40,52,53,54,55,49,58,59,67,51,63,64,65,66,56,57,68,70,71,72,69,73,74,75,78,79,76,77,80,44,45,81,47,82,48,83,84,85,86,87,125,92,94,91,93,126,127,128,129,130,131,132,133,134','admin');
+INSERT INTO `tu_role` VALUES (1,'\0','2019-07-22 12:02:30','4,16,18,17,135,136,137,10,14,11,23,24,5,22,21,9,6,41,42,43,138,139,140,141,142,1,2,15,3,25,26,104,105,106,27,107,108,109,28,111,112,113,29,116,31,114,115,32,117,118,30,33,103,34,95,96,97,36,102,121,122,123,124,37,40,52,53,54,55,49,58,59,67,51,63,64,65,66,56,57,68,70,71,72,69,73,74,75,78,79,76,77,80,44,45,81,47,82,48,83,84,85,86,87,125,92,94,91,93,126,127,128,129,130,131,132,133,134','admin'),(18,'\0','2019-10-09 13:14:52','4,16,18,17,135,136,137,10,14,11,23,24,5,22,21,9,6,41,42,43,138,139,140,141,142,25,26,104,105,106,27,107,108,109,28,111,112,113,29,116,31,114,115,32,117,118,119,120,30,33,103,34,95,96,97,35,36,102,121,122,123,124,37,40,52,53,54,55,49,58,59,67,51,63,64,65,66,56,57,68,70,71,72,69,73,74,75,78,79,76,77,80,44,45,81,47,82,48,83,84,85,86,87,125,92,94,91,93,126,127,128,129,130,131,132,133,134','运行测试');
 /*!40000 ALTER TABLE `tu_role` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1019,7 +1041,7 @@ CREATE TABLE `tu_user` (
 
 LOCK TABLES `tu_user` WRITE;
 /*!40000 ALTER TABLE `tu_user` DISABLE KEYS */;
-INSERT INTO `tu_user` VALUES (1,'\0','2019-07-22 12:02:30','admin','21232f297a57a5a743894a0e4a801fc3'),(17,'\0','2019-09-26 13:35:05','luke','E10ADC3949BA59ABBE56E057F20F883E'),(18,'\0','2019-09-26 13:46:22','liana','E10ADC3949BA59ABBE56E057F20F883E');
+INSERT INTO `tu_user` VALUES (1,'\0','2019-07-22 12:02:30','admin','21232f297a57a5a743894a0e4a801fc3'),(17,'\0','2019-09-26 13:35:05','luke','E10ADC3949BA59ABBE56E057F20F883E'),(18,'','2019-09-26 13:46:22','liana','E10ADC3949BA59ABBE56E057F20F883E');
 /*!40000 ALTER TABLE `tu_user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -1032,4 +1054,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-10-08 16:17:43
+-- Dump completed on 2019-10-09 15:21:04

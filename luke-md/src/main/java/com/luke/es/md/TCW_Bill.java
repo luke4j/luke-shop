@@ -21,6 +21,8 @@ public class TCW_Bill extends _M {
     Date day ;
     /**凭证ID*/
     Long proofId ;
+    /**流水ID*/
+    Long lsId ;
     /**发货方地址*/
     String sendAddr ;
     /**发货方电话*/
@@ -35,6 +37,55 @@ public class TCW_Bill extends _M {
     String takeAddr ;
     /**序号*/
     Long serial ;
+    /**纳税人识别号*/
+    String xTag ;
+    /**是否打印*/
+    Boolean print ;
+
+    /**业务表名*/
+    String tableName ;
+    /**数据ID*/
+    Long dataId ;
+
+    public String getTableName() {
+        return tableName;
+    }
+
+    public void setTableName(String tableName) {
+        this.tableName = tableName;
+    }
+
+    public Long getDataId() {
+        return dataId;
+    }
+
+    public void setDataId(Long dataId) {
+        this.dataId = dataId;
+    }
+
+    public Boolean getPrint() {
+        return print;
+    }
+
+    public void setPrint(Boolean print) {
+        this.print = print;
+    }
+
+    public Long getLsId() {
+        return lsId;
+    }
+
+    public void setLsId(Long lsId) {
+        this.lsId = lsId;
+    }
+
+    public String getxTag() {
+        return xTag;
+    }
+
+    public void setxTag(String xTag) {
+        this.xTag = xTag;
+    }
 
     public Long getSendId() {
         return sendId;

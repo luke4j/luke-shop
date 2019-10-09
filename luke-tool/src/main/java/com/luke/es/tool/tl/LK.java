@@ -75,23 +75,23 @@ public class LK {
         Object obj = null ;String bm = "" ;String gx = "=:" ;String col = null;String paramName = null ;
         for(Field field :fields){
             QLParam[] qlParams = field.getAnnotationsByType(QLParam.class) ;
-            QLParam qp = null ;
+            QLParam qlParam = null ;
             if(qlParams.length==1){
-                qp = qlParams[0] ;
+                qlParam = qlParams[0] ;
             }
             field.setAccessible(true) ;
             obj = field.get(vo) ;
-            if(qp!=null&&obj!=null){
+            if(qlParam!=null&&obj!=null){
                 if(obj instanceof String){
                     if(LK.StrIsEmpty((String)obj)) continue;
                 }
-                bm = qp.bm() ;
-                gx = ql_gx(qp.gx()) ;
-                col = bm.equals("")?"":bm+"."+(qp.sx().equals("")?field.getName():qp.sx()) ;
+                bm = qlParam.bm() ;
+                gx = ql_gx(qlParam.gx()) ;
+                col = bm.equals("")?"":bm+"."+(qlParam.sx().equals("")?field.getName():qlParam.sx()) ;
                 paramName = (bm.equals("")?"_":bm+"_")+ field.getName() ;
 
                 ql += QL_WhereOrAnd(ql)+" "+col+gx +paramName;
-                if(qp.lx().equals(QLParam_LX.Date)){
+                if(qlParam.lx().equals(QLParam_LX.Date)){
                     if(obj instanceof Long){
                         param.put(paramName,new Date((Long)obj)) ;
                     }else if(obj instanceof String){
