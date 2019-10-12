@@ -19,10 +19,6 @@ public class TCW_Bill extends _M {
     String number ;
     /**发票日期*/
     Date day ;
-    /**凭证ID*/
-    Long proofId ;
-    /**流水ID*/
-    Long lsId ;
     /**发货方地址*/
     String sendAddr ;
     /**发货方电话*/
@@ -71,13 +67,7 @@ public class TCW_Bill extends _M {
         this.print = print;
     }
 
-    public Long getLsId() {
-        return lsId;
-    }
 
-    public void setLsId(Long lsId) {
-        this.lsId = lsId;
-    }
 
     public String getxTag() {
         return xTag;
@@ -125,14 +115,6 @@ public class TCW_Bill extends _M {
 
     public void setDay(Date day) {
         this.day = day;
-    }
-
-    public Long getProofId() {
-        return proofId;
-    }
-
-    public void setProofId(Long proofId) {
-        this.proofId = proofId;
     }
 
     public String getSendAddr() {

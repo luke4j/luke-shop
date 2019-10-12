@@ -7,10 +7,6 @@ import javax.persistence.Entity;
 
 @Entity
 public class TCW_Ls extends _M {
-    /**发票号*/
-    Long BillId ;
-    /**凭证ID*/
-    Long proofId ;
     /**金额*/
     @Column(nullable = false)
     Double amount ;
@@ -59,14 +55,6 @@ public class TCW_Ls extends _M {
         this.dataId = dataId;
     }
 
-    public Long getProofId() {
-        return proofId;
-    }
-
-    public void setProofId(Long proofId) {
-        this.proofId = proofId;
-    }
-
     public String getSerial() {
         return serial;
     }
@@ -113,14 +101,6 @@ public class TCW_Ls extends _M {
 
     public void setState(String state) {
         this.state = state;
-    }
-
-    public Long getBillId() {
-        return BillId;
-    }
-
-    public void setBillId(Long billId) {
-        BillId = billId;
     }
 
     public Double getAmount() {

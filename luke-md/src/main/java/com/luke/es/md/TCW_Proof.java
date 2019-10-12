@@ -8,10 +8,7 @@ import javax.persistence.Entity;
 @Entity
 public class TCW_Proof extends _M {
 
-    /**发票ID*/
-    Long billId ;
-    /**流水ID*/
-    Long lsId ;
+
     /**账套ID*/
     Long ztId ;
     /**会计期*/
@@ -70,21 +67,7 @@ public class TCW_Proof extends _M {
         this.xtype = xtype;
     }
 
-    public Long getBillId() {
-        return billId;
-    }
 
-    public void setBillId(Long billId) {
-        this.billId = billId;
-    }
-
-    public Long getLsId() {
-        return lsId;
-    }
-
-    public void setLsId(Long lsId) {
-        this.lsId = lsId;
-    }
 
     public Long getZtId() {
         return ztId;
