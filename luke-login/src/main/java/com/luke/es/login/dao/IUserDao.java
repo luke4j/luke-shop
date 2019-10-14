@@ -3,6 +3,7 @@ package com.luke.es.login.dao;
 import com.luke.es.db.IDBDao;
 import com.luke.es.md.TU_Info;
 import com.luke.es.md.vo.UIVOList;
+import com.luke.es.md.vo.login.user.UIFindVOUser;
 import com.luke.es.md.vo.login.user.UIVOUser;
 import com.luke.es.tool.vo.Page;
 
@@ -20,5 +21,5 @@ public interface IUserDao extends IDBDao {
     TU_Info getUnique(Long userId)throws Exception;
 
 
-    List<UIVOUser> findAllUnion(Boolean b,UIVOUser vo, Page page)throws Exception;
+    List<UIVOUser> findAllUnion(Boolean b, UIFindVOUser vo, Page page)throws Exception;
 }

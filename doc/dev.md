@@ -1049,4 +1049,167 @@ EXPIREAT 的作用和 EXPIRE 类似，都用于为 key 设置过期时间。 不
 
 ## 开发说明
 
-## 页面
+### 页面
+
+#### 登录页面
+
+#### 用户页面
+
+1.定义数据模型 
+
+2.定义页面模型
+
+```javascript
+//功能模块化代码定义
+define(function(require) {   
+    require("ls");
+
+//数据模型
+var ModelUser = Backbone.Model.extend({   
+    // 可以有默认值也可以没有，如果没有默认值 ，会按照form表单中的数据来定义数据模型的数据属性
+        defaults: {        id: '', loginName: '', loginPwd: '', 
+                   name: '', storeId: '', roleId: '', cwRoleId: '', birthday: '',        
+                   sex: '', zw: '', tel: '', inTime: '', outTime: '', xl: '', zzmm: ''    
+                  }
+    //在数据模型中定义与后台交互的ajax方法
+    ,addModel:function(view){
+            if(this.get('isdo')=="") this.set("isdo",false) ;
+            ls.d.ajax({
+                url:"user/addModel.act",
+                data:this.attributes
+                ,success:function(res){
+                    lk.ts.alert(res.msg) ;
+                    view.pageUserTableData() ;
+                }
+            }) ;
+        }
+    ,
+    ....
+    }) ;
+    //页面模型
+     var ViewUser = Backbone.View.extend({
+    	//初始化
+        initialize: function () {
+            this.render();
+        }
+		// 页面元素定义，包手html模板
+		,render: function () {
+            //主工作区初始化
+            var $wsBody = ls.p.getWorkSpaceBody() ;
+            this.$el = $wsBody ;
+            //添加html模板为部分组件使用
+            this.$el.append(this._tmpCol_birthday()) ;
+            this.$el.append(this._tmpCol_inTime()) ;
+            //添加数据表元素
+            this.$tabletree = $("<table id='treeTable_users' lay-filter='treeTable_users'>") ;
+            this.$el.append(this.$tabletree) ;
+            //使用UI组件来显示数据
+            this.pageUserTableData() ;
+            return this ;
+        }
+		//页面注册事件，这些按钮都是由数据库动态配置来的，id为btn-[名称的汉语拼音]
+		,events:{
+            "click #btn-xinzeng":"click_btn_xinzeng_handler"
+            ,
+            ......
+        }
+ 		//事件所调用方法
+        ,click_btn_xinzeng_handler:function(){
+            this.alertUserLayerForm(lk.static.BTN_TEXT_ADD_NEW,'addModel') ;
+            return false ;
+        }
+        // html模板，
+        ,_tmpCol_birthday:function(){
+            var template = "<script type='text/html' id='_tmpCol_birthday'>\n" +
+                // "{{# console.dir(d)}}" ;
+                // "{{# console.dir(arguments)}}" ;
+                "{{#  if(d.birthday){  }}"+
+                "{{ lk.num.dateToStr(1,new Date(d.birthday))  }}"+
+                "{{#  }else{  }}"+
+                "<font>&nbsp;</fant>"+
+                "{{# } }}"
+            "</script>" ;
+            return template ;
+        }
+        ,_tmpCol_inTime:function(){
+            var template = "<script type='text/html' id='_tmpCol_inTime'>\n" +
+                // "{{# console.dir(d)}}" ;
+                // "{{# console.dir(arguments)}}" ;
+                "{{#  if(d.inTime){  }}"+
+                "{{ lk.num.dateToStr(1,new Date(d.inTime))  }}"+
+                "{{#  }else{  }}"+
+                "<font>&nbsp;</fant>"+
+                "{{# } }}"
+            "</script>" ;
+            return template ;
+        }
+        //页面显示表格数据
+            /**
+            *页面加载成功后，第一步就是加载默认数据，
+            *这个方法可以显示查询结果
+            */
+        ,pageTableData:function(params){
+           lk.page.pageTable({
+               id:'userTableData'
+               ,elem: '#treeTable_users'
+               ,url: 'user/findAll.act' //数据接口
+               ,where:params
+               ,cols: [[ //表头
+                   {type:'radio', fixed: 'left'}
+                   ,{field: 'id', title: 'ID', fixed: 'left'}
+                   ,{field: 'loginName', title: '登录名', fixed: 'left'}
+                   ,{field: 'name', title: '姓名', fixed: 'left'}
+                   ,{field: 'storeName', title: '站点'}
+                   ,{field: 'roleName', title: '角色'}
+                   ,{field: 'cwRoleName', title: '财务角色', width: 100}
+                   //使用html模板
+                   ,{field: 'birthday', title: '生日',templet:"#_tmpCol_birthday"}
+                   ,{field: 'sex', title: '性别'}
+                   ,{field: 'zw', title: '职务'}
+                   ,{field: 'tel', title: '电话'}
+                   //使用html模板
+                   ,{field: 'inTime', title: '入职时间',templet:"#_tmpCol_birthday"}
+                   ,{field: 'xl', title: '学历'}
+                   ,{field: 'zzmm', title: '政治面貌', width: 100}
+               ]]
+           },params) ;
+        }
+        //添加功能，增删改查的弹出窗模板
+            /**
+            * 页面功能按钮按下时，调用的弹出窗，包括渲染弹出窗与弹出窗的布局
+            * lk.page.alertLayuiForm 这个方法会为弹出窗添相应的框架支持
+            * 在点击确定后，会调用form表单中的数据，初始化数据模板Model,
+            * 然后再调用Model中的指定方法来向后台发请求
+            * 当然你也可以在Model的指定方法中回调视图View中的方法来刷新数据显示
+            */
+        ,alertUserLayerForm:function(args){
+            var me = this ;
+            lk.page.alertLayuiForm({
+                title:args.title
+                ,area:"680px"
+                ,modelMethodName:args.modelMethodName
+                ,data:args.data
+                ,htmlTemplateUrl:args.htmlTemplet
+                ,Model:args.Model
+                ,view:this
+                ,success: function(layero){
+                    /**渲染日期插件*/
+                    layui.laydate.render({
+                        elem: '#brithday'
+                    });
+                    layui.laydate.render({
+                        elem: '#inTime'
+                    });
+                    layui.laydate.render({
+                        elem: '#outTime'
+                    }) ;
+                    me.alertUserLayerFormAddHandler() ;
+                    layui.form.render();
+                }
+            }) ;
+        }
+    }) ;
+
+             return ViewUser ;
+}) ;
+```

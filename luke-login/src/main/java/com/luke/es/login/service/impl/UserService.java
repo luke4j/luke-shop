@@ -5,6 +5,7 @@ import com.luke.es.login.service.IUserService;
 import com.luke.es.md.TU_Info;
 import com.luke.es.md.TU_User;
 import com.luke.es.md.vo.UIVOList;
+import com.luke.es.md.vo.login.user.UIFindVOUser;
 import com.luke.es.md.vo.login.user.UIVOUser;
 import com.luke.es.tool.tl.LK;
 import com.luke.es.tool.vo.Page;
@@ -27,12 +28,12 @@ public class UserService implements IUserService {
         return users;
     }
 
-    public List<UIVOUser> findAll(boolean b,UIVOUser vo, Page page) throws Exception {
+    public List<UIVOUser> findAll(boolean b, UIFindVOUser vo, Page page) throws Exception {
         List<UIVOUser> users = this.userDao.findAllUnion(b,vo,page) ;
         return users;
     }
 
-    public List<UIVOUser> findAllBack(UIVOUser vo,Page page) throws Exception {
+    public List<UIVOUser> findAllBack(UIFindVOUser vo,Page page) throws Exception {
         List<UIVOUser> users = this.userDao.findAllUnion(null,vo,page) ;
         return users;
     }

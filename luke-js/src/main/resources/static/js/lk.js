@@ -602,24 +602,17 @@ lk.page.pageTreeTable = function(treeTableCfg){
         var appendTreeTable = function () {
             layer.load(2);
             treetable.render($.extend({
-                // id: 'layuiSystemValueTreeTable'
                  treeColIndex: 1
+                ,parseData:ls.d.tableDateParseData
                 , height: 'full-160'
                 , treeSpid: 0
                 , treeIdName: 'id'
                 , treePidName: 'fid'
                 , treeDefaultClose: true
                 , treeLinkage: false
-                // , elem: '#divSystemValueTreeTable'
-                // , url: 'systemValue/findAll.act'
                 , method: 'post'
                 , page: false,
-                cols: [[
-                    // {type: 'radio', width: "10%"},
-                    // {field: 'xText', title: '显示值', width: "30%"},
-                    // {field: 'id', title: 'ID', width: "30%"},
-                    // {field: 'xValue', title: '保存值', width: "30%"}
-                ]],
+
                 done: function () {
                     layer.closeAll('loading');
                 }
@@ -628,6 +621,20 @@ lk.page.pageTreeTable = function(treeTableCfg){
         appendTreeTable();
     });
 } ;
+
+lk.page.pageTable = function(cfg){
+    layui.use('table', function(){
+        var table = layui.table;
+        table.render($.extend({
+            url: 'user/findAll.act' //数据接口
+            , method: 'post'
+            , page: true //开启分页
+            , parseData: ls.d.tableDateParseData
+        },cfg));
+
+    });
+} ;
+
 
 /**
  * 页面中的弹出的新增与修改的弹出窗，
@@ -646,7 +653,7 @@ lk.page.pageTreeTable = function(treeTableCfg){
  */
 lk.page.alertLayuiForm = function(cfg){
     if(!cfg.htmlTemplateUrl||!cfg.modelMethodName||!cfg.Model||!cfg.view){
-        lk.alert("请注意弹出窗的必须参数") ;
+        lk.ts.alert("请注意弹出窗的必须参数") ;
         return false ;
     }
     if(!cfg.view.$form) {

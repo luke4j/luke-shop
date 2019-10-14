@@ -4,6 +4,7 @@ import com.luke.es.db.DBDao;
 import com.luke.es.login.dao.IUserDao;
 import com.luke.es.md.TU_Info;
 import com.luke.es.md.vo.UIVOList;
+import com.luke.es.md.vo.login.user.UIFindVOUser;
 import com.luke.es.md.vo.login.user.UIVOUser;
 import com.luke.es.tool.tl.LK;
 import com.luke.es.tool.tl.LKMap;
@@ -25,7 +26,7 @@ public class UserDao extends DBDao implements IUserDao {
         return this.getUnique("From TU_Info i where i.userId=:userId",new LKMap().put1("userId",userId)) ;
     }
 
-    public List<UIVOUser> findAllUnion(Boolean b, UIVOUser vo,Page page) throws Exception {
+    public List<UIVOUser> findAllUnion(Boolean b, UIFindVOUser vo, Page page) throws Exception {
         String hql = "" ;
         String countHql = "" ;
         String hql_select = "select new com.luke.es.md.vo.login.user.UIVOUser(u,i,s.name,r.name,c.name) " ;

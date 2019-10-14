@@ -22,6 +22,7 @@
         <module>luke-login</module>
         <module>luke-app</module>
         <module>luke-ws</module>
+        <module>luke-goods</module>
     </modules>
     <packaging>pom</packaging>
 

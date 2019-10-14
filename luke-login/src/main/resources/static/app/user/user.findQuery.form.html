@@ -1,0 +1,113 @@
+<template>
+    <form class="layui-form" style="margin-top: 10px;margin-right: 20px;"  lay-filter="form">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">姓名</label>
+                <div class="layui-input-block">
+                    <input type="text" name="name" placeholder="请输入" autocomplete="off" class="layui-input" >
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">登录名</label>
+                <div class="layui-input-block">
+                    <input type="text" name="loginName" placeholder="请输入" autocomplete="off" class="layui-input" >
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">站点</label>
+                <div class="layui-input-block">
+                    <input type="text" name="storeName" id="storeName"  placeholder="请输入" autocomplete="off" class="layui-input" ><!--  -->
+                    <input type="hidden" name="storeId" id="storeId" placeholder="请输入" autocomplete="off" class="layui-input" >
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">角色</label>
+                <div class="layui-input-block">
+                    <input type="text" name="roleName" id="roleName" placeholder="请输入" autocomplete="off" class="layui-input" >
+                    <input type="hidden" name="roleId" id="roleId" placeholder="请输入" autocomplete="off" class="layui-input" >
+                </div>
+            </div>
+        </div>
+
+
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">财务角色</label>
+                <div class="layui-input-block">
+                    <input type="text" name="cwRoleName" placeholder="请输入" autocomplete="off" class="layui-input" >
+                    <input type="hidden" name="cwRoleId" placeholder="请输入" autocomplete="off" class="layui-input" >
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">性别</label>
+                <div class="layui-input-block">
+                    <input type="radio" name="sex" value="男" title="男" checked="checked">
+                    <input type="radio" name="sex" value="女" title="女">
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">职务</label>
+                <div class="layui-input-block">
+                    <input type="text" name="zw" id="zw" placeholder="请输入" autocomplete="off" class="layui-input" >
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">电话</label>
+                <div class="layui-input-block">
+                    <input type="text" name="tel" placeholder="请输入" autocomplete="off" class="layui-input" >
+                </div>
+            </div>
+        </div>
+
+        <!--<div class="layui-form-item">-->
+            <!--<div class="layui-inline">-->
+                <!--<label class="layui-form-label">生日</label>-->
+                <!--<div class="layui-input-block">-->
+                    <!--<input type="text" name="birthday" id="brithday" placeholder="yyyy-MM-dd"  autocomplete="off" class="layui-input" >-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="layui-inline">-->
+                <!--<label class="layui-form-label">入职时间</label>-->
+                <!--<div class="layui-input-block">-->
+                    <!--<input type="text" name="inTime" id="inTime"  placeholder="yyyy-MM-dd"   autocomplete="off" class="layui-input" >-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+
+        <div class="layui-form-item">
+            <!--<div class="layui-inline">-->
+                <!--<label class="layui-form-label">离职时间</label>-->
+                <!--<div class="layui-input-block">-->
+                    <!--<input type="text" name="outTime" id="outTime"  placeholder="yyyy-MM-dd"  autocomplete="off" class="layui-input" >-->
+                <!--</div>-->
+            <!--</div>-->
+            <div class="layui-inline">
+                <label class="layui-form-label">政治面貌</label>
+                <div class="layui-input-block">
+                    <input type="text" name="zzmm" id="zzmm" placeholder="请输入" autocomplete="off" class="layui-input" >
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">学历</label>
+                <div class="layui-input-block">
+                    <input type="text" name="xl" id="xl" placeholder="请输入" autocomplete="off" class="layui-input" >
+                </div>
+            </div>
+        </div>
+
+        <input type="hidden" name="id" placeholder="请输入" autocomplete="off" class="layui-input" disabled>
+        <input type="hidden" name="_isDel" value="false" placeholder="请输入" autocomplete="off" class="layui-input" disabled>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="submit">提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+</template>

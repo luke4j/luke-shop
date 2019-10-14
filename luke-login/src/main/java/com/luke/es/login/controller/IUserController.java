@@ -3,6 +3,7 @@ package com.luke.es.login.controller;
 
 import com.luke.es.global.IBController;
 import com.luke.es.md.vo.login.VOInLogin;
+import com.luke.es.md.vo.login.user.UIFindVOUser;
 import com.luke.es.md.vo.login.user.UIVOUser;
 import com.luke.es.tool.controller.ActResult;
 import com.luke.es.tool.vo.Page;
@@ -26,11 +27,11 @@ public interface IUserController extends IBController {
     ActResult updateModel(HttpServletRequest request, HttpServletResponse response, ActResult actResult , UIVOUser vo, BindingResult bindingResult) throws Exception ;
 
     @RequestMapping(path = "findAll.act",method = RequestMethod.POST)
-    ActResult findAll(HttpServletRequest request, HttpServletResponse response, Page page,UIVOUser vo, ActResult actResult) throws Exception ;
+    ActResult findAll(HttpServletRequest request, HttpServletResponse response, Page page, UIFindVOUser vo, ActResult actResult) throws Exception ;
 
 
     @RequestMapping(path = "findAllBack.act",method = RequestMethod.POST)
-    ActResult findAllBack(HttpServletRequest request, HttpServletResponse response, Page page, UIVOUser vo, ActResult actResult) throws Exception ;
+    ActResult findAllBack(HttpServletRequest request, HttpServletResponse response, Page page, UIFindVOUser vo, ActResult actResult) throws Exception ;
 
 
 }

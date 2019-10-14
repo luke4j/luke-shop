@@ -5,6 +5,7 @@ import com.luke.es.login.controller.IUserController;
 import com.luke.es.login.service.IUserService;
 import com.luke.es.md.vo.UIVOList;
 import com.luke.es.md.vo.login.VOInLogin;
+import com.luke.es.md.vo.login.user.UIFindVOUser;
 import com.luke.es.md.vo.login.user.UIVOUser;
 import com.luke.es.tool.controller.ActResult;
 import com.luke.es.tool.vo.Page;
@@ -28,13 +29,13 @@ public class UserController extends BController implements IUserController {
         return actResult ;
     }
 
-    public ActResult findAll(HttpServletRequest request, HttpServletResponse response, Page page,UIVOUser vo, ActResult actResult) throws Exception {
+    public ActResult findAll(HttpServletRequest request, HttpServletResponse response, Page page, UIFindVOUser vo, ActResult actResult) throws Exception {
         List<UIVOUser> users = this.userService.findAll(false,vo,page) ;
         actResult.setRt(users);
         return actResult;
     }
 
-    public ActResult findAllBack(HttpServletRequest request, HttpServletResponse response,Page page,UIVOUser vo,  ActResult actResult) throws Exception {
+    public ActResult findAllBack(HttpServletRequest request, HttpServletResponse response,Page page,UIFindVOUser vo,  ActResult actResult) throws Exception {
         List<UIVOUser> users = this.userService.findAllBack(vo,page) ;
         actResult.setRt(users);
         return actResult;

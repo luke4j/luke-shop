@@ -38,7 +38,7 @@ define(function(require){
             if(_.isEmpty(attrs.loginName)){
                 return "登录名不能为空" ;
             }
-            if(attrs.loginName.length<4){
+            if(attrs.loginName.length<2){
                 return "登录名不合法" ;
             }
             if(_.isEmpty(attrs.loginPwd)){
