@@ -608,11 +608,10 @@ lk.page.pageTreeTable = function(treeTableCfg){
                 , treeSpid: 0
                 , treeIdName: 'id'
                 , treePidName: 'fid'
-                , treeDefaultClose: true
+                // , treeDefaultClose: true
                 , treeLinkage: false
                 , method: 'post'
                 , page: false,
-
                 done: function () {
                     layer.closeAll('loading');
                 }
@@ -656,9 +655,10 @@ lk.page.alertLayuiForm = function(cfg){
         lk.ts.alert("请注意弹出窗的必须参数") ;
         return false ;
     }
-    if(!cfg.view.$form) {
-        cfg.view.$form = ls.d.getHtml(cfg.htmlTemplateUrl) ;
-    }
+    // if(!cfg.view.$form) {
+    //     cfg.view.$form = ls.d.getHtml(cfg.htmlTemplateUrl) ;
+    // }
+    cfg.view.$form = ls.d.getHtml(cfg.htmlTemplateUrl) ;
     layui.use(['layer','form','laydate','layedit'], function() {
         var $ = layui.jquery, layer = layui.layer, form = layui.form;
         layer.open($.extend({

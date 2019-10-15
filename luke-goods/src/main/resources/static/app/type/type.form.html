@@ -1,0 +1,54 @@
+<template>
+    <form class="layui-form" style="margin-top: 10px;margin-right: 20px;"  lay-filter="form"> <!-- 提示：如果你不想用form，你可以换成div等任何一个普通元素 -->
+        <div class="layui-form-item">
+            <label class="layui-form-label">类型</label>
+            <div class="layui-input-block">
+                <input type="text" name="c_type" id="c_type"  placeholder="请输入" autocomplete="off" class="layui-input" disabled="disabled" lay-verify="required">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">名称</label>
+            <div class="layui-input-block">
+                <input type="text" name="name"  id="name"  placeholder="请输入" autocomplete="off" class="layui-input" lay-verify="required">
+            </div>
+        </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">度数商品</label>
+                <div class="layui-input-block">
+                    <input type="radio" name="blnLens" value="true" title="是" >
+                    <input type="radio" name="blnLens" value="false" title="否" checked="checked">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">库存商品</label>
+                <div class="layui-input-block">
+                    <input type="radio" name="blnLib" value="true" title="是" checked="checked">
+                    <input type="radio" name="blnLib" value="false" title="否" >
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">效期商品</label>
+                <div class="layui-input-block">
+                    <input type="radio" name="blnTime" value="true" title="是" >
+                    <input type="radio" name="blnTime" value="false" title="否" checked="checked">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">是否服务</label>
+                <div class="layui-input-block">
+                    <input type="radio" name="blnEntity" value="true" title="是" >
+                    <input type="radio" name="blnEntity" value="false" title="否" checked="checked">
+                </div>
+            </div>
+
+        <input type="hidden" name="id" placeholder="请输入" autocomplete="off" class="layui-input" disabled>
+        <input type="hidden" name="fid" value="0" placeholder="请输入" autocomplete="off" class="layui-input" disabled>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="submit">提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+</template>

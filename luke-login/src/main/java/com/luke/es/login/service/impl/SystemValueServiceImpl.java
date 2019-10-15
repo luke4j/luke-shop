@@ -2,7 +2,7 @@ package com.luke.es.login.service.impl;
 
 import com.luke.es.login.dao.ISystemValueDao;
 import com.luke.es.login.service.ISystemValueService;
-import com.luke.es.md.TSys_SystemValue;
+import com.luke.es.md.sys.TSys_SystemValue;
 import com.luke.es.md.vo.login.systemValue.DTOSystemValue;
 import com.luke.es.md.vo.login.systemValue.VOSystemValueTree;
 import com.luke.es.tool.exception.AppException;
