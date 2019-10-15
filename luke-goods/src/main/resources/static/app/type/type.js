@@ -65,13 +65,13 @@ define(function(require) {
         }
         //页面注册事件，这些按钮都是由数据库动态配置来的，id为btn-[名称的汉语拼音]
         ,events:{
-            "click #btn-xinzeng":"click_btn_xinzeng_handler"
-            ,"click #btn-shuaxin":"click_btn_shuaxin_handler"
-            ,"click #btn-xiugai":"click_btn_xiugai_handler"
-            ,"click #btn-shanchu":"click_btn_shanchu_handler"
-            ,"click #btn-shuxingweihu":"click_btn_shuxingweihu_handler"
-            ,"click #btn-zhedie":"click_btn_zhedie_handler"
-            ,"click #btn-zhankai":"click_btn_zhankai_handler"
+            "click #btn-xinzeng":"click_btn_xinzeng_handler" //新增
+            ,"click #btn-shuaxin":"click_btn_shuaxin_handler" //刷新
+            ,"click #btn-xiugai":"click_btn_xiugai_handler" //修改
+            ,"click #btn-shanchu":"click_btn_shanchu_handler" //删除
+            ,"click #btn-shuxingweihu":"click_btn_shuxingweihu_handler"//属性维护
+            ,"click #btn-zhedie":"click_btn_zhedie_handler"    //合并
+            ,"click #btn-zhankai":"click_btn_zhankai_handler"  //展开
         }
         //事件所调用方法
         ,click_btn_zhedie_handler:function(){
