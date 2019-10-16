@@ -625,10 +625,10 @@ lk.page.pageTable = function(cfg){
     layui.use('table', function(){
         var table = layui.table;
         table.render($.extend({
-            url: 'user/findAll.act' //数据接口
+            // url: 'user/findAll.act' //数据接口
+             parseData: ls.d.tableDateParseData
             , method: 'post'
             , page: true //开启分页
-            , parseData: ls.d.tableDateParseData
         },cfg));
 
     });
@@ -661,7 +661,7 @@ lk.page.alertLayuiForm = function(cfg){
     cfg.view.$form = ls.d.getHtml(cfg.htmlTemplateUrl) ;
     layui.use(['layer','form','laydate','layedit'], function() {
         var $ = layui.jquery, layer = layui.layer, form = layui.form;
-        layer.open($.extend({
+        var layIndex = layer.open($.extend({
               type: 1
             , title: '请注意弹出窗标题参数'
             , maxmin: true
@@ -672,6 +672,8 @@ lk.page.alertLayuiForm = function(cfg){
                 // form.render();
             }
         },cfg));
+
+        layer.full(layIndex);
         /**提交事件，不同的业务，由事件决定modelMethodName，由model的方法来与后台交互*/
         form.on('submit(submit)', function (data) {
             var model = new cfg.Model(data.field);

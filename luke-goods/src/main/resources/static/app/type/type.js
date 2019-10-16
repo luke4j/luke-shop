@@ -113,7 +113,7 @@ define(function(require) {
                 ,Model:Model
                 ,modelMethodName:'addModel'
                 ,data:{c_type:xtype,fid:fid}
-                ,htmlTemplet:xtype == "品类"?'app/type/type.form.html':'app/type/type2.form.html'
+                ,htmlTemplateUrl:xtype == "品类"?'app/type/type.form.html':'app/type/type2.form.html'
             }) ;
 
             return false ;
@@ -129,7 +129,7 @@ define(function(require) {
                 ,Model:Model
                 ,modelMethodName:'updateModel'
                 ,data:checkedTreeTableData.data[0]
-                ,htmlTemplet:checkedTreeTableData.data[0].c_type == "品类"?'app/type/type.form.html':'app/type/type2.form.html'
+                ,htmlTemplateUrl:checkedTreeTableData.data[0].c_type == "品类"?'app/type/type.form.html':'app/type/type2.form.html'
             }) ;
         }
         ,click_btn_shanchu_handler:function(){
@@ -140,7 +140,7 @@ define(function(require) {
                 ,Model:Model
                 ,modelMethodName:'delModel'
                 ,data:checkedTreeTableData.data[0]
-                ,htmlTemplet:checkedTreeTableData.data[0].c_type == "品类"?'app/type/type.form.html':'app/type/type2.form.html'
+                ,htmlTemplateUrl:checkedTreeTableData.data[0].c_type == "品类"?'app/type/type.form.html':'app/type/type2.form.html'
             }) ;
         }
         ,click_btn_shuxingweihu_handler:function(){
@@ -155,7 +155,26 @@ define(function(require) {
                 ,Model:Model
                 ,modelMethodName:'updateModel'
                 ,data:checkedTreeTableData.data[0]
-                ,htmlTemplet:checkedTreeTableData.data[0].c_type == "品类"?'app/type/type.form.html':'app/type/type2.form.html'
+                ,htmlTemplateUrl:"html/table.html"
+                ,success:function(){
+                    lk.page.pageTable({
+                        id:'uiGoodsAttr'
+                        ,elem: '#_htmlTableElement'
+                        ,where:{kindId:checkedTreeTableData.data[0].id}
+                        // ,area:"680px"
+                        ,url: 'type/findEmptyGoodsAttr.act' //数据接口
+                        ,page:false
+                        ,cols: [[ //表头
+                            {type:'checkbox', fixed: 'left'}
+                            // ,{field: 'id', title: 'ID'}
+                            // ,{field: 'kindName', title: '品类',width:100}
+                            ,{field: 'col', title: '列名'}
+                            ,{field: 'colName', title: '列涵义',width:150}
+                            ,{field: 'xtype', title: '元素类型',width:100}
+                            ,{field: 'fun', title: '元素渲染',width:300}
+                        ]]
+                    }) ;
+                }
             }) ;
         }
         //页面显示表格数据
@@ -250,18 +269,18 @@ define(function(require) {
          */
         ,alertLayerForm:function(args){
             var me = this ;
-            lk.page.alertLayuiForm({
-                title:args.title
+            lk.page.alertLayuiForm($.extend({
+                view:this
+                // ,title:args.title
                 // ,area:"680px"
-                ,modelMethodName:args.modelMethodName
-                ,data:args.data
-                ,htmlTemplateUrl:args.htmlTemplet
-                ,Model:args.Model
-                ,view:this
+                // ,modelMethodName:args.modelMethodName
+                // ,data:args.data
+                // ,htmlTemplateUrl:args.htmlTemplet
+                // ,Model:args.Model
                 ,success:function(){
                     layui.form.render();
                 }
-            }) ;
+            },args)) ;
         }
     }) ;
 

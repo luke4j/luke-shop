@@ -11,7 +11,7 @@ import javax.persistence.Table;
 @Table(indexes = {
         @Index(columnList = "goodsId")
 })
-public class TG_Attr extends _M {
+public class TG_GoodsAttr extends _M {
 
     Long goodsId ;
 

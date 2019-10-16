@@ -1,6 +1,8 @@
 package com.luke.es.md.vo.goods.dto;
 
-public class DTOType {
+import com.luke.es.tool.vo.VOIn;
+
+public class DTOType extends VOIn {
     /**类型*/
     String c_type ;
     /**名称*/
