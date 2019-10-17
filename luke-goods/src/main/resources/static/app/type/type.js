@@ -39,6 +39,17 @@ define(function(require) {
                 }
             });
         }
+        ,updateGoodsAttrCfg:function(){
+
+            ls.d.ajax({
+                url: "type/delModel.act",
+                data: this.attributes
+                , success: function (res) {
+                    lk.ts.alert(res.msg);
+                    view.pageTableData();
+                }
+            });
+        }
     });
 
     //页面模型
@@ -150,10 +161,11 @@ define(function(require) {
                 lk.ts.alert("只有类型为[品类]的数据需要维护")
                 return false ;
             }
+            var typeId = checkedTreeTableData.data[0].id ;
             this.alertLayerForm({
                 title:"品类{"+checkedTreeTableData.data[0].name+"}维护"
                 ,Model:Model
-                ,modelMethodName:'updateModel'
+                ,modelMethodName:'updateGoodsAttrCfg'
                 ,data:checkedTreeTableData.data[0]
                 ,htmlTemplateUrl:"html/table.html"
                 ,success:function(){
@@ -169,9 +181,9 @@ define(function(require) {
                             // ,{field: 'id', title: 'ID'}
                             // ,{field: 'kindName', title: '品类',width:100}
                             ,{field: 'col', title: '列名'}
-                            ,{field: 'colName', title: '列涵义',width:150}
-                            ,{field: 'xtype', title: '元素类型',width:100}
-                            ,{field: 'fun', title: '元素渲染',width:300}
+                            ,{field: 'colName', title: '列涵义',width:150,edit:true}
+                            ,{field: 'xtype', title: '元素类型',width:100,edit:true}
+                            ,{field: 'fun', title: '元素渲染',width:300,edit:true}
                         ]]
                     }) ;
                 }
