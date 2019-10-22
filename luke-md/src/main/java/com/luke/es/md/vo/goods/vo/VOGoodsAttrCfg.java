@@ -8,38 +8,48 @@ public class VOGoodsAttrCfg extends VOut {
 
     }
 
-    public VOGoodsAttrCfg(Long id, Long kindId, String kindName, String colName, String col, String xtype, String fun) {
+    public VOGoodsAttrCfg(Long id, Long xtypeId, String xtypeName, String colName, String col, String eleType, String fun) {
         this.id = id;
-        this.kindId = kindId;
-        this.kindName = kindName;
+        this.xtypeId = xtypeId;
+        this.xtypeName = xtypeName;
         this.colName = colName;
         this.col = col;
-        this.xtype = xtype;
+        this.eleType = eleType ;
         this.fun = fun;
     }
 
     Long id ;
-    Long kindId ;
-    String kindName ;
+    Long xtypeId ;
+    String xtypeName ;
     String colName ;
     String col ;
-    String xtype ;
     String fun ;
+    String eleType ;
 
-    public String getKindName() {
-        return kindName;
+    boolean lay_checked ;
+
+    public boolean isLay_checked() {
+        return lay_checked;
     }
 
-    public void setKindName(String kindName) {
-        this.kindName = kindName;
+    public void setLay_checked(boolean lay_checked) {
+        this.lay_checked = lay_checked;
     }
 
-    public String getXtype() {
-        return xtype;
+    public String getEleType() {
+        return eleType;
     }
 
-    public void setXtype(String xtype) {
-        this.xtype = xtype;
+    public void setEleType(String eleType) {
+        this.eleType = eleType;
+    }
+
+    public String getXtypeName() {
+        return xtypeName;
+    }
+
+    public void setXtypeName(String xtypeName) {
+        this.xtypeName = xtypeName;
     }
 
     public String getFun() {
@@ -50,12 +60,12 @@ public class VOGoodsAttrCfg extends VOut {
         this.fun = fun;
     }
 
-    public Long getKindId() {
-        return kindId;
+    public Long getXtypeId() {
+        return xtypeId;
     }
 
-    public void setKindId(Long kindId) {
-        this.kindId = kindId;
+    public void setXtypeId(Long xtypeId) {
+        this.xtypeId = xtypeId;
     }
 
     public String getColName() {

@@ -453,6 +453,81 @@ LOCK TABLES `tg_goods` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `tg_goods_attr`
+--
+
+DROP TABLE IF EXISTS `tg_goods_attr`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `tg_goods_attr` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `_is_del` bit(1) NOT NULL,
+  `_wtime` datetime NOT NULL,
+  `a1` varchar(40) DEFAULT NULL,
+  `a10` varchar(40) DEFAULT NULL,
+  `a11` varchar(40) DEFAULT NULL,
+  `a12` varchar(40) DEFAULT NULL,
+  `a13` varchar(40) DEFAULT NULL,
+  `a14` varchar(40) DEFAULT NULL,
+  `a15` varchar(40) DEFAULT NULL,
+  `a2` varchar(40) DEFAULT NULL,
+  `a3` varchar(40) DEFAULT NULL,
+  `a4` varchar(40) DEFAULT NULL,
+  `a5` varchar(40) DEFAULT NULL,
+  `a6` varchar(40) DEFAULT NULL,
+  `a7` varchar(40) DEFAULT NULL,
+  `a8` varchar(40) DEFAULT NULL,
+  `a9` varchar(40) DEFAULT NULL,
+  `goods_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `IDXr031osnsyec7pp5m710c45mlg` (`goods_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tg_goods_attr`
+--
+
+LOCK TABLES `tg_goods_attr` WRITE;
+/*!40000 ALTER TABLE `tg_goods_attr` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tg_goods_attr` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tg_goods_attr_cnf`
+--
+
+DROP TABLE IF EXISTS `tg_goods_attr_cnf`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `tg_goods_attr_cnf` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `_is_del` bit(1) NOT NULL,
+  `_wtime` datetime NOT NULL,
+  `col` varchar(40) DEFAULT NULL,
+  `col_name` varchar(10) DEFAULT NULL,
+  `kind_id` bigint(20) DEFAULT NULL,
+  `fun` varchar(20) DEFAULT NULL,
+  `xtype` varchar(10) DEFAULT NULL,
+  `xtype_id` bigint(20) DEFAULT NULL,
+  `ele_type` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `IDXlse6b5taasnn44vv1mmgxs9fs` (`kind_id`),
+  KEY `IDXt6hk5b49s1gqtjdpix542kcpx` (`xtype_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tg_goods_attr_cnf`
+--
+
+LOCK TABLES `tg_goods_attr_cnf` WRITE;
+/*!40000 ALTER TABLE `tg_goods_attr_cnf` DISABLE KEYS */;
+INSERT INTO `tg_goods_attr_cnf` VALUES (1,'\0','2019-10-22 15:12:44','a1','11',NULL,'11',NULL,1,'11'),(2,'\0','2019-10-22 15:12:44','a2',NULL,NULL,NULL,NULL,1,NULL),(3,'\0','2019-10-22 15:12:44','a3',NULL,NULL,NULL,NULL,1,NULL),(4,'\0','2019-10-22 15:12:44','a4',NULL,NULL,NULL,NULL,1,NULL),(5,'\0','2019-10-22 15:12:44','a5',NULL,NULL,NULL,NULL,1,NULL),(6,'\0','2019-10-22 15:12:44','a6',NULL,NULL,NULL,NULL,1,NULL),(7,'\0','2019-10-22 15:12:44','a7',NULL,NULL,NULL,NULL,1,NULL),(8,'\0','2019-10-22 15:12:44','a8',NULL,NULL,NULL,NULL,1,NULL),(9,'\0','2019-10-22 15:12:44','a9',NULL,NULL,NULL,NULL,1,NULL),(10,'\0','2019-10-22 15:12:44','a10',NULL,NULL,NULL,NULL,1,NULL),(11,'\0','2019-10-22 15:12:44','a11',NULL,NULL,NULL,NULL,1,NULL),(12,'\0','2019-10-22 15:12:44','a12',NULL,NULL,NULL,NULL,1,NULL),(13,'\0','2019-10-22 15:12:44','a13',NULL,NULL,NULL,NULL,1,NULL),(14,'\0','2019-10-22 15:12:44','a14',NULL,NULL,NULL,NULL,1,NULL),(15,'\0','2019-10-22 15:12:44','a15',NULL,NULL,NULL,NULL,1,NULL);
+/*!40000 ALTER TABLE `tg_goods_attr_cnf` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `tg_lens`
 --
 
@@ -537,7 +612,7 @@ CREATE TABLE `tg_type` (
   `py` varchar(80) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `IDXf611hleo091mw4yeicfko9amy` (`fid`)
-) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -546,7 +621,7 @@ CREATE TABLE `tg_type` (
 
 LOCK TABLES `tg_type` WRITE;
 /*!40000 ALTER TABLE `tg_type` DISABLE KEYS */;
-INSERT INTO `tg_type` VALUES (1,'\0','2019-10-15 13:34:07','\0','','','\0','品类',0,'库存镜片','KCJP'),(2,'\0','2019-10-15 13:34:21','\0','','\0','\0','品类',0,'零订镜片','LDJP'),(3,'\0','2019-10-15 13:34:29','\0','','\0','\0','品类',0,'车房镜片','CFJP'),(4,'\0','2019-10-15 13:36:13',NULL,NULL,NULL,NULL,'品牌',1,'蔡司','CS'),(5,'\0','2019-10-15 13:36:30',NULL,NULL,NULL,NULL,'品牌',1,'依视路','YSL');
+INSERT INTO `tg_type` VALUES (1,'\0','2019-10-15 13:34:07','\0','','','\0','品类',0,'库存镜片','KCJP'),(2,'\0','2019-10-15 13:34:21','\0','','\0','\0','品类',0,'零订镜片','LDJP'),(3,'\0','2019-10-15 13:34:29','\0','','\0','\0','品类',0,'车房镜片','CFJP'),(4,'\0','2019-10-15 13:36:13',NULL,NULL,NULL,NULL,'品牌',1,'蔡司','CS'),(5,'\0','2019-10-15 13:36:30',NULL,NULL,NULL,NULL,'品牌',1,'依视路','YSL'),(6,'\0','2019-10-22 09:48:43','','\0','\0','\0','品类',0,'一般验光','YBYG'),(7,'\0','2019-10-22 09:48:50','','\0','\0','\0','品类',0,'全面验光','QMYG'),(8,'\0','2019-10-22 09:49:50','\0','','','','品类',0,'现库隐形','XKYX'),(9,'\0','2019-10-22 09:50:06','\0','','\0','','品类',0,'零订隐形','LDYX'),(10,'\0','2019-10-22 09:50:32','\0','\0','','\0','品类',0,'镜架','JJ'),(11,'\0','2019-10-22 09:50:45','\0','\0','','\0','品类',0,'太阳镜','TYJ'),(12,'\0','2019-10-22 09:51:13','\0','','','\0','品类',0,'花镜','HJ'),(13,'\0','2019-10-22 09:51:34','\0','\0','','','品类',0,'护理液','HLY'),(14,'\0','2019-10-22 09:51:49','\0','\0','','\0','品类',0,'耗材','HC'),(15,'','2019-10-22 10:40:40',NULL,NULL,NULL,NULL,'型号',4,'1.56','1.56'),(16,'\0','2019-10-22 10:42:01',NULL,NULL,NULL,NULL,'型号',4,'新锐','XR'),(17,'\0','2019-10-22 10:42:30',NULL,NULL,NULL,NULL,'颜色',16,'1.56','1.56'),(18,'\0','2019-10-22 10:47:43',NULL,NULL,NULL,NULL,'颜色',16,'1.73','1.73'),(19,'\0','2019-10-22 10:47:49',NULL,NULL,NULL,NULL,'颜色',16,'1.92','1.92'),(20,'','2019-10-22 16:12:41',NULL,NULL,NULL,NULL,'品牌',3,'暴龙','BL'),(21,'','2019-10-22 16:12:53',NULL,NULL,NULL,NULL,'品牌',3,'警察','JC'),(22,'\0','2019-10-22 16:13:36',NULL,NULL,NULL,NULL,'品牌',3,'暴龙','BL'),(23,'\0','2019-10-22 16:13:43',NULL,NULL,NULL,NULL,'品牌',3,'警察','JC'),(24,'\0','2019-10-22 16:14:23',NULL,NULL,NULL,NULL,'品牌',3,'123','123');
 /*!40000 ALTER TABLE `tg_type` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1118,4 +1193,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-10-15 16:27:07
+-- Dump completed on 2019-10-22 16:17:12

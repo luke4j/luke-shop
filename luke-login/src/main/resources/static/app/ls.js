@@ -18,22 +18,22 @@ ls.d = {} ;
 ls.d.ajax = function(cnf){
     if(cnf==null) lk.er.error("ajax 没有参数") ;
     var data = {_token:ls.ck.getToken(),_jsn:lk.num.uuid()} ;
-    $.extend(data,cnf.data) ;
+    cnf.data = $.extend(cnf.data||{},data) ;
     var alertIdx ;
 
-    $.ajax({
-        url:cnf.url
-        ,type:"post"
-        ,async:true
-        ,data:data
-        ,success:function(resp){
-            if(resp.success){
-                cnf.success(resp) ;
-            }else{
-                if(resp.msg)
-                    lk.ts.alert(resp.msg) ;
-            }
+    var fun = cnf.success ;
+    delete cnf.success ;
+    cnf.success = function(resp){
+        if(resp.success){
+            fun(resp) ;
+        }else{
+            if(resp.msg)
+                lk.ts.alert(resp.msg) ;
         }
+    }
+    $.ajax($.extend({
+        type:"post"
+        ,async:true
         ,complete:function(XMLHttpRequest, textStatus){
             if(alertIdx)
                 lk.ts.close(alertIdx) ;
@@ -42,7 +42,30 @@ ls.d.ajax = function(cnf){
             if(cnf.mb)
                 alertIdx = lk.ts.alert("处理中,请稍等...")
         }
-    }) ;
+    },cnf)) ;
+
+    // success:function(resp){
+    //     if(resp.success){
+    //         cnf.success(resp) ;
+    //     }else{
+    //         if(resp.msg)
+    //             lk.ts.alert(resp.msg) ;
+    //     }
+    // }
+    // $.ajax({
+    //     url:cnf.url
+    //     ,type:"post"
+    //     ,async:true
+    //     ,data:data
+    //     ,complete:function(XMLHttpRequest, textStatus){
+    //         if(alertIdx)
+    //             lk.ts.close(alertIdx) ;
+    //     }
+    //     ,beforeSend:function(XMLHttpRequest){
+    //         if(cnf.mb)
+    //             alertIdx = lk.ts.alert("处理中,请稍等...")
+    //     }
+    // }) ;
 } ;
 
 ls.d.getHtml = function(html_url){
@@ -75,6 +98,17 @@ ls.d.setUserList = function($select,layuiForm){
     })
 } ;
 ls.d.tableDateParseData = function(res){
+    if(res.rt.length==1){
+       if(res.rt.lay_checked){
+           res.rt.LAY_CHECKED = true ;
+       }
+    }else if(res.rt.length>1){
+        for(var t in res.rt){
+            if(res.rt[t].lay_checked){
+                res.rt[t].LAY_CHECKED = true ;
+            }
+        }
+    }
     return {
         "code": res.code, //解析接口状态
         "msg": res.msg, //解析提示文本

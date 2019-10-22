@@ -39,11 +39,14 @@ define(function(require) {
                 }
             });
         }
-        ,updateGoodsAttrCfg:function(){
-
+        ,saveOrUpdateGoodsAttr:function(){
+            var checkedTreeTableData = layui.table.checkStatus('uiGoodsAttrCfgTable') ;
+            console.dir(this.attributes) ;
             ls.d.ajax({
-                url: "type/delModel.act",
-                data: this.attributes
+                // contentType: 'application/json;charset=utf8'
+                url: "type/saveOrUpdateGoodsAttr.act"
+                // ,data: this.attributes
+                ,data:{xtypeId:this.get("id"),jsonArrayLstDto:JSON.stringify(checkedTreeTableData.data)}
                 , success: function (res) {
                     lk.ts.alert(res.msg);
                     view.pageTableData();
@@ -110,13 +113,16 @@ define(function(require) {
                         fid = checkedTreeTableData.data[0].id ;
                         break ;
                     case '品牌' :
-                        xtype = "型号" ;
+                        xtype = "型号/系列" ;
                         fid = checkedTreeTableData.data[0].id ;
                         break ;
                     case '型号' :
-                        xtype = "颜色" ;
+                        xtype = "颜色/折射率" ;
                         fid = checkedTreeTableData.data[0].id ;
                         break ;
+                    default :
+                        lk.ts.alert("请维护商品信息") ;
+                        return ;
                 }
             }
             this.alertLayerForm({
@@ -155,26 +161,27 @@ define(function(require) {
             }) ;
         }
         ,click_btn_shuxingweihu_handler:function(){
+            /**得到选择的品类*/
             var checkedTreeTableData = layui.table.checkStatus('uiDataTable') ;
             lk.exception.lenght(checkedTreeTableData.data.length,lk.static.CHECK_ONE) ;
             if(checkedTreeTableData.data[0].c_type != "品类"){
                 lk.ts.alert("只有类型为[品类]的数据需要维护")
                 return false ;
             }
-            var typeId = checkedTreeTableData.data[0].id ;
+            var xtypeId = checkedTreeTableData.data[0].id ;
             this.alertLayerForm({
                 title:"品类{"+checkedTreeTableData.data[0].name+"}维护"
                 ,Model:Model
-                ,modelMethodName:'updateGoodsAttrCfg'
+                ,modelMethodName:'saveOrUpdateGoodsAttr'
                 ,data:checkedTreeTableData.data[0]
                 ,htmlTemplateUrl:"html/table.html"
                 ,success:function(){
                     lk.page.pageTable({
-                        id:'uiGoodsAttr'
+                        id:'uiGoodsAttrCfgTable'
                         ,elem: '#_htmlTableElement'
-                        ,where:{kindId:checkedTreeTableData.data[0].id}
+                        ,where:{xtypeId:checkedTreeTableData.data[0].id}
                         // ,area:"680px"
-                        ,url: 'type/findEmptyGoodsAttr.act' //数据接口
+                        ,url: 'type/findInitGoodsAttr.act' //数据接口
                         ,page:false
                         ,cols: [[ //表头
                             {type:'checkbox', fixed: 'left'}
@@ -182,7 +189,7 @@ define(function(require) {
                             // ,{field: 'kindName', title: '品类',width:100}
                             ,{field: 'col', title: '列名'}
                             ,{field: 'colName', title: '列涵义',width:150,edit:true}
-                            ,{field: 'xtype', title: '元素类型',width:100,edit:true}
+                            ,{field: 'eleType', title: '元素类型',width:100,edit:true}
                             ,{field: 'fun', title: '元素渲染',width:300,edit:true}
                         ]]
                     }) ;
@@ -242,13 +249,13 @@ define(function(require) {
             var template = "<script type='text/html' id='templateType'> " +
                 "{{#  if(d.c_type==null){  }}"+
                 "{{#  }else if(d.c_type=='品类'){  }}"+
-                "{{ '<font color=green>品类</font>' }}"+
+                "   <font color=green>品类</font> "+
                 "{{#  }else if(d.c_type=='品牌'){  }}"+
-                "{{  '<font color=blue>品牌</font>'  }}"+
+                "   <font color=blue>品牌</font> "+
                 "{{#  }else if(d.c_type=='型号'){  }}"+
-                "{{  '<font color=#dc143c>型号</font>'  }}"+
+                "   <font color=#dc143c>型号/系列</font>  "+
                 "{{#  }else if(d.c_type=='颜色'){  }}"+
-                "{{  '<font color=#8b008b>颜色</font>'  }}"+
+                "   <font color=#8b008b>颜色/折射率</font>"+
                 "{{# } }}"
             "</script>" ;
             return template ;
@@ -261,13 +268,13 @@ define(function(require) {
                 ,where:params
                 ,cols: [[ //表头
                     {type:'radio', fixed: 'left'}
-                    ,{field: 'id', title: 'ID',width:30, fixed: 'left'}
-                    ,{field: 'c_type', title: '类型', fixed: 'left',templet:"#templateType"}
-                    ,{field: 'name', title: '名称', fixed: 'left'}
-                    ,{field: 'blnLens', title: '是否度数', fixed: 'left',templet:"#templateYesOrNo_lens"}
-                    ,{field: 'blnLib', title: '是否库存', fixed: 'left',templet:"#templateYesOrNo_lib"}
-                    ,{field: 'blnTime', title: '是否效期', fixed: 'left',templet:"#templateYesOrNo_time"}
-                    ,{field: 'blnEntity', title: '是否服务', fixed: 'left',templet:"#templateYesOrNo_entity"}
+                    ,{field: 'id', title: 'ID',width:150}
+                    ,{field: 'c_type', title: '类型',templet:"#templateType",width:130}
+                    ,{field: 'name', title: '名称',width:160 }
+                    ,{field: 'blnLens', title: '是否度数', templet:"#templateYesOrNo_lens",width:100}
+                    ,{field: 'blnLib', title: '是否库存', templet:"#templateYesOrNo_lib",width:100}
+                    ,{field: 'blnTime', title: '是否效期', templet:"#templateYesOrNo_time",width:100}
+                    ,{field: 'blnEntity', title: '是否服务',templet:"#templateYesOrNo_entity",width:100}
                 ]]
             },params) ;
         }

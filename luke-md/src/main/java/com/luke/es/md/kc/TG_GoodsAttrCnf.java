@@ -9,10 +9,10 @@ import javax.persistence.Table;
 
 @Entity
 @Table(indexes = {
-        @Index(columnList = "kindId")
+        @Index(columnList = "xtypeId")
 })
 public class TG_GoodsAttrCnf extends _M {
-    Long kindId ;
+    Long xtypeId  ;
     @Column(length = 10)
     String colName ;
     @Column(length = 40)
@@ -20,18 +20,18 @@ public class TG_GoodsAttrCnf extends _M {
 
     /**页面展示的元素类型*/
     @Column(length = 10)
-    String xtype ;
+    String eleType ;
     /**需要执行的代码，比如这是一个下拉菜单，在渲染完成之后，需要添加的下拉数据取得的代码，一般是一个js函数*/
     @Column(length = 20)
     String fun ;
 
 
-    public String getXtype() {
-        return xtype;
+    public String getEleType() {
+        return eleType;
     }
 
-    public void setXtype(String xtype) {
-        this.xtype = xtype;
+    public void setEleType(String eleType) {
+        this.eleType = eleType;
     }
 
     public String getFun() {
@@ -42,12 +42,12 @@ public class TG_GoodsAttrCnf extends _M {
         this.fun = fun;
     }
 
-    public Long getKindId() {
-        return kindId;
+    public Long getXtypeId() {
+        return xtypeId;
     }
 
-    public void setKindId(Long kindId) {
-        this.kindId = kindId;
+    public void setXtypeId(Long xtypeId) {
+        this.xtypeId = xtypeId;
     }
 
     public String getColName() {

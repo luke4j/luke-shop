@@ -4,19 +4,27 @@ package com.luke.es.md.vo.goods.dto;
 import com.luke.es.tool.vo.VOIn;
 
 public class DTOGoodsAttrCfg extends VOIn {
-    Long kindId ;
     String colName ;
     String col ;
     Long id ;
-    String xtype ;
+    Long xtypeId ;
     String fun ;
+    String eleType ;
 
-    public String getXtype() {
-        return xtype;
+    public String getEleType() {
+        return eleType;
     }
 
-    public void setXtype(String xtype) {
-        this.xtype = xtype;
+    public void setEleType(String eleType) {
+        this.eleType = eleType;
+    }
+
+    public Long getXtypeId() {
+        return xtypeId;
+    }
+
+    public void setXtypeId(Long xtypeId) {
+        this.xtypeId = xtypeId;
     }
 
     public String getFun() {
@@ -27,13 +35,6 @@ public class DTOGoodsAttrCfg extends VOIn {
         this.fun = fun;
     }
 
-    public Long getKindId() {
-        return kindId;
-    }
-
-    public void setKindId(Long kindId) {
-        this.kindId = kindId;
-    }
 
     public String getColName() {
         return colName;

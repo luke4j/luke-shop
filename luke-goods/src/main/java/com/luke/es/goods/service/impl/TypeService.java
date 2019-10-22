@@ -2,6 +2,7 @@ package com.luke.es.goods.service.impl;
 
 import com.luke.es.goods.dao.ITypeDao;
 import com.luke.es.goods.service.ITypeService;
+import com.luke.es.md.kc.TG_GoodsAttrCnf;
 import com.luke.es.md.kc.TG_Type;
 import com.luke.es.md.vo.goods.dto.DTOGoodsAttrCfg;
 import com.luke.es.md.vo.goods.dto.DTOType;
@@ -15,6 +16,8 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 @Service
@@ -56,33 +59,37 @@ public class TypeService implements ITypeService {
 
     @Override
     public List<VOGoodsAttrCfg> findEmptyGoodsAttr( DTOGoodsAttrCfg dto) throws Exception {
+
+        List<VOGoodsAttrCfg> rt = this.iTypeDao.findGodosAttrByXtypeId(dto.getXtypeId()) ;
+        if(rt.size()>0)
+            return rt ;
+
         List<VOGoodsAttrCfg> lstVO = new ArrayList<>(15) ;
         VOGoodsAttrCfg cfg = null ;
-        TG_Type type = this.iTypeDao.get(TG_Type.class,dto.getKindId()) ;
+        TG_Type type = this.iTypeDao.get(TG_Type.class,dto.getXtypeId()) ;
         if(type==null)
-            throw AppException.create("品类ID："+dto.getKindId()+" 从TG_Type表中查询不到数据") ;
+            throw AppException.create("品类ID："+dto.getXtypeId()+" 从TG_Type表中查询不到数据") ;
         for(int i = 0;i<15;i++){
             cfg = new VOGoodsAttrCfg() ;
-            cfg.setKindId(dto.getKindId());
-            cfg.setKindName(type.getName());
-            if(i==0){
-                cfg.setColName("品类");
-            }
-            if(i==1){
-                cfg.setColName("品牌");
-            }
-            if(i==2){
-                cfg.setColName("型号/折射率");
-            }
-            if(i==3){
-                cfg.setColName("颜色/贴膜");
-            }
-            if(i==4){
-                cfg.setColName("规格");
-            }
+            cfg.setXtypeId(dto.getXtypeId());
+            cfg.setXtypeName(type.getName());
             cfg.setCol("a"+(i+1));
             lstVO.add(cfg) ;
         }
         return lstVO;
+    }
+
+    @Override
+    @Transactional
+    public void saveOrUpdateGoodsAttr(Long xtypeId,Collection<DTOGoodsAttrCfg> lstDto) throws Exception {
+        this.iTypeDao.deleteGoodsAttrCfgByXtypeId(xtypeId) ;
+        List<TG_GoodsAttrCnf> lstCnf = new ArrayList<>(lstDto.size()) ;
+        Iterator<DTOGoodsAttrCfg> it = lstDto.iterator() ;
+       while (it.hasNext()){
+           TG_GoodsAttrCnf cnf = new TG_GoodsAttrCnf() ;
+           DTOGoodsAttrCfg dto = it.next() ;
+           BeanUtils.copyProperties(dto,cnf);
+           this.iTypeDao.save(cnf) ;
+       };
     }
 }
