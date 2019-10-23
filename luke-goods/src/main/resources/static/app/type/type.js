@@ -84,7 +84,8 @@ define(function(require) {
             this.$el.append(this._tmpCol_yesOrNo_time()) ;
             this.$el.append(this._tmpCol_type()) ;
             // this.$el.append(this._pageLayTreeTableQuery()) ;
-            this.$el.//使用UI组件来显示数据
+            $("#item_btn", this.$el).append(this._pageLayTreeTableQuery());
+            //使用UI组件来显示数据
             this.pageTableData() ;
             return this ;
         }
@@ -97,6 +98,7 @@ define(function(require) {
             ,"click #btn-shuxingweihu":"click_btn_shuxingweihu_handler"//属性维护
             ,"click #btn-zhedie":"click_btn_zhedie_handler"    //合并
             ,"click #btn-zhankai":"click_btn_zhankai_handler"  //展开
+            , "change #xtypeSelect": "change_xtypeSelect_handler" //选择品类
         }
         //事件所调用方法
         ,click_btn_zhedie_handler:function(){
@@ -207,6 +209,10 @@ define(function(require) {
                 }
             }) ;
         }
+        , change_xtypeSelect_handler: function () {
+            var me = this;
+            me.pageTableData({id: data.value});
+        }
         //页面显示表格数据
         /**
          *页面加载成功后，第一步就是加载默认数据，
@@ -273,16 +279,12 @@ define(function(require) {
         }
         , _pageLayTreeTableQuery: function () {
 
-            // layui.form.on('select(xtypeSelect)', function(data){
-            //     me.pageTableData({id:data.value}) ;
-            // });
-
             var allKind = new Model().findKind();
             var options = "";
             for (var i in allKind) {
                 options += "<option value='" + allKind[i].id + "' >" + allKind[i].name + "</option>"
             }
-            var element = "<script type='text/html' id='_pageLayTreeTableQuery'> " +
+            var element =
                 "<div class='layui-form-item'>" +
                 "    <div class='layui-inline'>" +
                 "      <label class='layui-form-label'>品类</label>" +
@@ -292,9 +294,8 @@ define(function(require) {
                 options +
                 "        </select>" +
                 "      </div>" +
-                "    </div>" +
-                "</script>";
-            return element;
+                "    </div>";
+            return $(element);
         }
         ,pageTableData:function(params){
             var me = this;
