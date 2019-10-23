@@ -44,8 +44,15 @@ public class TypeController implements ITypeController {
     }
 
     @Override
-    public ActResult findAll(HttpServletRequest request, HttpServletResponse response, ActResult actResult, DTOType dto, BindingResult bindingResult) throws Exception {
-        List<VOType> lstVo = iTypeService.findAll4Tree(dto) ;
+    public ActResult findAllKind(HttpServletRequest request, HttpServletResponse response, ActResult actResult, DTOType dto, BindingResult bindingResult) throws Exception {
+        List<VOType> lstVo = iTypeService.findAll4Select(dto);
+        actResult.setRt(lstVo);
+        return actResult;
+    }
+
+    @Override
+    public ActResult findOneKind(HttpServletRequest request, HttpServletResponse response, ActResult actResult, DTOType dto, BindingResult bindingResult) throws Exception {
+        List<VOType> lstVo = iTypeService.findOneKind(dto);
         actResult.setRt(lstVo);
         return actResult;
     }

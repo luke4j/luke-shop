@@ -595,9 +595,10 @@ lk.page = {} ;
  */
 lk.page.pageTreeTable = function(treeTableCfg){
     var table, layer, treetable;
-    layui.use(['layer', 'table', 'treetable'], function () {
+    layui.use(['layer', 'form', 'table', 'treetable'], function () {
         table = layui.table;
         layer = layui.layer;
+        form = layui.form;
         treetable = layui.treetable;
         var appendTreeTable = function () {
             layer.load(2);
@@ -611,9 +612,15 @@ lk.page.pageTreeTable = function(treeTableCfg){
                 // , treeDefaultClose: true
                 , treeLinkage: false
                 , method: 'post'
-                , page: false,
-                done: function () {
+                , page: false
+                , toolbar: true
+                , defaultToolbar: ["filter", "exports", "print"]
+                , done: function () {
                     layer.closeAll('loading');
+                    form.render();
+                    if (typeof (treeTableCfg.lkDone) == 'function') {
+                        treeTableCfg.lkDone()
+                    }
                 }
             },treeTableCfg));
         };
@@ -624,12 +631,15 @@ lk.page.pageTreeTable = function(treeTableCfg){
 lk.page.pageTable = function(cfg){
     layui.use('table', function(){
         var table = layui.table;
-        table.render($.extend({
+        var tableArgs = $.extend({
             // url: 'user/findAll.act' //数据接口
-             parseData: ls.d.tableDateParseData
+            parseData: ls.d.tableDateParseData
             , method: 'post'
             , page: true //开启分页
-        },cfg));
+            , toolbar: true
+            , defaultToolbar: ["filter", "exports", "print"]
+        }, cfg);
+        table.render(tableArgs);
 
     });
 } ;

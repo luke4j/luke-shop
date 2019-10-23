@@ -41,7 +41,6 @@ define(function(require) {
         }
         ,saveOrUpdateGoodsAttr:function(){
             var checkedTreeTableData = layui.table.checkStatus('uiGoodsAttrCfgTable') ;
-            console.dir(this.attributes) ;
             ls.d.ajax({
                 // contentType: 'application/json;charset=utf8'
                 url: "type/saveOrUpdateGoodsAttr.act"
@@ -52,6 +51,17 @@ define(function(require) {
                     view.pageTableData();
                 }
             });
+        },
+        findKind: function () {
+            var allKind;
+            ls.d.ajax({
+                url: "type/findAllKind.act"
+                , async: false
+                , success: function (res) {
+                    allKind = res.rt;
+                }
+            });
+            return allKind;
         }
     });
 
@@ -73,7 +83,8 @@ define(function(require) {
             this.$el.append(this._tmpCol_yesOrNo_lens()) ;
             this.$el.append(this._tmpCol_yesOrNo_time()) ;
             this.$el.append(this._tmpCol_type()) ;
-            //使用UI组件来显示数据
+            // this.$el.append(this._pageLayTreeTableQuery()) ;
+            this.$el.//使用UI组件来显示数据
             this.pageTableData() ;
             return this ;
         }
@@ -260,12 +271,39 @@ define(function(require) {
             "</script>" ;
             return template ;
         }
+        , _pageLayTreeTableQuery: function () {
+
+            // layui.form.on('select(xtypeSelect)', function(data){
+            //     me.pageTableData({id:data.value}) ;
+            // });
+
+            var allKind = new Model().findKind();
+            var options = "";
+            for (var i in allKind) {
+                options += "<option value='" + allKind[i].id + "' >" + allKind[i].name + "</option>"
+            }
+            var element = "<script type='text/html' id='_pageLayTreeTableQuery'> " +
+                "<div class='layui-form-item'>" +
+                "    <div class='layui-inline'>" +
+                "      <label class='layui-form-label'>品类</label>" +
+                "      <div class='layui-input-inline'>" +
+                "        <select id='xtypeSelect' lay-filter='xtypeSelect'>" +
+                "           <option></option>" +
+                options +
+                "        </select>" +
+                "      </div>" +
+                "    </div>" +
+                "</script>";
+            return element;
+        }
         ,pageTableData:function(params){
+            var me = this;
             lk.page.pageTreeTable({
                 id:'uiDataTable'
                 ,elem: '#dataTreeTable'
-                ,url: 'type/findAll.act' //数据接口
+                , url: 'type/findOneKind.act' //数据接口
                 ,where:params
+                // ,toolbar: '#_pageLayTreeTableQuery'
                 ,cols: [[ //表头
                     {type:'radio', fixed: 'left'}
                     ,{field: 'id', title: 'ID',width:150}
@@ -276,6 +314,7 @@ define(function(require) {
                     ,{field: 'blnTime', title: '是否效期', templet:"#templateYesOrNo_time",width:100}
                     ,{field: 'blnEntity', title: '是否服务',templet:"#templateYesOrNo_entity",width:100}
                 ]]
+
             },params) ;
         }
         //添加功能，增删改查的弹出窗模板
@@ -290,12 +329,6 @@ define(function(require) {
             var me = this ;
             lk.page.alertLayuiForm($.extend({
                 view:this
-                // ,title:args.title
-                // ,area:"680px"
-                // ,modelMethodName:args.modelMethodName
-                // ,data:args.data
-                // ,htmlTemplateUrl:args.htmlTemplet
-                // ,Model:args.Model
                 ,success:function(){
                     layui.form.render();
                 }

@@ -51,14 +51,31 @@ public class TypeService implements ITypeService {
     }
 
     @Override
-    public List<VOType> findAll4Tree(DTOType dto) throws Exception {
+    public List<VOType> findAll4Select(DTOType dto) throws Exception {
         return this.iTypeDao.find("select " +
                 "new com.luke.es.md.vo.goods.vo.VOType( c_type,  name, fid, id, blnEntity, blnLens, blnLib, blnTime) " +
-                "From TG_Type where _isDel=false order by fid,id") ;
+                "From TG_Type where fid=0 and _isDel=false order by fid,id");
     }
 
     @Override
-    public List<VOGoodsAttrCfg> findEmptyGoodsAttr( DTOGoodsAttrCfg dto) throws Exception {
+    public List<VOType> findOneKind(DTOType dto) throws Exception {
+        if (dto.getId() == null)
+            return this.iTypeDao.find("select " +
+                    "new com.luke.es.md.vo.goods.vo.VOType( c_type,  name, fid, id, blnEntity, blnLens, blnLib, blnTime) " +
+                    "From TG_Type where _isDel=false order by fid,id");
+        TG_Type type = this.iTypeDao.get(TG_Type.class, dto.getId());
+        List<VOType> lstVo = new ArrayList<>();
+
+        VOType vo = new VOType();
+        BeanUtils.copyProperties(type, vo);
+        lstVo.add(vo);
+
+        this.iTypeDao.findOneKind(vo.getId(), lstVo);
+        return lstVo;
+    }
+
+    @Override
+    public List<VOGoodsAttrCfg> findEmptyGoodsAttr(DTOGoodsAttrCfg dto) throws Exception {
 
         List<VOGoodsAttrCfg> rt = this.iTypeDao.findGodosAttrByXtypeId(dto.getXtypeId()) ;
         if(rt.size()>0)
@@ -69,7 +86,7 @@ public class TypeService implements ITypeService {
         TG_Type type = this.iTypeDao.get(TG_Type.class,dto.getXtypeId()) ;
         if(type==null)
             throw AppException.create("品类ID："+dto.getXtypeId()+" 从TG_Type表中查询不到数据") ;
-        for(int i = 0;i<15;i++){
+        for(int i = 0; i<15; i++){
             cfg = new VOGoodsAttrCfg() ;
             cfg.setXtypeId(dto.getXtypeId());
             cfg.setXtypeName(type.getName());
@@ -92,4 +109,6 @@ public class TypeService implements ITypeService {
            this.iTypeDao.save(cnf) ;
        };
     }
+
+
 }

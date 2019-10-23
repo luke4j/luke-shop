@@ -15,7 +15,7 @@ public interface ITypeService {
 
     void updateModel(DTOType dto)throws Exception;
 
-    List<VOType> findAll4Tree(DTOType dto)throws Exception;
+    List<VOType> findAll4Select(DTOType dto) throws Exception;
 
     /**
      * 返回15个空的商品属性配置
@@ -29,4 +29,7 @@ public interface ITypeService {
      * @param lstDto
      */
     void saveOrUpdateGoodsAttr(Long xtypeId,Collection<DTOGoodsAttrCfg> lstDto)throws Exception;
+
+
+    List<VOType> findOneKind(DTOType dto) throws Exception;
 }

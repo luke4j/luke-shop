@@ -23,6 +23,7 @@
         <module>luke-app</module>
         <module>luke-ws</module>
         <module>luke-goods</module>
+        <module>luke-websocket</module>
     </modules>
     <packaging>pom</packaging>
 

@@ -25,8 +25,12 @@ public interface ITypeController {
     @RequestMapping(path = "updateModel.act",method = RequestMethod.POST)
     ActResult updateModel(HttpServletRequest request, HttpServletResponse response, ActResult actResult , DTOType dto, BindingResult bindingResult) throws Exception ;
 
-    @RequestMapping(path = "findAll.act",method = RequestMethod.POST)
-    ActResult findAll(HttpServletRequest request, HttpServletResponse response, ActResult actResult , DTOType dto, BindingResult bindingResult) throws Exception ;
+    @RequestMapping(path = "findAllKind.act", method = RequestMethod.POST)
+    ActResult findAllKind(HttpServletRequest request, HttpServletResponse response, ActResult actResult, DTOType dto, BindingResult bindingResult) throws Exception;
+
+    @RequestMapping(path = "findOneKind.act", method = RequestMethod.POST)
+    ActResult findOneKind(HttpServletRequest request, HttpServletResponse response, ActResult actResult, DTOType dto, BindingResult bindingResult) throws Exception;
+
 
     /**
      * 返回空的15个空的商品属性配置

@@ -2,6 +2,7 @@ package com.luke.es.goods.dao;
 
 import com.luke.es.db.IDBDao;
 import com.luke.es.md.vo.goods.vo.VOGoodsAttrCfg;
+import com.luke.es.md.vo.goods.vo.VOType;
 
 import java.util.List;
 
@@ -15,4 +16,6 @@ public interface ITypeDao  extends IDBDao {
     List<VOGoodsAttrCfg> findGodosAttrByXtypeId(Long xtypeId) throws Exception;
 
     void deleteGoodsAttrCfgByXtypeId(Long xtypeId)throws Exception;
+
+    List<VOType> findOneKind(Long id, List<VOType> lst) throws Exception;
 }

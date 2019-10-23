@@ -4,6 +4,7 @@ import com.luke.es.db.DBDao;
 import com.luke.es.goods.dao.ITypeDao;
 import com.luke.es.md.kc.TG_GoodsAttrCnf;
 import com.luke.es.md.vo.goods.vo.VOGoodsAttrCfg;
+import com.luke.es.md.vo.goods.vo.VOType;
 import com.luke.es.tool.tl.LK;
 import com.luke.es.tool.tl.LKMap;
 import org.springframework.beans.BeanUtils;
@@ -38,5 +39,19 @@ public class TypeDao extends DBDao implements ITypeDao {
     @Override
     public void deleteGoodsAttrCfgByXtypeId(Long xtypeId) throws Exception {
         this.delete_hql("delete From TG_GoodsAttrCnf where xtypeId=:xtypeId",new LKMap<>().put1("xtypeId",xtypeId)) ;
+    }
+
+    @Override
+    public List<VOType> findOneKind(Long id, List<VOType> lst) throws Exception {
+        List<VOType> lstTmp = this.find("select " +
+                "new com.luke.es.md.vo.goods.vo.VOType( c_type,  name, fid, id, blnEntity, blnLens, blnLib, blnTime) " +
+                "From TG_Type where _isDel=false and fid=:fid order by fid,id", new LKMap<>().put1("fid", id));
+        lst.addAll(lstTmp);
+        if (lstTmp.size() > 0) {
+            for (VOType voType : lstTmp) {
+                this.findOneKind(voType.getId(), lst);
+            }
+        }
+        return lst;
     }
 }

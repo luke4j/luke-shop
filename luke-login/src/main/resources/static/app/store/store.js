@@ -151,49 +151,66 @@ define(function(require) {
         }
         ,treeTable:function(){
             var me = this ;
-            var table ,layer,treetable ;
-            layui.use(['layer', 'table', 'treetable'], function () {
-                table = layui.table;
-                layer = layui.layer;
-                treetable = layui.treetable;
-                var showTreeTable = function(){
-                    layer.load(2);
-                    treetable.render({
-                        id:'storeTreeTable',
-                        treeColIndex: 1,
-                        height: 'full-160',
-                        treeSpid: 0,
-                        treeIdName: 'id',
-                        treePidName: 'fid',
-                        treeDefaultClose: false,
-                        treeLinkage: false,
-                        elem: '#treeTable_store'
-                        ,url: 'store/findAll.act'
-                        ,method:'post'
-                        ,page: false,
-                        cols: [[
-                            {type:'radio'},
-                            {field: 'name', title: '名称',width:"15%"},
-                            // {field: 'id', title: 'id',width:"4%"},
-                            // {field: 'fid', title: '父节点id',width:"8%"},
-                            {field: 'c_type', title: '类型',width:"10%"},
-                            // {field: 'c_type', title: '类型',templet:"#_tmpCol_cType",width:"10%"},
-                            {field: 'addr', title: '地址'},
-                            {field: 'tel', title: '电话',width:"8%"},
-                            {field: 'isdo', title: '是否可加工',templet:"#_tmpCol_isdo",width:"8%"}
-                        ]],
-                        done: function () {
-                            layer.closeAll('loading');
-                        }
-                    });
-                    table.on("tool(treeTable_store)",function(obj){
-                        var data = obj.data;
-                        var layEvent = obj.event;
-                        me.trigger(layEvent,[data]) ;
-                    }) ;
-                } ;
-                showTreeTable() ;
-            }) ;
+            lk.page.pageTreeTable({
+                id: 'storeTreeTable'
+                , elem: '#treeTable_store'
+                , url: 'store/findAll.act'
+                , cols: [[
+                    {type: 'radio'},
+                    {field: 'name', title: '名称', width: "15%"},
+                    // {field: 'id', title: 'id',width:"4%"},
+                    // {field: 'fid', title: '父节点id',width:"8%"},
+                    {field: 'c_type', title: '类型', width: "10%"},
+                    // {field: 'c_type', title: '类型',templet:"#_tmpCol_cType",width:"10%"},
+                    {field: 'addr', title: '地址'},
+                    {field: 'tel', title: '电话', width: "8%"},
+                    {field: 'isdo', title: '是否可加工', templet: "#_tmpCol_isdo", width: "8%"}
+                ]]
+            });
+            // var me = this ;
+            // var table ,layer,treetable ;
+            // layui.use(['layer', 'table', 'treetable'], function () {
+            //     table = layui.table;
+            //     layer = layui.layer;
+            //     treetable = layui.treetable;
+            //     var showTreeTable = function(){
+            //         layer.load(2);
+            //         treetable.render({
+            //             id:'storeTreeTable',
+            //             treeColIndex: 1,
+            //             height: 'full-160',
+            //             treeSpid: 0,
+            //             treeIdName: 'id',
+            //             treePidName: 'fid',
+            //             treeDefaultClose: false,
+            //             treeLinkage: false,
+            //             elem: '#treeTable_store'
+            //             ,url: 'store/findAll.act'
+            //             ,method:'post'
+            //             ,page: false,
+            //             cols: [[
+            //                 {type:'radio'},
+            //                 {field: 'name', title: '名称',width:"15%"},
+            //                 // {field: 'id', title: 'id',width:"4%"},
+            //                 // {field: 'fid', title: '父节点id',width:"8%"},
+            //                 {field: 'c_type', title: '类型',width:"10%"},
+            //                 // {field: 'c_type', title: '类型',templet:"#_tmpCol_cType",width:"10%"},
+            //                 {field: 'addr', title: '地址'},
+            //                 {field: 'tel', title: '电话',width:"8%"},
+            //                 {field: 'isdo', title: '是否可加工',templet:"#_tmpCol_isdo",width:"8%"}
+            //             ]],
+            //             done: function () {
+            //                 layer.closeAll('loading');
+            //             }
+            //         });
+            //         table.on("tool(treeTable_store)",function(obj){
+            //             var data = obj.data;
+            //             var layEvent = obj.event;
+            //             me.trigger(layEvent,[data]) ;
+            //         }) ;
+            //     } ;
+            //     showTreeTable() ;
+            // }) ;
         }
 
 
