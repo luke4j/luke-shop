@@ -2,16 +2,22 @@ package com.luke.es.global;
 
 import com.luke.es.login.service.ILoginService;
 import com.luke.es.tool.vo.VOutUser;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 
 import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.Date;
 
 @Component
 public class BController {
+
+
+    @Value("${luke.app.name}")
+    String LukeAppName;
 
     @Resource
     ILoginService loginService ;
@@ -29,6 +35,7 @@ public class BController {
         model.addAttribute("systime",new Date()) ;
         String localhost = getLocalhostUrl(request) ;
         model.addAttribute("localhost",localhost) ;
+        model.addAttribute("lukeAppName", LukeAppName);
         return model ;
     }
     protected String getPageToken(HttpServletRequest request){

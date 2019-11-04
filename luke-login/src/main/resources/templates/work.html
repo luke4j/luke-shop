@@ -2,7 +2,7 @@
 <html lang="en"  xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>E-Shop</title>
+    <title>LUKE</title>
     <META name="description" content="眼镜,眼镜店,连锁眼镜店,眼镜店erp">
     <meta name="keywords" content="眼镜,眼镜店,连锁眼镜店,眼镜店erp">
 
@@ -19,6 +19,7 @@
         // var systime = [[${#dates.format(systime,'yyyy-MM-dd HH:mm:ss')}]] ;
         var systime  = [[${systime.time}]] ;
         var localhost = [[${localhost}]] ;
+        document.getElementsByTagName("title")[0].innerText = [[${lukeAppName}]];
     </script>
     <script type="application/javascript" data-main="app/app.js" src="js/b/require.min.js"></script>
     <script>
