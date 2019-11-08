@@ -14,8 +14,8 @@
     <script src="js/b/bootstrap/respond.min.js"></script>
     <![endif]-->
     <script type="application/javascript">
-        if (navigator.userAgent.indexOf("Chrome") < 0 || navigator.userAgent.indexOf("Firefox") < 0) {
-            var isDownload = confirm("请使用Chrome或者Firefox浏览器，是否下载？");
+        if (navigator.userAgent.indexOf("Chrome") < 0) {
+            var isDownload = confirm("请使用Chrome浏览器，是否下载？");
             if (isDownload) {
                 window.location.href = "download/soft/chrome.exe"
             }
