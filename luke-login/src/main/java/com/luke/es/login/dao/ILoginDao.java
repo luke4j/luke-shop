@@ -23,4 +23,6 @@ public interface ILoginDao  extends IDBDao {
     void saveLoginToDB(VOutUser vOutUser) throws Exception;
 
     VOutUser getVOutUserFromDB(String token) throws Exception;
+
+    void delVOutUserFromDB(String token) throws Exception;
 }

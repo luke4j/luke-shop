@@ -8,6 +8,7 @@ import com.luke.es.tool.exception.AppException;
 import com.luke.es.tool.tl.Assertion;
 import com.luke.es.tool.tl.LK;
 import com.luke.es.tool.vo.VOutUser;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -26,13 +27,14 @@ public class LoginService implements ILoginService {
     @Value("${luke.login.use}")
     String luke_login_use = "redis";
 
+
     public Boolean isLogin(String token, String luke_login_use, HttpServletRequest request) throws Exception {
         VOutUser outUser = null;
-        if ("redis".equals(luke_login_use)) {
+        if ("redis".equals(this.luke_login_use)) {
             outUser = this.loginDao.getVOutUser(token);
-        } else if ("db".equals(luke_login_use)) {
+        } else if ("db".equals(this.luke_login_use)) {
             outUser = this.loginDao.getVOutUserFromDB(token);
-        } else if ("session".equals(luke_login_use)) {
+        } else if ("session".equals(this.luke_login_use)) {
             outUser = (VOutUser) request.getAttribute(token);
         }
         if(outUser!=null)
@@ -48,6 +50,7 @@ public class LoginService implements ILoginService {
         if(user!=null){
             String token = "token-"+LK.uuid()+"_"+user.getId() ;
             VOutUser vOutUser = new VOutUser();
+            BeanUtils.copyProperties(user, vOutUser);
             vOutUser.setLoginName(user.getLoginName());
             TU_Info info = this.loginDao.findUserInfo(user.getId()) ;
             if(info!=null) {
@@ -73,22 +76,41 @@ public class LoginService implements ILoginService {
             } else if ("db".equals(luke_login_use)) {
                 this.loginDao.saveLoginToDB(vOutUser);
             } else if ("session".equals(luke_login_use)) {
-                request.getSession().setAttribute("token", vOutUser);
+                request.getSession().setAttribute(token, vOutUser);
             }
-            this.loginDao.setRedisValueAndEX(token, LK.ObjToJsonStr(vOutUser), 60 * 60 * 8l);
             return vOutUser;
         }
        throw AppException.create("登录失败："+vo.getLoginName()) ;
     }
 
-    public void logout(String token) throws Exception {
-        this.loginDao.delRedisValueByKey(token) ;
+    @Transactional
+    public void logout(String token, HttpServletRequest request) throws Exception {
+
+        if ("redis".equals(this.luke_login_use)) {
+            this.loginDao.delRedisValueByKey(token);
+        } else if ("db".equals(this.luke_login_use)) {
+            this.loginDao.delVOutUserFromDB(token);
+        } else if ("session".equals(this.luke_login_use)) {
+            request.removeAttribute(token);
+        }
+
+
     }
 
-    public VOutUser getCurrentUserByToken(String token) throws Exception {
+    public VOutUser getCurrentUserByToken(String token, HttpServletRequest request) throws Exception {
         if(token.equals(""))
             Assertion.Error("请登录");
-        return this.loginDao.getVOutUser(token) ;
+
+        VOutUser outUser = null;
+        if ("redis".equals(this.luke_login_use)) {
+            outUser = this.loginDao.getVOutUser(token);
+        } else if ("db".equals(this.luke_login_use)) {
+            outUser = this.loginDao.getVOutUserFromDB(token);
+        } else if ("session".equals(this.luke_login_use)) {
+            outUser = (VOutUser) request.getAttribute(token);
+        }
+
+        return outUser;
     }
 
     public List<TU_Item> loadMenu(VOutUser user) throws Exception {

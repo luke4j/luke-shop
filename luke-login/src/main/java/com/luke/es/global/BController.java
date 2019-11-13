@@ -24,7 +24,7 @@ public class BController {
 
     protected VOutUser getCurrentUser(HttpServletRequest request) throws Exception{
         String token = this.getPageToken(request) ;
-        return this.loginService.getCurrentUserByToken(token) ;
+        return this.loginService.getCurrentUserByToken(token, request);
     }
 
     protected String getLocalhostUrl(HttpServletRequest request){

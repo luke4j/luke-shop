@@ -21,7 +21,7 @@ public interface ILoginService {
      * @param token
      * @throws Exception
      */
-    void logout(String token)throws Exception;
+    void logout(String token, HttpServletRequest request) throws Exception;
 
     /**
      * 密码登录
@@ -32,7 +32,7 @@ public interface ILoginService {
     VOutUser login(VOInLogin vo, HttpServletRequest request) throws Exception;
 
 
-    VOutUser getCurrentUserByToken(String token)throws Exception;
+    VOutUser getCurrentUserByToken(String token, HttpServletRequest request) throws Exception;
 
     List<TU_Item> loadMenu(VOutUser user)throws Exception;
 }

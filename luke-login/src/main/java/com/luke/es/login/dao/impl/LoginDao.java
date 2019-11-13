@@ -47,6 +47,7 @@ public class LoginDao  extends DBDao implements ILoginDao {
         BeanUtils.copyProperties(vOutUser, login_user);
         login_user.set_token(vOutUser.get_token());
         login_user.setvOutUserId(vOutUser.getId());
+        login_user.setId(null);
         this.save(login_user);
     }
 
@@ -57,5 +58,9 @@ public class LoginDao  extends DBDao implements ILoginDao {
         BeanUtils.copyProperties(login_user, outUser);
         outUser.setId(login_user.getvOutUserId());
         return outUser;
+    }
+
+    public void delVOutUserFromDB(String token) throws Exception {
+        this.delete_hql("delete From TLogin_User where _token=:token", new LKMap().put1("token", token));
     }
 }

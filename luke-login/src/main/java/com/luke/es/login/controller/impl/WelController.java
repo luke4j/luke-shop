@@ -45,7 +45,7 @@ public class WelController extends BController implements IWelController {
         if(LK.StrIsEmpty(token)){
             return "login" ;
         }else{
-            this.loginService.logout(token) ;
+            this.loginService.logout(token, request);
             return "login" ;
         }
 

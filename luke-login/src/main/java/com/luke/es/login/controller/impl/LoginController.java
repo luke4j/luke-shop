@@ -42,7 +42,7 @@ public class LoginController extends BController implements ILoginController {
 
     public ActResult logout(HttpServletRequest request, HttpServletResponse response, ActResult actResult, BindingResult bindingResult) throws Exception {
         VOutUser user = super.getCurrentUser(request) ;
-        this.loginService.logout(user.get_token());
+        this.loginService.logout(user.get_token(), request);
         actResult.setRt(new LKMap().put1("goto",this.getLocalhostUrl(request)));
         return actResult;
     }
