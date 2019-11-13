@@ -3,8 +3,13 @@ package com.luke.es.md;
 import com.luke.es.tool.model._M;
 
 import javax.persistence.Entity;
+import javax.persistence.Index;
+import javax.persistence.Table;
 
 @Entity
+@Table(indexes = {
+        @Index(columnList = "_token", unique = true)
+})
 public class TLogin_User extends _M {
 
     Long vOutUserId;
