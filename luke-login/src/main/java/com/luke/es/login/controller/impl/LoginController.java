@@ -28,7 +28,7 @@ public class LoginController extends BController implements ILoginController {
     ILoginService loginService ;
 
     public ActResult login(HttpServletRequest request, HttpServletResponse response, ActResult actResult, VOInLogin vo, BindingResult bindingResult) throws Exception {
-        VOutUser user = loginService.login(vo);
+        VOutUser user = loginService.login(vo, request);
         actResult.setRt(new LKMap().put1("_token",user.get_token()));
         return actResult;
     }

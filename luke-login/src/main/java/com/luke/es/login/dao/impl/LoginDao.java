@@ -5,6 +5,8 @@ import com.luke.es.login.dao.ILoginDao;
 import com.luke.es.md.*;
 import com.luke.es.md.vo.login.VOInLogin;
 import com.luke.es.tool.tl.LKMap;
+import com.luke.es.tool.vo.VOutUser;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -38,5 +40,22 @@ public class LoginDao  extends DBDao implements ILoginDao {
     public List<TU_Item> loadMenu(String itemIds) throws Exception {
         String hql = "From TU_Item i where i.id in ("+itemIds+") and i._isDel=false order by c_type,px" ;
         return this.find(hql);
+    }
+
+    public void saveLoginToDB(VOutUser vOutUser) throws Exception {
+        TLogin_User login_user = new TLogin_User();
+        BeanUtils.copyProperties(vOutUser, login_user);
+        login_user.set_token(vOutUser.get_token());
+        login_user.setvOutUserId(vOutUser.getId());
+        this.save(login_user);
+    }
+
+    public VOutUser getVOutUserFromDB(String token) throws Exception {
+        TLogin_User login_user = this.getUnique("From TLogin_User u where u._token=:token", new LKMap().put1("token", token));
+        if (login_user == null) return null;
+        VOutUser outUser = new VOutUser();
+        BeanUtils.copyProperties(login_user, outUser);
+        outUser.setId(login_user.getvOutUserId());
+        return outUser;
     }
 }

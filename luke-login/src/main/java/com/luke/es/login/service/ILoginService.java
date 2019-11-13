@@ -4,6 +4,7 @@ import com.luke.es.md.TU_Item;
 import com.luke.es.md.vo.login.VOInLogin;
 import com.luke.es.tool.vo.VOutUser;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public interface ILoginService {
@@ -13,7 +14,7 @@ public interface ILoginService {
      * @return
      * @throws Exception
      */
-    Boolean isLogin(String token) throws Exception;
+    Boolean isLogin(String token, String luke_login_use, HttpServletRequest request) throws Exception;
 
     /**
      * token登出
@@ -28,7 +29,7 @@ public interface ILoginService {
      * @return
      * @throws Exception
      */
-    VOutUser login(VOInLogin vo) throws Exception;
+    VOutUser login(VOInLogin vo, HttpServletRequest request) throws Exception;
 
 
     VOutUser getCurrentUserByToken(String token)throws Exception;

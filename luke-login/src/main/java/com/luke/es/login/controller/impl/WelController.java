@@ -4,6 +4,7 @@ import com.luke.es.global.BController;
 import com.luke.es.login.controller.IWelController;
 import com.luke.es.login.service.ILoginService;
 import com.luke.es.tool.tl.LK;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
@@ -16,6 +17,9 @@ public class WelController extends BController implements IWelController {
     @Resource
     ILoginService loginService ;
 
+    @Value("${luke.login.use}")
+    String luke_login_use = "redis";
+
 
 
     public String welcome(HttpServletRequest request, Model model) throws Exception {
@@ -26,7 +30,7 @@ public class WelController extends BController implements IWelController {
         if(LK.StrIsEmpty(token)){
             return "login" ;
         }else{
-            Boolean isLogin = this.loginService.isLogin(token) ;
+            Boolean isLogin = this.loginService.isLogin(token, luke_login_use, request);
             if(isLogin){
                 return "work" ;
             }else{

@@ -7,7 +7,7 @@ require.config({
         }
     },
     paths: {
-        jquery: 'js/b/jquery.min',
+        jquery: 'js/b/jquery-1.8.3.min',
         underscore: 'js/b/underscore',
         backbone: 'js/b/backbone', //.min
         layui: 'js/ui/layui/layui',

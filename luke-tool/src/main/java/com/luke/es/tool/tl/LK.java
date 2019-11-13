@@ -21,6 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 import java.lang.reflect.Field;
 import java.security.MessageDigest;
 import java.text.DecimalFormat;
@@ -33,6 +34,33 @@ public class LK {
 
     private static Logger logger = LoggerFactory.getLogger(LK.class) ;
 
+    public static Boolean CreateDir(String dirPath) throws AppException {
+        try {
+            for (int i = 0; i < dirPath.length(); i++) {
+                if (dirPath.charAt(i) == File.separatorChar) {
+                    File temp = new File(dirPath.substring(0, i));
+                    if (!temp.exists()) {
+                        temp.mkdir();
+                    }
+                }
+            }
+            return true;
+        } catch (Exception e) {
+            throw AppException.create(e.getMessage());
+        }
+    }
+
+    public static Boolean MoveFile(String sourceFilePath, String tagetFilePath) throws AppException {
+        try {
+            File sourceFile = new File(sourceFilePath);
+            CreateDir(new File(tagetFilePath).getParent());
+            sourceFile.renameTo(new File(tagetFilePath));
+            return true;
+        } catch (Exception e) {
+            throw AppException.create(e.getMessage());
+        }
+
+    }
 
     public static Map<Long ,_M> LstPojoToMap(List<?> lst){
         Map<Long ,_M> rt = new HashMap<Long ,_M>(lst.size()) ;
