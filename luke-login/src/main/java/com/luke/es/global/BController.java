@@ -35,6 +35,7 @@ public class BController {
         model.addAttribute("systime",new Date()) ;
         String localhost = getLocalhostUrl(request) ;
         model.addAttribute("localhost",localhost) ;
+        model.addAttribute("ipHost", request.getServerName());
         model.addAttribute("lukeAppName", LukeAppName);
         return model ;
     }
