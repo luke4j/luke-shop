@@ -1,6 +1,7 @@
 require.config({
     // urlArgs: 'js=' + Math.random(),
-    baseUrl: "/",
+    // baseUrl: "/lshop",
+    baseUrl: localhost,
     map: {
         '*': {
             'css': 'js/b/css.min'

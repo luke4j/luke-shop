@@ -1,7 +1,7 @@
 define(function(require){
-    require("css!/app/login/css/login.css") ;
+    require("css!app/login/css/login.css");
     require("ls") ;
-    require("/app/login/particles.js") ;
+    require("app/login/particles.js");
     require("md5") ;
 
 
@@ -83,7 +83,7 @@ define(function(require){
             $("body").append($("<div>").attr("id","particles-js").css({"display":"flex","align-items": "center","justify-content": "center"})) ;
             var $form = ls.d.getHtml("app/login/login.form.html") ;
             $("body").append($form) ;
-            particlesJS.load("particles-js","/app/login/particles.json") ;
+            particlesJS.load("particles-js", "app/login/particles.json");
             // $("#loginName").focus() ;
             this.$loginName = $("#loginName") ;
             this.$loginPwd = $("#loginPwd") ;
