@@ -1,6 +1,6 @@
 define(function(require) {
     require("ls");
-    require("../js/b/json2") ;
+    require("js/b/json2") ;
 
     if(!layui.treetable){
         layui.config({
@@ -114,7 +114,7 @@ define(function(require) {
         model_nav_change_handler:function(model){
             var $l = $("<ul>").addClass("layui-nav layui-layout-left") ;
             var $r = $("<ul>").addClass("layui-nav layui-layout-right") ;
-            var $logo = $("<div>").addClass("layui-logo").text("Luke-E-Shop") ;
+            var $logo = $("<div>").addClass("layui-logo").text($("title").text()) ;
             this.$nav.append($logo).append($l).append($r) ;
 
             $l.append($(this._tempNav(model.get("ld_cygn")))) ;

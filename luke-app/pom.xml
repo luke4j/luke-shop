@@ -65,8 +65,8 @@
         </dependency>
 
         <dependency>
-            <groupId>com.luke.server</groupId>
-            <artifactId>LukeFtpServer</artifactId>
+            <groupId>com.luke.es</groupId>
+            <artifactId>luke-server</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <!--<dependency>-->
@@ -88,6 +88,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
+                    <mainClass>com.luke.es.App</mainClass>
                     <jvmArguments>-Dfile.encoding=UTF-8</jvmArguments>
                 </configuration>
             </plugin>

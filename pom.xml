@@ -20,10 +20,13 @@
         <module>luke-md</module>
         <module>luke-db</module>
         <module>luke-login</module>
-        <module>luke-app</module>
+
         <module>luke-ws</module>
         <module>luke-goods</module>
         <module>luke-websocket</module>
+        <module>luke-server</module>
+
+<!--        <module>luke-app</module>-->
     </modules>
     <packaging>pom</packaging>
 

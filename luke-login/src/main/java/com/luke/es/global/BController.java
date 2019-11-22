@@ -16,7 +16,7 @@ import java.util.Date;
 public class BController {
 
 
-    @Value("${luke.app.name}")
+    @Value("${spring.application.name}")
     String LukeAppName;
 
     @Resource

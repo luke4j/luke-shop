@@ -1,6 +1,6 @@
 package com.luke.es.listener;
 
-import com.luke.server.ftp.LukeFtpServer;
+import com.luke.es.server.LukeFtpServer;
 import org.apache.ftpserver.FtpServer;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -15,7 +15,7 @@ public class FtpListener implements ServletContextListener {
 
     @Value("${use.luke.ftp}")
     String useLukeFtp = "false";
-    @Value("${use.luke.ftp.homePath}")
+    @Value("${use.luke.ftp.root_path}")
     String useLukeFtpHomePath = "\\";
     FtpServer ftp = null;
 
