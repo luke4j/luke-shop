@@ -63,6 +63,12 @@
             <artifactId>luke-login</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.luke.server</groupId>
+            <artifactId>LukeFtpServer</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
         <!--<dependency>-->
         <!--<groupId>com.luke.es</groupId>-->
         <!--<artifactId>luke-goods</artifactId>-->
@@ -76,7 +82,7 @@
     </dependencies>
 
     <build>
-        <finalName>lshop</finalName>
+        <finalName>eshop</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

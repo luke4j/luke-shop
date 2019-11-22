@@ -41,6 +41,8 @@ public class LK {
                     File temp = new File(dirPath.substring(0, i));
                     if (!temp.exists()) {
                         temp.mkdir();
+                        temp.setReadable(true, false);
+                        temp.setExecutable(true, false);
                     }
                 }
             }
