@@ -88,6 +88,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
+                    <fork>false</fork>
                     <mainClass>com.luke.es.App</mainClass>
                     <jvmArguments>-Dfile.encoding=UTF-8</jvmArguments>
                 </configuration>
