@@ -98,11 +98,11 @@ ls.d.setUserList = function($select,layuiForm){
     })
 } ;
 ls.d.tableDateParseData = function(res){
-    if(res.rt.length==1){
+    if(res&&res.rt&&res.rt.length==1){
        if(res.rt.lay_checked){
            res.rt.LAY_CHECKED = true ;
        }
-    }else if(res.rt.length>1){
+    }else if(res&&res.rt&&res.rt.length>1){
         for(var t in res.rt){
             if(res.rt[t].lay_checked){
                 res.rt[t].LAY_CHECKED = true ;

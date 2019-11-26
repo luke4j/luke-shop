@@ -17,16 +17,17 @@
     <modules>
         <module>luke-js</module>
         <module>luke-tool</module>
-        <module>luke-md</module>
+        <module>luke-model</module>
         <module>luke-db</module>
         <module>luke-login</module>
 
-        <module>luke-ws</module>
-        <module>luke-goods</module>
+        <module>luke-webservice</module>
+        <module>luke-base-data</module>
         <module>luke-websocket</module>
         <module>luke-server</module>
+        <module>luke-business-activiti</module>
 
-<!--        <module>luke-app</module>-->
+        <!--        <module>luke-app</module>-->
     </modules>
     <packaging>pom</packaging>
 

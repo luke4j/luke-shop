@@ -33,7 +33,7 @@
         </dependency>
         <dependency>
             <groupId>com.luke.es</groupId>
-            <artifactId>luke-md</artifactId>
+            <artifactId>luke-model</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
 

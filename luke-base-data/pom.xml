@@ -6,7 +6,7 @@
     <groupId>com.luke.es</groupId>
     <version>1.0-SNAPSHOT</version>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>luke-goods</artifactId>
+    <artifactId>luke-base-data</artifactId>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -33,7 +33,7 @@
         </dependency>
         <dependency>
             <groupId>com.luke.es</groupId>
-            <artifactId>luke-md</artifactId>
+            <artifactId>luke-model</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
