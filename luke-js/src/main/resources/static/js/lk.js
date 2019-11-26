@@ -369,24 +369,26 @@ lk.window.alertStore =  function(event){
                 var showTreeTable = function () {
                     layer.load(2);
                     treetable.render({
-                        id: '_layui_id_windowStoreTree',
-                        treeColIndex: 1,
-                        height: 'full-260',
-                        treeSpid: 0,
-                        treeIdName: 'id',
-                        treePidName: 'fid',
-                        treeDefaultClose: false,
-                        treeLinkage: false,
-                        elem: '#windowStore'
+                        id: '_layui_id_windowStoreTree'
+                        ,treeColIndex: 1
+                        ,height: 'full-260'
+                        ,treeSpid: 0
+                        ,treeIdName: 'id'
+                        ,treePidName: 'fid'
+                        ,treeDefaultClose: false
+                        ,treeLinkage: false
+                        ,elem: '#windowStore'
                         , url: 'store/findAll.act'
                         , method: 'post'
-                        , page: false,
-                        cols: [[
+                        , page: false
+                         ,even: true //开启隔行背景
+                         ,totalRow: true
+                        ,cols: [[
                             {type: 'radio'},
                             {field: 'name', title: '名称', width: 300},
                             {field: 'c_type', title: '类型'}
-                        ]],
-                        done: function () {
+                        ]]
+                        ,done: function () {
                             layer.closeAll('loading');
                         }
                     });
@@ -444,12 +446,14 @@ lk.window.alertRole =  function(event){
                             ,method:'post'
                             ,page: true //开启分页
                             ,parseData:ls.d.tableDateParseData
+                            ,even: true //开启隔行背景
+                            ,totalRow: true
                             ,cols: [[ //表头
                                 {type:'radio'}
                                 ,{field: 'id', title: 'ID',width:'10%'}
                                 ,{field: 'name', title: '角色名',width:'80%'}
-                            ]],
-                            done: function () {
+                            ]]
+                            ,done: function () {
                                 layer.closeAll('loading');
                             }
                         });
@@ -494,24 +498,26 @@ lk.window.alertCWRole =  function(event){
                 var showTreeTable = function () {
                     layer.load(2);
                     treetable.render({
-                        id: '_layui_id_windowStoreTree',
-                        treeColIndex: 1,
-                        height: 'full-260',
-                        treeSpid: 0,
-                        treeIdName: 'id',
-                        treePidName: 'fid',
-                        treeDefaultClose: false,
-                        treeLinkage: false,
-                        elem: '#windowStore'
+                        id: '_layui_id_windowStoreTree'
+                        ,treeColIndex: 1
+                        ,height: 'full-260'
+                        ,treeSpid: 0
+                        ,treeIdName: 'id'
+                        ,treePidName: 'fid'
+                        ,treeDefaultClose: false
+                        ,treeLinkage: false
+                        ,elem: '#windowStore'
                         , url: 'store/findAll.act'
                         , method: 'post'
-                        , page: false,
-                        cols: [[
+                        , page: false
+                        ,even: true //开启隔行背景
+                        ,totalRow: true
+                        ,cols: [[
                             {type: 'radio'},
                             {field: 'name', title: '名称', width: 300},
                             {field: 'c_type', title: '类型'}
-                        ]],
-                        done: function () {
+                        ]]
+                        ,done: function () {
                             layer.closeAll('loading');
                         }
                     });
@@ -565,6 +571,8 @@ lk.window.alertSysVal =  function(event){
                         ,method:'post'
                         ,where:{xText:xType} //开启分页
                         ,parseData:ls.d.tableDateParseData
+                         ,even: true //开启隔行背景
+                                                 ,totalRow: true
                         ,cols:[[
                             {type: 'radio', width: "10%"},
                             {field: 'xText', title: '显示值', width: "90%"},
@@ -615,6 +623,8 @@ lk.page.pageTreeTable = function(treeTableCfg){
                 , page: false
                 , toolbar: true
                 , defaultToolbar: ["filter", "exports", "print"]
+                ,even: true //开启隔行背景
+                ,totalRow: true
                 , done: function () {
                     layer.closeAll('loading');
                     form.render();
@@ -637,6 +647,8 @@ lk.page.pageTable = function(cfg){
             , method: 'post'
             , page: true //开启分页
             , toolbar: true
+             ,even: true //开启隔行背景
+             ,totalRow: true
             , defaultToolbar: ["filter", "exports", "print"]
         }, cfg);
         table.render(tableArgs);

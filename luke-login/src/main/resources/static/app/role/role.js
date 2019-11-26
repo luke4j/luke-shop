@@ -222,6 +222,8 @@ define(function(require) {
                     ,method:'post'
                     ,page: true //开启分页
                     ,parseData:ls.d.tableDateParseData
+                     ,even: true //开启隔行背景
+                      ,totalRow: true
                     ,cols: [[ //表头
                         {type:'radio'}
                         ,{field: 'id', title: 'ID',width:60}

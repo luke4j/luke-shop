@@ -143,18 +143,20 @@ define(function(require) {
                 var showTreeTable = function(){
                     layer.load(2);
                     treetable.render({
-                        treeColIndex: 1,
-                        height: 'full-160',
-                        treeSpid: 0,
-                        treeIdName: 'id',
-                        treePidName: 'fid',
-                        treeDefaultClose: true,
-                        treeLinkage: false,
-                        elem: '#treeTable_item'
+                        treeColIndex: 1
+                        ,height: 'full-160'
+                        ,treeSpid: 0
+                        ,treeIdName: 'id'
+                        ,treePidName: 'fid'
+                        ,treeDefaultClose: true
+                        ,treeLinkage: false
+                        ,even: true //开启隔行背景
+                        ,totalRow: true
+                        ,elem: '#treeTable_item'
                         ,url: 'dev/findAllItems.act'
                         ,method:'post'
-                        ,page: false,
-                        cols: [[
+                        ,page: false
+                        ,cols: [[
                             {field: 'id', title: 'id',width:"4%"},
                             {field: 'name', title: '名称',width:"15%"},
                             {field: 'fid', title: '父节点id',width:"8%"},
@@ -163,8 +165,8 @@ define(function(require) {
                             {field: 'icon', title: '图标',width:"8%"},
                             {field: 'px', title: '排序',width:"8%"},
                             {templet: '#oper-col', title: '操作'}
-                        ]],
-                        done: function () {
+                        ]]
+                        ,done: function () {
                             layer.closeAll('loading');
                         }
                     });

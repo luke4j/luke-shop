@@ -74,7 +74,9 @@ define(function(require) {
             this.$menu.append($("<div>").addClass("layui-side-scroll").append($("<ul>").addClass("layui-nav layui-nav-tree")));
             this.$body = $("<div>").addClass("layui-body").attr("id","_workSpaceBody");
             this.$footer = $("<div>").addClass("layui-footer").text("@luke    ")
-                .append("<a href:'tel:18613806246'>tel:18613806246</a>").append("<a href='email:llg6yy@163.com'>     email:llg6yy@163.com</a>") ;
+                .append("<a href:'tel:18613806246'>tel:18613806246</a>")
+                .append("<a href='email:llg6yy@163.com'>     email:llg6yy@163.com</a>")
+                 .append("<div style='float: left;margin-right: 20px;' id='sys_model_name'></div>");
             $("body").append(this.$el);
             this.$el.append(this.$nav).append(this.$menu).append(this.$body).append(this.$footer);
             this.$body.css({"margin-top":"8px","margin-left":"8px","margin-right":"8px","overflow-y":"hidden"})
@@ -114,7 +116,10 @@ define(function(require) {
         model_nav_change_handler:function(model){
             var $l = $("<ul>").addClass("layui-nav layui-layout-left") ;
             var $r = $("<ul>").addClass("layui-nav layui-layout-right") ;
-            var $logo = $("<div>").addClass("layui-logo").text($("title").text()) ;
+            var $logo = $("<div style=''>").addClass("layui-logo").text($("title").text()) ;
+
+            $logo.css("line-height",'30px').append("<p id='sys_show_menu_text'>")
+
             this.$nav.append($logo).append($l).append($r) ;
 
             $l.append($(this._tempNav(model.get("ld_cygn")))) ;
@@ -188,6 +193,8 @@ define(function(require) {
             var $menu = $(be.currentTarget) ;
             var js = $menu.attr("js") ;
             if(!js) return false ;
+            $("#sys_model_name").text($menu.text()) ;
+            $("#sys_show_menu_text").text($menu.text()) ;
             require([js],function(VC){
                 if(typeof (VC)=='function'){
                     me.$body.empty() ;
