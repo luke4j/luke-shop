@@ -1,1 +1,1 @@
-mysqldump -u root -proot db_erp>db_shop.sql
+mysqldump -u root -proot db_shop>db_shop.sql
