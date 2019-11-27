@@ -83,7 +83,6 @@ define(function(require) {
             this.$el.append(this._tmpCol_yesOrNo_lens()) ;
             this.$el.append(this._tmpCol_yesOrNo_time()) ;
             this.$el.append(this._tmpCol_type()) ;
-            // this.$el.append(this._pageLayTreeTableQuery()) ;
             $("#item_btn", this.$el).append(this._pageLayTreeTableQuery());
             //使用UI组件来显示数据
             this.pageTableData() ;
@@ -143,7 +142,7 @@ define(function(require) {
                 ,Model:Model
                 ,modelMethodName:'addModel'
                 ,data:{c_type:xtype,fid:fid}
-                ,htmlTemplateUrl:xtype == "品类"?'app/type/type.form.html':'app/type/type2.form.html'
+                ,htmlTemplateUrl:xtype == "品类"?'app/xtype/xtype.form.html':'app/xtype/xtype2.form.html'
             }) ;
 
             return false ;
@@ -159,7 +158,7 @@ define(function(require) {
                 ,Model:Model
                 ,modelMethodName:'updateModel'
                 ,data:checkedTreeTableData.data[0]
-                ,htmlTemplateUrl:checkedTreeTableData.data[0].c_type == "品类"?'app/type/type.form.html':'app/type/type2.form.html'
+                ,htmlTemplateUrl:checkedTreeTableData.data[0].c_type == "品类"?'app/xtype/xtype.form.html':'app/xtype/xtype2.form.html'
             }) ;
         }
         ,click_btn_shanchu_handler:function(){
@@ -170,7 +169,7 @@ define(function(require) {
                 ,Model:Model
                 ,modelMethodName:'delModel'
                 ,data:checkedTreeTableData.data[0]
-                ,htmlTemplateUrl:checkedTreeTableData.data[0].c_type == "品类"?'app/type/type.form.html':'app/type/type2.form.html'
+                ,htmlTemplateUrl:checkedTreeTableData.data[0].c_type == "品类"?'app/xtype/xtype.form.html':'app/xtype/xtype2.form.html'
             }) ;
         }
         ,click_btn_shuxingweihu_handler:function(){
@@ -278,7 +277,6 @@ define(function(require) {
             return template ;
         }
         , _pageLayTreeTableQuery: function () {
-
             var allKind = new Model().findKind();
             var options = "";
             for (var i in allKind) {
@@ -301,21 +299,19 @@ define(function(require) {
             var me = this;
             lk.page.pageTreeTable({
                 id:'uiDataTable'
-                ,elem: '#dataTreeTable'
-                , url: 'type/findOneKind.act' //数据接口
+                ,elem:'#dataTreeTable'
+                ,url:'type/findOneKind.act'
                 ,where:params
-                // ,toolbar: '#_pageLayTreeTableQuery'
-                ,cols: [[ //表头
-                    {type:'radio', fixed: 'left'}
-                    ,{field: 'id', title: 'ID',width:150}
-                    ,{field: 'c_type', title: '类型',templet:"#templateType",width:130}
+                ,cols:[[
+                    {type: 'radio', width: "5%"}
+                    // ,{field: 'id', title: 'ID',width:150}
+                    // ,{field: 'c_type', title: '类型',templet:"#templateType",width:130}
                     ,{field: 'name', title: '名称',width:160 }
                     ,{field: 'blnLens', title: '是否度数', templet:"#templateYesOrNo_lens",width:100}
                     ,{field: 'blnLib', title: '是否库存', templet:"#templateYesOrNo_lib",width:100}
                     ,{field: 'blnTime', title: '是否效期', templet:"#templateYesOrNo_time",width:100}
                     ,{field: 'blnEntity', title: '是否服务',templet:"#templateYesOrNo_entity",width:100}
                 ]]
-
             },params) ;
         }
         //添加功能，增删改查的弹出窗模板
@@ -328,6 +324,10 @@ define(function(require) {
          */
         ,alertLayerForm:function(args){
             var me = this ;
+            args.data.blnLens=""+args.data.blnLens ;
+            args.data.blnLib=""+args.data.blnLib ;
+            args.data.blnTime=""+ args.data.blnTime;
+            args.data.blnEntity=""+ args.data.blnEntity;
             lk.page.alertLayuiForm($.extend({
                 view:this
                 ,success:function(){

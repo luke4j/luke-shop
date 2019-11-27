@@ -16,6 +16,7 @@ require.config({
         json2: 'js/b/json2',
         jcookie: 'js/b/plugin/jquery.cookie'
         ,jform:'js/b/plugin/jquery.form'
+        ,ztree:'js/b/plugin/ztree/jquery.ztree.all'
         , lk: "js/lk"
         ,ls:'app/ls'
     },
@@ -28,6 +29,10 @@ require.config({
         jform:{
             deps:['jquery'],
             exports:'jform'
+        },
+        ztree:{
+          deps:['jquery','css!js/b/plugin/ztree/css/zTreeStyle/zTreeStyle.css'],
+          exports:'ztree'
         },
         backbone:{
             deps:['underscore','jquery',''],
