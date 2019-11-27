@@ -1,11 +1,13 @@
 package com.luke.es.goods.controller.impl;
 
+import com.luke.es.global.BController;
 import com.luke.es.goods.controller.ITypeController;
 import com.luke.es.goods.service.ITypeService;
 import com.luke.es.md.vo.goods.dto.DTOGoodsAttrCfg;
 import com.luke.es.md.vo.goods.dto.DTOType;
 import com.luke.es.md.vo.goods.vo.VOGoodsAttrCfg;
 import com.luke.es.md.vo.goods.vo.VOType;
+import com.luke.es.md.vo.xtype.VOXtypeZTreeNode;
 import com.luke.es.tool.controller.ActResult;
 import net.sf.json.JSON;
 import net.sf.json.JSONArray;
@@ -21,7 +23,7 @@ import java.util.Collection;
 import java.util.List;
 
 @RestController
-public class TypeController implements ITypeController {
+public class TypeController extends BController implements ITypeController {
 
     @Resource
     ITypeService iTypeService ;
@@ -70,5 +72,11 @@ public class TypeController implements ITypeController {
         Collection<DTOGoodsAttrCfg> lstDto =( Collection<DTOGoodsAttrCfg>) JSONArray.toCollection(ja,DTOGoodsAttrCfg.class) ;
         this.iTypeService.saveOrUpdateGoodsAttr(xtypeId,lstDto) ;
         return actResult.ok();
+    }
+
+    @Override
+    public ActResult findTypeByLevel(HttpServletRequest request, HttpServletResponse response, ActResult actResult, Long fid, String jsonArrayLstDto, BindingResult bindingResult) throws Exception {
+        List<VOXtypeZTreeNode> lstVoXtypeZtreeNodes =this.iTypeService.findTypeByLevel(fid,getCurrentUser(request)) ;
+        return actResult.ok(lstVoXtypeZtreeNodes);
     }
 }

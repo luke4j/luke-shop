@@ -27,6 +27,10 @@ public class ActResult {
         this.msg = msg ;
         return this ;
     }
+    public ActResult ok(Object data){
+        this.rt = data==null? new LKMap().put1("ok",true) :data;
+        return this ;
+    }
 
     public String getCode() {
         return code;

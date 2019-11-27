@@ -1,6 +1,7 @@
 //功能模块化代码定义
 define(function(require) {
     require("ls");
+    require("ztree") ;
 
 //数据模型
     var Model = Backbone.Model.extend({
@@ -75,15 +76,11 @@ define(function(require) {
         ,render: function () {
             //主工作区初始化
             this.$el = ls.p.getWorkSpaceBody() ;
-            //添加数据表元素
-            this.$tabletree = $("<table id='dataTreeTable' lay-filter='dataTreeTable'>") ;
-            this.$el.append(this.$tabletree) ;
-            this.$el.append(this._tmpCol_yesOrNo_lib()) ;
-            this.$el.append(this._tmpCol_yesOrNo_entity()) ;
-            this.$el.append(this._tmpCol_yesOrNo_lens()) ;
-            this.$el.append(this._tmpCol_yesOrNo_time()) ;
-            this.$el.append(this._tmpCol_type()) ;
-            $("#item_btn", this.$el).append(this._pageLayTreeTableQuery());
+
+            this.$el.append(
+                    $("<div>").addClass("content_wrap")
+                        .append($("<ul>").attr('id',"page_ztree_data"))
+            ) ;
             //使用UI组件来显示数据
             this.pageTableData() ;
             return this ;
@@ -297,22 +294,35 @@ define(function(require) {
         }
         ,pageTableData:function(params){
             var me = this;
-            lk.page.pageTreeTable({
-                id:'uiDataTable'
-                ,elem:'#dataTreeTable'
-                ,url:'type/findOneKind.act'
-                ,where:params
-                ,cols:[[
-                    {type: 'radio', width: "5%"}
-                    // ,{field: 'id', title: 'ID',width:150}
-                    // ,{field: 'c_type', title: '类型',templet:"#templateType",width:130}
-                    ,{field: 'name', title: '名称',width:160 }
-                    ,{field: 'blnLens', title: '是否度数', templet:"#templateYesOrNo_lens",width:100}
-                    ,{field: 'blnLib', title: '是否库存', templet:"#templateYesOrNo_lib",width:100}
-                    ,{field: 'blnTime', title: '是否效期', templet:"#templateYesOrNo_time",width:100}
-                    ,{field: 'blnEntity', title: '是否服务',templet:"#templateYesOrNo_entity",width:100}
-                ]]
-            },params) ;
+            var zNodes =[
+                {name:"500个节点", id:"1", count:500, times:1, isParent:true},
+                {name:"1000个节点", id:"2", count:1000, times:1, isParent:true},
+                {name:"2000个节点", id:"3", count:2000, times:1, isParent:true}
+            ];
+            var setting = {
+                async: {
+                    enable: true,
+                    url: ''
+                },
+                check: {
+                    enable: true
+                },
+                data: {
+                    simpleData: {
+                        enable: true
+                    }
+                },
+                view: {
+                    expandSpeed: ""
+                },
+                callback: {
+                    beforeExpand: beforeExpand,
+                    onAsyncSuccess: onAsyncSuccess,
+                    onAsyncError: onAsyncError
+                }
+            };
+            $.fn.zTree.init($("#page_ztree_data"), setting, zNodes);
+
         }
         //添加功能，增删改查的弹出窗模板
         /**

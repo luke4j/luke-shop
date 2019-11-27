@@ -58,4 +58,19 @@ public interface ITypeController {
      */
     @RequestMapping(path = "saveOrUpdateGoodsAttr.act",method = RequestMethod.POST)
     ActResult saveOrUpdateGoodsAttr(HttpServletRequest request, HttpServletResponse response, ActResult actResult ,Long xtypeId, String jsonArrayLstDto, BindingResult bindingResult) throws Exception ;
+
+    /**
+     * 按树的级别查询数据 ，也就是按fid
+     * @param request
+     * @param response
+     * @param actResult
+     * @param fid
+     * @param jsonArrayLstDto
+     * @param bindingResult
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(path = "findTypeByLevel.act",method = RequestMethod.POST)
+    ActResult findTypeByLevel(HttpServletRequest request, HttpServletResponse response, ActResult actResult ,Long fid, String jsonArrayLstDto, BindingResult bindingResult)throws Exception ;
+
 }
