@@ -59,6 +59,7 @@ public class TypeDao extends DBDao implements ITypeDao {
 
     @Override
     public List<VOXtypeZTreeNode> findTypeByLevel(Long fid, VOutUser currentUser) throws Exception {
+        fid = fid==null?0L:fid ;
         List<VOXtypeZTreeNode>  list = this.find("select new com.luke.es.md.vo.xtype.VOXtypeZTreeNode(id, c_type, name, py, fid, blnEntity, blnLens, blnLib, blnTime) From TG_Type t where t.fid=:fid ",new LKMap<>().put1("fid",fid)) ;
         return list;
     }
