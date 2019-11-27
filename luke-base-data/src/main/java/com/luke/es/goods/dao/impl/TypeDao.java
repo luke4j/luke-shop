@@ -5,8 +5,10 @@ import com.luke.es.goods.dao.ITypeDao;
 import com.luke.es.md.kc.TG_GoodsAttrCnf;
 import com.luke.es.md.vo.goods.vo.VOGoodsAttrCfg;
 import com.luke.es.md.vo.goods.vo.VOType;
+import com.luke.es.md.vo.xtype.VOXtypeZTreeNode;
 import com.luke.es.tool.tl.LK;
 import com.luke.es.tool.tl.LKMap;
+import com.luke.es.tool.vo.VOutUser;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
@@ -53,5 +55,11 @@ public class TypeDao extends DBDao implements ITypeDao {
             }
         }
         return lst;
+    }
+
+    @Override
+    public List<VOXtypeZTreeNode> findTypeByLevel(Long fid, VOutUser currentUser) throws Exception {
+        List<VOXtypeZTreeNode>  list = this.find("select new com.luke.es.md.vo.xtype.VOXtypeZTreeNode(id, c_type, name, py, fid, blnEntity, blnLens, blnLib, blnTime) From TG_Type t where t.fid=:fid ",new LKMap<>().put1("fid",fid)) ;
+        return list;
     }
 }

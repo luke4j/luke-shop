@@ -302,7 +302,7 @@ define(function(require) {
             var setting = {
                 async: {
                     enable: true,
-                    url: ''
+                    url: 'type/findTypeByLevel.act'
                 },
                 check: {
                     enable: true
@@ -316,9 +316,9 @@ define(function(require) {
                     expandSpeed: ""
                 },
                 callback: {
-                    beforeExpand: beforeExpand,
-                    onAsyncSuccess: onAsyncSuccess,
-                    onAsyncError: onAsyncError
+//                    beforeExpand: beforeExpand,
+//                    onAsyncSuccess: onAsyncSuccess,
+//                    onAsyncError: onAsyncError
                 }
             };
             $.fn.zTree.init($("#page_ztree_data"), setting, zNodes);
