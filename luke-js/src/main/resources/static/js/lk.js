@@ -706,7 +706,22 @@ lk.page.alertLayuiForm = function(cfg){
             form.val("form", cfg.data);
         }
     }) ;
+} ;
+
+lk.b = lk.b||{} ;
+/**
+ * 数组的数据反转
+ * @param array
+ */
+lk.b.array_reverse = function(array){
+    var tmp = [] ;
+    for(var i = array.length-1 ;i>=0 ;i--){
+        tmp.push(array[i]) ;
+    }
+    return tmp ;
 }
+
+
 
 
 

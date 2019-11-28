@@ -9,6 +9,7 @@ import com.luke.es.md.vo.goods.dto.DTOType;
 import com.luke.es.md.vo.goods.vo.VOGoodsAttrCfg;
 import com.luke.es.md.vo.goods.vo.VOType;
 import com.luke.es.md.vo.xtype.VOXtypeZTreeNode;
+import com.luke.es.md.vo.xtype.dto.DTOXtype;
 import com.luke.es.tool.exception.AppException;
 import com.luke.es.tool.tl.LK;
 import com.luke.es.tool.vo.VOutUser;
@@ -113,8 +114,8 @@ public class TypeService implements ITypeService {
     }
 
     @Override
-    public List<VOXtypeZTreeNode> findTypeByLevel(Long fid, VOutUser currentUser) throws Exception {
-        List<VOXtypeZTreeNode> lst = this.iTypeDao.findTypeByLevel(fid,currentUser) ;
+    public List<VOXtypeZTreeNode> findTypeByLevel(DTOXtype dtoXtype, VOutUser currentUser) throws Exception {
+        List<VOXtypeZTreeNode> lst = this.iTypeDao.findTypeByLevel(dtoXtype,currentUser) ;
         return lst;
     }
 }

@@ -2,6 +2,7 @@ package com.luke.es.goods.controller;
 
 import com.luke.es.md.vo.goods.dto.DTOGoodsAttrCfg;
 import com.luke.es.md.vo.goods.dto.DTOType;
+import com.luke.es.md.vo.xtype.dto.DTOXtype;
 import com.luke.es.tool.controller.ActResult;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -64,13 +65,13 @@ public interface ITypeController {
      * @param request
      * @param response
      * @param actResult
-     * @param fid
+     * @param dtoXtype
      * @param jsonArrayLstDto
      * @param bindingResult
      * @return
      * @throws Exception
      */
     @RequestMapping(path = "findTypeByLevel.act",method = RequestMethod.POST)
-    ActResult findTypeByLevel(HttpServletRequest request, HttpServletResponse response, ActResult actResult ,Long fid, String jsonArrayLstDto, BindingResult bindingResult)throws Exception ;
+    ActResult findTypeByLevel(HttpServletRequest request, HttpServletResponse response, ActResult actResult , DTOXtype dtoXtype, String jsonArrayLstDto, BindingResult bindingResult)throws Exception ;
 
 }

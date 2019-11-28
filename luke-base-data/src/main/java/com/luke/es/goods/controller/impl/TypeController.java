@@ -8,6 +8,7 @@ import com.luke.es.md.vo.goods.dto.DTOType;
 import com.luke.es.md.vo.goods.vo.VOGoodsAttrCfg;
 import com.luke.es.md.vo.goods.vo.VOType;
 import com.luke.es.md.vo.xtype.VOXtypeZTreeNode;
+import com.luke.es.md.vo.xtype.dto.DTOXtype;
 import com.luke.es.tool.controller.ActResult;
 import net.sf.json.JSON;
 import net.sf.json.JSONArray;
@@ -75,8 +76,8 @@ public class TypeController extends BController implements ITypeController {
     }
 
     @Override
-    public ActResult findTypeByLevel(HttpServletRequest request, HttpServletResponse response, ActResult actResult, Long fid, String jsonArrayLstDto, BindingResult bindingResult) throws Exception {
-        List<VOXtypeZTreeNode> lstVoXtypeZtreeNodes =this.iTypeService.findTypeByLevel(fid,getCurrentUser(request)) ;
+    public ActResult findTypeByLevel(HttpServletRequest request, HttpServletResponse response, ActResult actResult, DTOXtype dtoXtype, String jsonArrayLstDto, BindingResult bindingResult) throws Exception {
+        List<VOXtypeZTreeNode> lstVoXtypeZtreeNodes =this.iTypeService.findTypeByLevel(dtoXtype,getCurrentUser(request)) ;
         return actResult.ok(lstVoXtypeZtreeNodes);
     }
 }

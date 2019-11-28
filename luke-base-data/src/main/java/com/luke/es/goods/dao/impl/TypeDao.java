@@ -6,6 +6,8 @@ import com.luke.es.md.kc.TG_GoodsAttrCnf;
 import com.luke.es.md.vo.goods.vo.VOGoodsAttrCfg;
 import com.luke.es.md.vo.goods.vo.VOType;
 import com.luke.es.md.vo.xtype.VOXtypeZTreeNode;
+import com.luke.es.md.vo.xtype.dto.DTOXtype;
+import com.luke.es.tool.tl.Assertion;
 import com.luke.es.tool.tl.LK;
 import com.luke.es.tool.tl.LKMap;
 import com.luke.es.tool.vo.VOutUser;
@@ -58,9 +60,12 @@ public class TypeDao extends DBDao implements ITypeDao {
     }
 
     @Override
-    public List<VOXtypeZTreeNode> findTypeByLevel(Long fid, VOutUser currentUser) throws Exception {
-        fid = fid==null?0L:fid ;
-        List<VOXtypeZTreeNode>  list = this.find("select new com.luke.es.md.vo.xtype.VOXtypeZTreeNode(id, c_type, name, py, fid, blnEntity, blnLens, blnLib, blnTime) From TG_Type t where t.fid=:fid ",new LKMap<>().put1("fid",fid)) ;
+    public List<VOXtypeZTreeNode> findTypeByLevel(DTOXtype dtoXtype, VOutUser currentUser) throws Exception {
+        if(dtoXtype==null||dtoXtype.getId()==null) Assertion.Error("TG_Type 参数异常");
+        List<VOXtypeZTreeNode>  list = this.find("select new com.luke.es.md.vo.xtype.VOXtypeZTreeNode" +
+                        "(t.id, t.c_type, t.name, t.py, t.fid, te.blnEntity, te.blnLens, te.blnLib, te.blnTime) " +
+                        "From TG_Type t left join TG_Type_Extends te on t.id = te.xtypeId where t.fid=:fid and t._isDel=false"
+                ,new LKMap<>().put1("fid",dtoXtype.getId())) ;
         return list;
     }
 }
