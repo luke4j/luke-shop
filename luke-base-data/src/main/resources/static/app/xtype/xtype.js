@@ -141,19 +141,45 @@ define(function(require) {
             , "click #btn-zhankai": "click_btn_zhankai_handler"  //展开
             , "change #xtypeSelect": "change_xtypeSelect_handler" //选择品类
         }
-        // ,click_btn_xinzeng_handler:function(jeve){
-        //     var me = this ;
-        //     var checkedNodes = ls.validata.ztreeSelected("page_ztree_data",false) ;
-        //     // var model = new Model({id:checkedNodes.firstNode.id}) ;
-        //     // model.addNode() ;
-        //     this.alertLayerForm({
-        //         title:lk.static.BTN_TEXT_ADD_NEW
-        //         ,Model:Model
-        //         ,modelMethodName:"addNode"
-        //         ,view:me
-        //         ,htmlTemplateUrl:'app/xtype/xtype.form.html'
-        //     }) ;
-        // }
+        ,click_btn_xinzeng_handler:function(jeve){
+            var me = this ;
+            var checkedNodes = ls.validata.ztreeSelected("page_ztree_data",false) ;
+            // var model = new Model({id:checkedNodes.firstNode.id}) ;
+            // model.addNode() ;
+
+            var xtype = "品类" ,fid=0;
+            if(!checkedTreeTableData.data[0]){
+                xtype = "品类" ;
+                fid = 0 ;
+            }else{
+                switch (checkedTreeTableData.data[0].c_type) {
+                    case '品类' :
+                        xtype = "品牌" ;
+                        fid = checkedTreeTableData.data[0].id ;
+                        break ;
+                    case '品牌' :
+                        xtype = "型号" ;
+                        fid = checkedTreeTableData.data[0].id ;
+                        break ;
+                    case '型号' :
+                        xtype = "颜色" ;
+                        fid = checkedTreeTableData.data[0].id ;
+                        break ;
+                }
+            }
+
+
+            this.alertLayerForm({
+                title:lk.static.BTN_TEXT_ADD_NEW
+                ,Model:Model
+                ,modelMethodName:"addNode"
+                ,view:me
+                // ,htmlTemplateUrl:'app/xtype/xtype.form.html'
+                ,htmlTemplet:xtype == "品类"?'app/type/type.form.html':'app/type/type2.form.html'
+                ,data:{c_type:xtype,fid:fid}
+                // ,data:{}
+            }) ;
+        }
         //添加功能，增删改查的弹出窗模板
         /**
          * 页面功能按钮按下时，调用的弹出窗，包括渲染弹出窗与弹出窗的布局
@@ -164,10 +190,10 @@ define(function(require) {
          */
         ,alertLayerForm:function(args){
             var me = this ;
-            args.data.blnLens=""+args.data.blnLens ;
-            args.data.blnLib=""+args.data.blnLib ;
-            args.data.blnTime=""+ args.data.blnTime;
-            args.data.blnEntity=""+ args.data.blnEntity;
+            // args.data.blnLens=""+args.data.blnLens ;
+            // args.data.blnLib=""+args.data.blnLib ;
+            // args.data.blnTime=""+ args.data.blnTime;
+            // args.data.blnEntity=""+ args.data.blnEntity;
             lk.page.alertLayuiForm($.extend({
                 view:this
                 ,success:function(){
