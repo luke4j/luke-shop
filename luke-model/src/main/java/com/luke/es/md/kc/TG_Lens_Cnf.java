@@ -10,7 +10,7 @@ import javax.persistence.Table;
 @Table(indexes = {
         @Index(columnList = "goodsId")
 })
-public class TG_LensCnf extends _M {
+public class TG_Lens_Cnf extends _M {
     Float maxSph ;
     Float minSph ;
 

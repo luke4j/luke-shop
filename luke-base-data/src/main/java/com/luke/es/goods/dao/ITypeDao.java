@@ -10,17 +10,6 @@ import com.luke.es.tool.vo.VOutUser;
 import java.util.List;
 
 public interface ITypeDao  extends IDBDao {
-    /**
-     * 查询品类已配置的商品属性
-     * @param xtypeId
-     * @return
-     * @throws Exception
-     */
-    List<VOGoodsAttrCfg> findGodosAttrByXtypeId(Long xtypeId) throws Exception;
-
-    void deleteGoodsAttrCfgByXtypeId(Long xtypeId)throws Exception;
-
-    List<VOType> findOneKind(Long id, List<VOType> lst) throws Exception;
 
     /**
      * 按fid 查询数据为页面树提供数据

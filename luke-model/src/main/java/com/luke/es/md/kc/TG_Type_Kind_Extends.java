@@ -5,8 +5,8 @@ import com.luke.es.tool.model._M;
 import javax.persistence.Entity;
 
 @Entity
-public class TG_Type_Extends extends _M {
-    Long xtypeId ;
+public class TG_Type_Kind_Extends extends _M {
+    Long typeKindId ;
 
     /**是否是服务*/
     Boolean blnEntity ;
@@ -17,12 +17,12 @@ public class TG_Type_Extends extends _M {
     /**是否有效期*/
     Boolean blnTime ;
 
-    public Long getXtypeId() {
-        return xtypeId;
+    public Long getTypeKindId() {
+        return typeKindId;
     }
 
-    public void setXtypeId(Long xtypeId) {
-        this.xtypeId = xtypeId;
+    public void setTypeKindId(Long typeKindId) {
+        this.typeKindId = typeKindId;
     }
 
     public Boolean getBlnEntity() {

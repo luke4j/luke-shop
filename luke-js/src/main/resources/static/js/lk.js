@@ -81,16 +81,16 @@ lk.ts.confirm = function(msg,yesCallBack){
     }) ;
 } ;
 //异常
-lk.er = {} ;
-lk.er.error = function(msg){
+lk.error = {} ;
+lk.error.error = function(msg){
     throw new Error(msg) ;
 } ;
 
 
 //日志方法组
-lk.lg = {} ;
+lk.log = {} ;
 
-lk.lg.dir = function(Obj){
+lk.log.dir = function(Obj){
     console.dir(Obj) ;
 } ;
 
@@ -665,12 +665,12 @@ lk.page.pageTable = function(cfg){
  *  使用 Model的modelMethodName提交数据
  *  使用 data 数据为表单负值
  * @param cfg
- * cfg.title,
- * cfg.modelMethodName,
- * cfg.data
- * cfg.Model
- * cfg.view
- * cfg.htmlTemplateUrl
+ * cfg.title,<br>
+ * cfg.modelMethodName,<br>
+ * cfg.data<br>
+ * cfg.Model<br>
+ * cfg.view<br>
+ * cfg.htmlTemplateUrl<br>
  */
 lk.page.alertLayuiForm = function(cfg){
     if(!cfg.htmlTemplateUrl||!cfg.modelMethodName||!cfg.Model||!cfg.view){

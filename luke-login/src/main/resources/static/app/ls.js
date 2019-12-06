@@ -163,4 +163,25 @@ ls.ck.getCookie = function(key){
     return $.cookie(key) ;
 } ;
 
+ls.validata = ls.validata ||{} ;
+/**
+ * { checkedNodes:nodes, firstNode:nodes[0] }
+ * @param zTreeHtmlElementId
+ * @returns {{checkedNodes: *, firstNode: *}}
+ */
+ls.validata.ztreeSelected = function(zTreeHtmlElementId,isValidate){
+    var treeObj = $.fn.zTree.getZTreeObj(zTreeHtmlElementId);
+    var nodes = treeObj.getCheckedNodes(true);
+    if(isValidate){
+        if(nodes==null||nodes.length<=0){
+            lk.ts.alert("请选择节点数据") ;
+            lk.error.error("请选择节点数据") ;
+        }
+        return { checkedNodes:nodes, firstNode:nodes[0] }
+    }else{
+        return { checkedNodes:nodes, firstNode:{}}
+    }
+
+}
+
 

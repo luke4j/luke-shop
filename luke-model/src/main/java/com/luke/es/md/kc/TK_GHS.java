@@ -7,6 +7,9 @@ import javax.persistence.Entity;
 import javax.persistence.Index;
 import javax.persistence.Table;
 
+/**
+ * 供货商
+ */
 @Entity
 @Table(indexes = {
         @Index(columnList = "kindId"),

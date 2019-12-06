@@ -28,56 +28,16 @@ public class TypeController extends BController implements ITypeController {
 
     @Resource
     ITypeService iTypeService ;
-    @Override
-    public ActResult addModel(HttpServletRequest request, HttpServletResponse response, ActResult actResult, DTOType dto, BindingResult bindingResult) throws Exception {
-        iTypeService.addModel(dto) ;
-        return actResult.ok();
-    }
-
-    @Override
-    public ActResult delModel(HttpServletRequest request, HttpServletResponse response, ActResult actResult, DTOType dto, BindingResult bindingResult) throws Exception {
-        iTypeService.delModel(dto) ;
-        return actResult.ok();
-    }
-
-    @Override
-    public ActResult updateModel(HttpServletRequest request, HttpServletResponse response, ActResult actResult, DTOType dto, BindingResult bindingResult) throws Exception {
-        iTypeService.updateModel(dto) ;
-        return actResult.ok();
-    }
-
-    @Override
-    public ActResult findAllKind(HttpServletRequest request, HttpServletResponse response, ActResult actResult, DTOType dto, BindingResult bindingResult) throws Exception {
-        List<VOType> lstVo = iTypeService.findAll4Select(dto);
-        actResult.setRt(lstVo);
-        return actResult;
-    }
-
-    @Override
-    public ActResult findOneKind(HttpServletRequest request, HttpServletResponse response, ActResult actResult, DTOType dto, BindingResult bindingResult) throws Exception {
-        List<VOType> lstVo = iTypeService.findOneKind(dto);
-        actResult.setRt(lstVo);
-        return actResult;
-    }
-
-    @Override
-    public ActResult findInitGoodsAttr(HttpServletRequest request, HttpServletResponse response, ActResult actResult, DTOGoodsAttrCfg dto, BindingResult bindingResult) throws Exception {
-        List<VOGoodsAttrCfg> lstVO = this.iTypeService.findEmptyGoodsAttr(dto) ;
-        actResult.setRt(lstVO);
-        return actResult;
-    }
-
-    @Override
-    public ActResult saveOrUpdateGoodsAttr(HttpServletRequest request, HttpServletResponse response, ActResult actResult,Long xtypeId, String jsonArrayLstDto, BindingResult bindingResult) throws Exception {
-        JSONArray ja = JSONArray.fromObject(jsonArrayLstDto) ;
-        Collection<DTOGoodsAttrCfg> lstDto =( Collection<DTOGoodsAttrCfg>) JSONArray.toCollection(ja,DTOGoodsAttrCfg.class) ;
-        this.iTypeService.saveOrUpdateGoodsAttr(xtypeId,lstDto) ;
-        return actResult.ok();
-    }
 
     @Override
     public ActResult findTypeByLevel(HttpServletRequest request, HttpServletResponse response, ActResult actResult, DTOXtype dtoXtype, String jsonArrayLstDto, BindingResult bindingResult) throws Exception {
         List<VOXtypeZTreeNode> lstVoXtypeZtreeNodes =this.iTypeService.findTypeByLevel(dtoXtype,getCurrentUser(request)) ;
         return actResult.ok(lstVoXtypeZtreeNodes);
+    }
+
+    @Override
+    public ActResult addType(HttpServletRequest request, HttpServletResponse response, ActResult actResult, DTOXtype dtoXtype, String jsonArrayLstDto, BindingResult bindingResult) throws Exception {
+        this.iTypeService.addType(dtoXtype) ;
+        return actResult.ok();
     }
 }
