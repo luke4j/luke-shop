@@ -1,41 +1,98 @@
 //功能模块化代码定义
 define(function(require) {
     require("ls");
-    require("ztree") ;
+    require("ztree");
 
-    //数据模型
     var Model = Backbone.Model.extend({
-        // 可以有默认值也可以没有，如果没有默认值 ，会按照form表单中的数据来定义数据模型的数据属性
-        defaults: {
-            c_type:'', name:'',fid:'',id:''
+        defaults:{
+             isSync:false,syncType:'xtype',syncMethod:''
+            ,xtype:{id:'',fid:'',c_type:'',name:''}
+            ,kind_extend:{id:'',typeKindId:'',blnEntity:'',blnLens:'',blnLib:'',blnLib:''}
+            ,goods_cnf:{id:'',typeKindId:'',keyName:'',keyTitle:'',keyEleType:'',keyEleDefault:'',keyEleDefaultValues:''}
+            ,goods_extend:{id:'',typeGoodsId:'',keyId:'',keyValue:''}
+            ,len_cnf:{id:'',goods_id:'',minSph:'',maxSph:'',minCyl:'',maxCyl:'',sphStep:'',cylStep:''}
+            ,len:{id:'',goods_id:'',cnfId:'',sph:'',cyl:''}
+            ,goods_price:{id:'',goods_id:'',inPrice:'',outPrice:''}}
+        ,initialize:function(){
+            this.addEvent() ;
         }
-        ,findXtypeRoot:function(){
-            var data = [] ;
+        ,addEvent:function(){
+            this.on('invalid',function(model,error){
+                lk.ts.alert(error) ;
+            }) ;
+            this.on("loadRoot",this.loadRoot_handler) ;
+        }
+        /**加载根节点数据，调用view的 pageTableData（param） 方法，让view去以树形式显示数据*/
+        ,loadRoot_handler:function(args){
             ls.d.ajax({
                 url:'type/findTypeByLevel.act'
                 ,data:{id:0}
-                ,async:false
                 ,success:function(res){
                     if(_.isArray(res.rt)){
+                        var data = [] ;
                         for(var i in res.rt){
                             data.push($.extend(res.rt[i],{isParent:true}))
                         }
+                        args.xtypeView.pageTableData(data) ;
                     }
                 }
             }) ;
-            return data ;
         }
-        ,addNode:function(){
-            ls.d.ajax({
-                url:'type/addType.act'
-                ,data:this.attributes
-                ,success:function(res){
-                    console.dir(res) ;
+        ,validate:function(attrs, options){
+            if(attrs.isSync&&attrs.syncType=='xtype'&&attrs.syncMethod=='addModel'){
+                if(_.isEmpty(this.xtype.fid)){
+                    return "xtype.fid is Empty" ;
                 }
-            }) ;
+                if(_.isEmpty(this.xtype.name)){
+                    return "xtype.name is Empty" ;
+                }
+            }
         }
 
-    });
+        ,addModel:function(callback){
+            // this.addType() ;
+            // this.addKindExtend() ;
+            // this.addGoodsCnf() ;
+            // this.addGoodsExtend() ;
+            // this.addLenCnf() ;
+            // this.addLen() ;
+            // this.addGoodsPrice() ;
+            callback() ;
+        }
+        ,addType:function(){
+
+        }
+        ,updateModel:function(callback){
+            // this.updateType() ;
+            // this.updateKindExtend() ;
+            // this.updateGoodsCnf() ;
+            // this.updateGoodsExtend() ;
+            // this.updateLenCnf() ;
+            // this.updateLen() ;
+            // this.updateGoodsPrice() ;
+            callback() ;
+        }
+        ,delModel:function(callback){
+            // this.delType() ;
+            // this.delKindExtend() ;
+            // this.delGoodsCnf() ;
+            // this.delGoodsExtend() ;
+            // this.delLenCnf() ;
+            // this.delLen() ;
+            // this.delGoodsPrice() ;
+            callback() ;
+        }
+        ,getModel:function(callback){
+            // this.getType() ;
+            // this.getKindExtend() ;
+            // this.getGoodsCnf() ;
+            // this.getGoodsExtend() ;
+            // this.getLenCnf() ;
+            // this.getLen() ;
+            // this.getGoodsPrice() ;
+            callback() ;
+        }
+    }) ;
 
 
     //页面模型
@@ -44,28 +101,16 @@ define(function(require) {
         initialize: function () {
             this.render();
         }
-        // 页面元素定义，包手html模板
-        , render: function () {
-            //主工作区初始化
+        ,render:function(){
             this.$el = ls.p.getWorkSpaceBody();
             this.model = new Model();
-            this.$el.append(
-                $("<div style='overflow:auto;margin-top: 8px;margin-left: 4px;'>").addClass("content_wrap ")
-                    .append($("<div style='width:35%;height:550px;overflow-y: scroll;display:inline-block;'>").addClass("zTreeDemoBackground left")
-                        .append($("<ul>").attr('id', "page_ztree_data").addClass("ztree"))
-                    )
-                    .append($("<div style='width:35%;height:550px;overflow-y: auto;display:inline-block;margin-left: 5px;'>").addClass("right")
-                        .append($("<ul id='type_info' style='font-size: medium;margin-left: 5px;margin-top: 5px;'>").addClass("info")))
-            );
-            //使用UI组件来显示数据
-            this.pageTableData();
-            return this;
-        }
+            var $page_base_formation = ls.d.getHtml('app/xtype/xtype_base_formation.html') ;
+            this.$el.append($page_base_formation) ;
 
-        //页面显示表格数据
+            this.model.trigger('loadRoot',{xtypeView:this}) ;
+        }
         ,pageTableData:function(params){
             var me = this;
-            var zNodes = this.model.findXtypeRoot() ;
             var setting = {
                 async: {
                     enable: true
@@ -98,7 +143,7 @@ define(function(require) {
                     onClick: me.zTreeOnClick_handler
                 }
             };
-            $.fn.zTree.init($("#page_ztree_data"), setting, zNodes);
+            $.fn.zTree.init($("#page_ul_ztree"), setting, params);
 
         }
         /** ztree触发的事件 ***/
@@ -130,78 +175,6 @@ define(function(require) {
             $("#type_info").append($("<li>").text("型号："+(names[2]?names[2]:''))) ;
             $("#type_info").append($("<li>").text("颜色："+(names[3]?names[3]:''))) ;
         }
-        //页面注册事件，这些按钮都是由数据库动态配置来的，id为btn-[名称的汉语拼音]
-        , events: {
-            "click #btn-xinzeng": "click_btn_xinzeng_handler" //新增
-            , "click #btn-shuaxin": "click_btn_shuaxin_handler" //刷新
-            , "click #btn-xiugai": "click_btn_xiugai_handler" //修改
-            , "click #btn-shanchu": "click_btn_shanchu_handler" //删除
-            , "click #btn-shuxingweihu": "click_btn_shuxingweihu_handler"//属性维护
-            , "click #btn-zhedie": "click_btn_zhedie_handler"    //合并
-            , "click #btn-zhankai": "click_btn_zhankai_handler"  //展开
-            , "change #xtypeSelect": "change_xtypeSelect_handler" //选择品类
-        }
-        ,click_btn_xinzeng_handler:function(jeve){
-            var me = this ;
-            var checkedNodes = ls.validata.ztreeSelected("page_ztree_data",false) ;
-            // var model = new Model({id:checkedNodes.firstNode.id}) ;
-            // model.addNode() ;
-
-            var xtype = "品类" ,fid=0;
-            if(!checkedTreeTableData.data[0]){
-                xtype = "品类" ;
-                fid = 0 ;
-            }else{
-                switch (checkedTreeTableData.data[0].c_type) {
-                    case '品类' :
-                        xtype = "品牌" ;
-                        fid = checkedTreeTableData.data[0].id ;
-                        break ;
-                    case '品牌' :
-                        xtype = "型号" ;
-                        fid = checkedTreeTableData.data[0].id ;
-                        break ;
-                    case '型号' :
-                        xtype = "颜色" ;
-                        fid = checkedTreeTableData.data[0].id ;
-                        break ;
-                }
-            }
-
-
-            this.alertLayerForm({
-                title:lk.static.BTN_TEXT_ADD_NEW
-                ,Model:Model
-                ,modelMethodName:"addNode"
-                ,view:me
-                // ,htmlTemplateUrl:'app/xtype/xtype.form.html'
-                ,htmlTemplet:xtype == "品类"?'app/type/type.form.html':'app/type/type2.form.html'
-                ,data:{c_type:xtype,fid:fid}
-                // ,data:{}
-            }) ;
-        }
-        //添加功能，增删改查的弹出窗模板
-        /**
-         * 页面功能按钮按下时，调用的弹出窗，包括渲染弹出窗与弹出窗的布局
-         * lk.page.alertLayuiForm 这个方法会为弹出窗添相应的框架支持
-         * 在点击确定后，会调用form表单中的数据，初始化数据模板Model,
-         * 然后再调用Model中的指定方法来向后台发请求
-         * 当然你也可以在Model的指定方法中回调视图View中的方法来刷新数据显示
-         */
-        ,alertLayerForm:function(args){
-            var me = this ;
-            // args.data.blnLens=""+args.data.blnLens ;
-            // args.data.blnLib=""+args.data.blnLib ;
-            // args.data.blnTime=""+ args.data.blnTime;
-            // args.data.blnEntity=""+ args.data.blnEntity;
-            lk.page.alertLayuiForm($.extend({
-                view:this
-                ,success:function(){
-                    layui.form.render();
-                }
-            },args)) ;
-        }
     }) ;
-
     return View ;
-});
+}) ;
