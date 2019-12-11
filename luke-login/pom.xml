@@ -20,34 +20,49 @@
             <groupId>com.luke.es</groupId>
             <artifactId>luke-tool</artifactId>
             <version>1.0-SNAPSHOT</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.luke.es</groupId>
             <artifactId>luke-js</artifactId>
             <version>1.0-SNAPSHOT</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.luke.es</groupId>
             <artifactId>luke-db</artifactId>
             <version>1.0-SNAPSHOT</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.luke.es</groupId>
             <artifactId>luke-model</artifactId>
             <version>1.0-SNAPSHOT</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-web</artifactId>
-            <version>5.1.6.RELEASE</version>
-            <scope>compile</scope>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.aspectj</groupId>
-            <artifactId>aspectjrt</artifactId>
-            <version>1.9.2</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+            <scope>provided</scope>
         </dependency>
+
+<!--        <dependency>-->
+<!--            <groupId>org.springframework</groupId>-->
+<!--            <artifactId>spring-web</artifactId>-->
+<!--            <version>5.1.6.RELEASE</version>-->
+<!--            <scope>compile</scope>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.aspectj</groupId>-->
+<!--            <artifactId>aspectjrt</artifactId>-->
+<!--            <version>1.9.2</version>-->
+<!--        </dependency>-->
     </dependencies>
 
 
