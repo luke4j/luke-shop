@@ -11,6 +11,18 @@ public class VOXtypeZTreeNode {
 
     }
 
+    public VOXtypeZTreeNode(Long id, String c_type, String name, String py, Long fid,Boolean blnEntity,Boolean blnLens,Boolean blnLib,Boolean blnTime) {
+        this.id = id;
+        this.c_type = c_type;
+        this.name = name;
+        this.py = py;
+        this.fid = fid;
+        this.blnEntity = blnEntity ;
+        this.blnLens = blnLens ;
+        this.blnLib = blnLib ;
+        this.blnTime = blnTime ;
+    }
+
     Long id ;
     String c_type ;
     String name ;

@@ -37,6 +37,13 @@ ls.d.ajax = function(cnf){
         ,complete:function(XMLHttpRequest, textStatus){
             if(alertIdx)
                 lk.ts.close(alertIdx) ;
+            if(XMLHttpRequest.status==200){
+                //请求正常返回
+            }else if(XMLHttpRequest.status==404){
+                lk.ts.alert("404：后台未处理请求["+JSON.parse(XMLHttpRequest.responseText).path+"]") ;
+            }else{
+                lk.ts.alert(XMLHttpRequest.status+":"+XMLHttpRequest.error+"-->"+XMLHttpRequest.message) ;
+            }
         }
         ,beforeSend:function(XMLHttpRequest){
             if(cnf.mb)
@@ -44,28 +51,6 @@ ls.d.ajax = function(cnf){
         }
     },cnf)) ;
 
-    // success:function(resp){
-    //     if(resp.success){
-    //         cnf.success(resp) ;
-    //     }else{
-    //         if(resp.msg)
-    //             lk.ts.alert(resp.msg) ;
-    //     }
-    // }
-    // $.ajax({
-    //     url:cnf.url
-    //     ,type:"post"
-    //     ,async:true
-    //     ,data:data
-    //     ,complete:function(XMLHttpRequest, textStatus){
-    //         if(alertIdx)
-    //             lk.ts.close(alertIdx) ;
-    //     }
-    //     ,beforeSend:function(XMLHttpRequest){
-    //         if(cnf.mb)
-    //             alertIdx = lk.ts.alert("处理中,请稍等...")
-    //     }
-    // }) ;
 } ;
 
 ls.d.getHtml = function(html_url){
@@ -171,7 +156,8 @@ ls.validata = ls.validata ||{} ;
  */
 ls.validata.ztreeSelected = function(zTreeHtmlElementId,isValidate){
     var treeObj = $.fn.zTree.getZTreeObj(zTreeHtmlElementId);
-    var nodes = treeObj.getCheckedNodes(true);
+    // var nodes = treeObj.getCheckedNodes(true);
+    var nodes = treeObj.getSelectedNodes(true);
     if(isValidate){
         if(nodes==null||nodes.length<=0){
             lk.ts.alert("请选择节点数据") ;

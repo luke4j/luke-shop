@@ -766,7 +766,19 @@ lk.b.array_reverse = function(array){
         tmp.push(array[i]) ;
     }
     return tmp ;
+} ;
+lk.b.ObjBlnToStr = function(obj){
+    for(var a in obj){
+        if(typeof (obj[a])=='boolean'){
+            obj[a] = obj[a]+"" ;
+        }
+    }
+    return obj ;
 }
+
+
+
+
 
 
 

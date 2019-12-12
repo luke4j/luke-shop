@@ -34,9 +34,9 @@ public class TypeService implements ITypeService {
     @Override
     @Transactional
     public void addType(DTOXtype dtoXtype) throws Exception {
-        if(dtoXtype.getFid()==null){
+        if(dtoXtype.getFid()==null||dtoXtype.getFid().longValue()==0L){
             this.addTypeKind(dtoXtype) ;
-        }else if(dtoXtype.getFid()!=null){
+        }else {
             TG_Type parentNode = this.iTypeDao.get(TG_Type.class,dtoXtype.getFid()) ;
             if(parentNode==null) Assertion.Error("TypeServer.addType 添加数据异常");
             if("品类".equals(parentNode.getC_type())) {
