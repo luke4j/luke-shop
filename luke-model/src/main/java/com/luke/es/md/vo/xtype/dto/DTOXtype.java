@@ -10,10 +10,10 @@ public class DTOXtype {
     String py ;
 
 
-    Boolean isLens ;
-    Boolean isTime ;
-    Boolean isLib ;
-    Boolean isEntity ;
+    Boolean blnLens ;
+    Boolean blnTime ;
+    Boolean blnLib ;
+    Boolean blnEntity ;
 
     /**这是json字符串*/
     String goodsInfos ;
@@ -68,35 +68,36 @@ public class DTOXtype {
         this.fid = fid;
     }
 
-    public Boolean getLens() {
-        return isLens;
+
+    public Boolean getBlnLens() {
+        return blnLens;
     }
 
-    public void setLens(Boolean lens) {
-        isLens = lens;
+    public void setBlnLens(Boolean blnLens) {
+        this.blnLens = blnLens;
     }
 
-    public Boolean getTime() {
-        return isTime;
+    public Boolean getBlnTime() {
+        return blnTime;
     }
 
-    public void setTime(Boolean time) {
-        isTime = time;
+    public void setBlnTime(Boolean blnTime) {
+        this.blnTime = blnTime;
     }
 
-    public Boolean getLib() {
-        return isLib;
+    public Boolean getBlnLib() {
+        return blnLib;
     }
 
-    public void setLib(Boolean lib) {
-        isLib = lib;
+    public void setBlnLib(Boolean blnLib) {
+        this.blnLib = blnLib;
     }
 
-    public Boolean getEntity() {
-        return isEntity;
+    public Boolean getBlnEntity() {
+        return blnEntity;
     }
 
-    public void setEntity(Boolean entity) {
-        isEntity = entity;
+    public void setBlnEntity(Boolean blnEntity) {
+        this.blnEntity = blnEntity;
     }
 }

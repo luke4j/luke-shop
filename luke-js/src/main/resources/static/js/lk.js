@@ -708,6 +708,53 @@ lk.page.alertLayuiForm = function(cfg){
     }) ;
 } ;
 
+/**
+ *修改为数据驱动后，以前的 lk.page.alertLayuiForm有点不适用
+ * @param conf
+ * {
+ *      title:弹出窗标题
+ *     htmlTemplateUrl:元素的html文件模板
+ *     defaultValue:默认值，可以为空
+ *     model:数据模型实例
+ * }
+ */
+lk.page.alertWindow = function(conf){
+    var $htmlTemp = ls.d.getHtml(conf.htmlTemplateUrl) ;
+    var config = {
+        title:conf.title
+        ,content:$htmlTemp[0].outerHTML||"请认真核对html模板url或清除缓存"
+        ,defaultValue:conf.defaultValue||{}
+        ,model:conf.model
+    } ;
+    layui.use(['layer','form','laydate','layedit'], function() {
+        var $ = layui.jquery, layer = layui.layer, form = layui.form;
+        var layIndex = layer.open($.extend({
+            type: 1
+            , title: '请注意弹出窗标题参数'
+            , maxmin: true
+            , area: "auto"
+            , zIndex: layer.zIndex //重点1
+            , success: function (layero) {
+                form.render();
+            }
+        },config));
+        layer.full(layIndex);
+        if (config.defaultValue) {
+            form.val("form", config.defaultValue);
+        }
+        //提交事件只需要设置model的isSync属性为true即可
+        form.on('submit(submit)', function (data) {
+            if(config.model){
+                var formValues = form.val('form');
+                config.model.set("formValues",data.field) ;
+                config.model.set("isSync",true) ;
+            }
+            return false;
+        });
+
+    }) ;
+} ;
+
 lk.b = lk.b||{} ;
 /**
  * 数组的数据反转

@@ -5,7 +5,7 @@ define(function(require) {
 
     var Model = Backbone.Model.extend({
         defaults:{
-             isSync:false,syncType:'xtype',syncMethod:''
+             isSync:false,syncMethod:'add||update||del||get',syncDataType:"xtype||kind_extend||goods_cnf||goods_extend||len_cnf||len||goods_price"
             ,xtype:{id:'',fid:'',c_type:'',name:''}
             ,kind_extend:{id:'',typeKindId:'',blnEntity:'',blnLens:'',blnLib:'',blnLib:''}
             ,goods_cnf:{id:'',typeKindId:'',keyName:'',keyTitle:'',keyEleType:'',keyEleDefault:'',keyEleDefaultValues:''}
@@ -21,6 +21,22 @@ define(function(require) {
                 lk.ts.alert(error) ;
             }) ;
             this.on("loadRoot",this.loadRoot_handler) ;
+            this.on("change:isSync",this.change_handler)
+        }
+        ,change_handler:function(model,name){
+            if(this.get("isSync")){
+                this[this.get("syncMethod")+'_'+this.get("syncDataType")]() ;
+                this.set("isSync",false) ;
+            }
+        }
+        ,add_xtype:function(){
+            ls.d.ajax({
+                url:'type/addType.act'
+                ,data:this.get("formValues")
+                ,success:function(res){
+                    lk.ts.alert("保存成功") ;
+                }
+            }) ;
         }
         /**加载根节点数据，调用view的 pageTableData（param） 方法，让view去以树形式显示数据*/
         ,loadRoot_handler:function(args){
@@ -48,50 +64,6 @@ define(function(require) {
                 }
             }
         }
-
-        ,addModel:function(callback){
-            // this.addType() ;
-            // this.addKindExtend() ;
-            // this.addGoodsCnf() ;
-            // this.addGoodsExtend() ;
-            // this.addLenCnf() ;
-            // this.addLen() ;
-            // this.addGoodsPrice() ;
-            callback() ;
-        }
-        ,addType:function(){
-
-        }
-        ,updateModel:function(callback){
-            // this.updateType() ;
-            // this.updateKindExtend() ;
-            // this.updateGoodsCnf() ;
-            // this.updateGoodsExtend() ;
-            // this.updateLenCnf() ;
-            // this.updateLen() ;
-            // this.updateGoodsPrice() ;
-            callback() ;
-        }
-        ,delModel:function(callback){
-            // this.delType() ;
-            // this.delKindExtend() ;
-            // this.delGoodsCnf() ;
-            // this.delGoodsExtend() ;
-            // this.delLenCnf() ;
-            // this.delLen() ;
-            // this.delGoodsPrice() ;
-            callback() ;
-        }
-        ,getModel:function(callback){
-            // this.getType() ;
-            // this.getKindExtend() ;
-            // this.getGoodsCnf() ;
-            // this.getGoodsExtend() ;
-            // this.getLenCnf() ;
-            // this.getLen() ;
-            // this.getGoodsPrice() ;
-            callback() ;
-        }
     }) ;
 
 
@@ -108,6 +80,49 @@ define(function(require) {
             this.$el.append($page_base_formation) ;
 
             this.model.trigger('loadRoot',{xtypeView:this}) ;
+        }
+        , events: {
+            "click #btn-xinzeng": "click_btn_xinzeng_handler" //新增
+            , "click #btn-shuaxin": "click_btn_shuaxin_handler" //刷新
+            , "click #btn-xiugai": "click_btn_xiugai_handler" //修改
+            , "click #btn-shanchu": "click_btn_shanchu_handler" //删除
+            , "click #btn-shuxingweihu": "click_btn_shuxingweihu_handler"//属性维护
+            , "click #btn-zhedie": "click_btn_zhedie_handler"    //合并
+            , "click #btn-zhankai": "click_btn_zhankai_handler"  //展开
+            , "change #xtypeSelect": "change_xtypeSelect_handler" //选择品类
+        }
+        ,click_btn_xinzeng_handler:function() {
+            var me = this;
+            var checkedNodes = ls.validata.ztreeSelected("page_ul_ztree", false);
+            var checkedTreeTableData = checkedNodes.checkedNodes;
+            var xtype = "品类", fid = 0;
+            if (!checkedTreeTableData[0]) {
+                xtype = "品类";
+                fid = 0;
+            } else {
+                switch (checkedTreeTableData[0].c_type) {
+                    case '品类' :
+                        xtype = "品牌";
+                        fid = checkedTreeTableData[0].id;
+                        break;
+                    case '品牌' :
+                        xtype = "型号";
+                        fid = checkedTreeTableData[0].id;
+                        break;
+                    case '型号' :
+                        xtype = "颜色";
+                        fid = checkedTreeTableData[0].id;
+                        break;
+                }
+            }
+            me.model.set("syncMethod","add") ;
+            me.model.set("syncDataType","xtype") ;
+            lk.page.alertWindow({
+                title:lk.static.BTN_TEXT_ADD_NEW
+                ,htmlTemplateUrl:xtype == "品类"?'app/xtype/xtype.form.html':'app/xtype/xtype2.form.html'
+                ,model:me.model
+                ,defaultValue:{c_type:xtype,fid:fid}
+            }) ;
         }
         ,pageTableData:function(params){
             var me = this;
