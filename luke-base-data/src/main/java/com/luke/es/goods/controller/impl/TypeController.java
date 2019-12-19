@@ -40,4 +40,15 @@ public class TypeController extends BController implements ITypeController {
         this.iTypeService.addType(dtoXtype) ;
         return actResult.ok();
     }
+    @Override
+    public ActResult updateType(HttpServletRequest request, HttpServletResponse response, ActResult actResult, DTOXtype dtoXtype, String jsonArrayLstDto, BindingResult bindingResult) throws Exception {
+        this.iTypeService.updateType(dtoXtype) ;
+        return actResult.ok();
+    }
+
+    @Override
+    public ActResult delType(HttpServletRequest request, HttpServletResponse response, ActResult actResult, DTOXtype dtoXtype, String jsonArrayLstDto, BindingResult bindingResult) throws Exception {
+        this.iTypeService.delType(dtoXtype) ;
+        return actResult.ok();
+    }
 }

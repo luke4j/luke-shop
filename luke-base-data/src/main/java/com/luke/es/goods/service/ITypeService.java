@@ -17,4 +17,8 @@ public interface ITypeService {
     List<VOXtypeZTreeNode> findTypeByLevel(DTOXtype dtoXtype, VOutUser currentUser)throws Exception;
 
     void addType(DTOXtype dtoXtype)throws Exception;
+
+    void updateType(DTOXtype dtoXtype)throws Exception;
+
+    void delType(DTOXtype dtoXtype)throws Exception;
 }

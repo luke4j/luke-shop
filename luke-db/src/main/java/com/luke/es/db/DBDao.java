@@ -348,7 +348,8 @@ public class DBDao {
             Query query = this.getSession().createQuery(ql) ;
             return (T) this.setParams(query, param).getSingleResult() ;
         }catch (Throwable e){
-            throw AppException.create(this.getClass(),e.getMessage()) ;
+            return null ;
+            // throw AppException.create(this.getClass(),e.getMessage()) ;
         }
 
     }

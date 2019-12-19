@@ -8,6 +8,7 @@ import com.luke.es.md.vo.xtype.VOXtypeZTreeNode;
 import com.luke.es.md.vo.xtype.dto.DTOXtype;
 import com.luke.es.tool.tl.Assertion;
 import com.luke.es.tool.tl.LK;
+import com.luke.es.tool.tl.LKMap;
 import com.luke.es.tool.vo.VOutUser;
 import net.sf.json.JSONArray;
 import org.springframework.beans.BeanUtils;
@@ -123,5 +124,38 @@ public class TypeService implements ITypeService {
         type_extends.setTypeKindId(kind.getId());
         this.iTypeDao.save(type_extends) ;
 
+    }
+
+    @Override
+    @Transactional
+    public void updateType(DTOXtype dtoXtype) throws Exception {
+        Assertion.NotEmpty(dtoXtype.getId(),"TypeService.updateType 参数异常");
+        TG_Type type =  this.iTypeDao.get(TG_Type.class,dtoXtype.getId()) ;
+        Assertion.NotEmpty(type,"TypeService.updateType 找不到相应数据");
+        BeanUtils.copyProperties(dtoXtype,type);
+        type.setPy(LK.NameToPingYinShort(type.getName()));
+        TG_Type_Kind_Extends kind_extends = this.iTypeDao.getUnique("From TG_Type_Kind_Extends tke where tke.typeKindId=:kindId"
+                ,new LKMap().put1("kindId",type.getId())) ;
+        if(kind_extends==null){
+            kind_extends = new TG_Type_Kind_Extends() ;
+            BeanUtils.copyProperties(dtoXtype,kind_extends);
+            kind_extends.setTypeKindId(type.getId());
+            kind_extends.setId(null);
+            this.iTypeDao.save(kind_extends) ;
+        }else{
+            Long id = kind_extends.getId() ;
+            BeanUtils.copyProperties(dtoXtype,kind_extends);
+            kind_extends.setId(id);
+        }
+
+    }
+
+    @Override
+    @Transactional
+    public void delType(DTOXtype dtoXtype) throws Exception {
+        Assertion.NotEmpty(dtoXtype.getId(),"TypeService.updateType 参数异常");
+        TG_Type type =  this.iTypeDao.get(TG_Type.class,dtoXtype.getId()) ;
+        Assertion.NotEmpty(type,"TypeService.updateType 找不到相应数据");
+        type.set_isDel(true);
     }
 }

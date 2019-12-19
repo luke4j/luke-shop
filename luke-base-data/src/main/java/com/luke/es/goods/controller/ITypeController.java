@@ -34,5 +34,11 @@ public interface ITypeController {
     @RequestMapping(path = "addType.act",method = RequestMethod.POST)
     ActResult addType(HttpServletRequest request, HttpServletResponse response, ActResult actResult , DTOXtype dtoXtype, String jsonArrayLstDto, BindingResult bindingResult)throws Exception ;
 
+    @RequestMapping(path = "updateType.act",method = RequestMethod.POST)
+    ActResult updateType(HttpServletRequest request, HttpServletResponse response, ActResult actResult , DTOXtype dtoXtype, String jsonArrayLstDto, BindingResult bindingResult)throws Exception ;
+
+    @RequestMapping(path = "delType.act",method = RequestMethod.POST)
+    ActResult delType(HttpServletRequest request, HttpServletResponse response, ActResult actResult , DTOXtype dtoXtype, String jsonArrayLstDto, BindingResult bindingResult)throws Exception ;
+
 
 }
