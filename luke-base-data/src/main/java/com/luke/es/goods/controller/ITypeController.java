@@ -40,5 +40,25 @@ public interface ITypeController {
     @RequestMapping(path = "delType.act",method = RequestMethod.POST)
     ActResult delType(HttpServletRequest request, HttpServletResponse response, ActResult actResult , DTOXtype dtoXtype, String jsonArrayLstDto, BindingResult bindingResult)throws Exception ;
 
+    @RequestMapping(path = "loadKindGoodsCnf.act",method = RequestMethod.POST)
+    ActResult loadKindGoodsCnf(HttpServletRequest request, HttpServletResponse response, ActResult actResult , DTOXtype dtoXtype, String jsonArrayLstDto, BindingResult bindingResult)throws Exception ;
+
+    @RequestMapping(path = "upholdKindGoodsCnf.act",method = RequestMethod.POST)
+    ActResult upholdKindGoodsCnf(HttpServletRequest request, HttpServletResponse response, ActResult actResult , DTOXtype dtoXtype, String jsonArrayLstDto, BindingResult bindingResult)throws Exception ;
+
+    /**
+     * 页面新增新的品类维护时，从后台添加新数据 ，并重新查询结果
+     * @param request
+     * @param response
+     * @param actResult
+     * @param dtoXtype
+     * @param jsonArrayLstDto
+     * @param bindingResult
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(path = "newKindGoodsCnf.act",method = RequestMethod.POST)
+    ActResult newKindGoodsCnf(HttpServletRequest request, HttpServletResponse response, ActResult actResult , DTOXtype dtoXtype, String jsonArrayLstDto, BindingResult bindingResult)throws Exception ;
+
 
 }

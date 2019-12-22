@@ -1,11 +1,19 @@
-package com.luke.es.md.kc;
+package com.luke.es.md.vo.xtype.vo;
 
-import com.luke.es.tool.model._M;
 
-import javax.persistence.Entity;
+public class VOXTypeGoodsCnf  {
 
-@Entity
-public class TG_Type_Kind_Goods_Cnf extends _M {
+    public VOXTypeGoodsCnf(Long id, Long typeKindId, String keyName, String keyTitle, String keyEleType, String keyEleDefault, String keyEleDefaultValues) {
+        this.id = id;
+        this.typeKindId = typeKindId;
+        this.keyName = keyName;
+        this.keyTitle = keyTitle;
+        this.keyEleType = keyEleType;
+        this.keyEleDefault = keyEleDefault;
+        this.keyEleDefaultValues = keyEleDefaultValues;
+    }
+
+    Long id ;
     Long typeKindId ;
     String keyName ;
     String keyTitle ;
@@ -13,12 +21,12 @@ public class TG_Type_Kind_Goods_Cnf extends _M {
     String keyEleDefault ;
     String keyEleDefaultValues ;
 
-    public String getKeyName() {
-        return keyName;
+    public Long getId() {
+        return id;
     }
 
-    public void setKeyName(String keyName) {
-        this.keyName = keyName;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Long getTypeKindId() {
@@ -27,6 +35,14 @@ public class TG_Type_Kind_Goods_Cnf extends _M {
 
     public void setTypeKindId(Long typeKindId) {
         this.typeKindId = typeKindId;
+    }
+
+    public String getKeyName() {
+        return keyName;
+    }
+
+    public void setKeyName(String keyName) {
+        this.keyName = keyName;
     }
 
     public String getKeyTitle() {

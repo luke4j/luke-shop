@@ -2,8 +2,10 @@ package com.luke.es.goods.dao.impl;
 
 import com.luke.es.db.DBDao;
 import com.luke.es.goods.dao.ITypeDao;
+import com.luke.es.md.kc.TG_Type_Kind_Goods_Cnf;
 import com.luke.es.md.vo.xtype.VOXtypeZTreeNode;
 import com.luke.es.md.vo.xtype.dto.DTOXtype;
+import com.luke.es.md.vo.xtype.vo.VOXTypeGoodsCnf;
 import com.luke.es.tool.tl.Assertion;
 import com.luke.es.tool.tl.LKMap;
 import com.luke.es.tool.vo.VOutUser;
@@ -30,5 +32,13 @@ public class TypeDao extends DBDao implements ITypeDao {
         List<VOXtypeZTreeNode>  list = this.find(hql
                 ,new LKMap<>().put1("fid",dtoXtype.getId()) );
         return list;
+    }
+
+    @Override
+    public List<VOXTypeGoodsCnf> loadKindGoodsCnf(Long id) throws Exception {
+        List<VOXTypeGoodsCnf> lst = this.find("select new com.luke.es.md.vo.xtype.vo.VOXTypeGoodsCnf( id, typeKindId, keyName, keyTitle, keyEleType, keyEleDefault, keyEleDefaultValues) " +
+                        "From TG_Type_Kind_Goods_Cnf c where c.typeKindId=:typeKindId and c._isDel=false order by c.keyName"
+                ,new LKMap().put1("typeKindId",id)) ;
+        return lst;
     }
 }

@@ -9,6 +9,7 @@ import com.luke.es.md.vo.goods.vo.VOGoodsAttrCfg;
 import com.luke.es.md.vo.goods.vo.VOType;
 import com.luke.es.md.vo.xtype.VOXtypeZTreeNode;
 import com.luke.es.md.vo.xtype.dto.DTOXtype;
+import com.luke.es.md.vo.xtype.vo.VOXTypeGoodsCnf;
 import com.luke.es.tool.controller.ActResult;
 import net.sf.json.JSON;
 import net.sf.json.JSONArray;
@@ -49,6 +50,18 @@ public class TypeController extends BController implements ITypeController {
     @Override
     public ActResult delType(HttpServletRequest request, HttpServletResponse response, ActResult actResult, DTOXtype dtoXtype, String jsonArrayLstDto, BindingResult bindingResult) throws Exception {
         this.iTypeService.delType(dtoXtype) ;
+        return actResult.ok();
+    }
+
+    @Override
+    public ActResult loadKindGoodsCnf(HttpServletRequest request, HttpServletResponse response, ActResult actResult, DTOXtype dtoXtype, String jsonArrayLstDto, BindingResult bindingResult) throws Exception {
+        List<VOXTypeGoodsCnf> lst = this.iTypeService.loadKindGoodsCnf(dtoXtype) ;
+        return actResult.ok(lst);
+    }
+
+    @Override
+    public ActResult upholdKindGoodsCnf(HttpServletRequest request, HttpServletResponse response, ActResult actResult, DTOXtype dtoXtype, String jsonArrayLstDto, BindingResult bindingResult) throws Exception {
+        this.iTypeService.upholdKindGoodsCnf(dtoXtype) ;
         return actResult.ok();
     }
 }

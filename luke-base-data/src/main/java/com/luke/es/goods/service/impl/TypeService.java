@@ -6,6 +6,7 @@ import com.luke.es.md.kc.TG_Type;
 import com.luke.es.md.kc.TG_Type_Kind_Extends;
 import com.luke.es.md.vo.xtype.VOXtypeZTreeNode;
 import com.luke.es.md.vo.xtype.dto.DTOXtype;
+import com.luke.es.md.vo.xtype.vo.VOXTypeGoodsCnf;
 import com.luke.es.tool.tl.Assertion;
 import com.luke.es.tool.tl.LK;
 import com.luke.es.tool.tl.LKMap;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -157,5 +159,16 @@ public class TypeService implements ITypeService {
         TG_Type type =  this.iTypeDao.get(TG_Type.class,dtoXtype.getId()) ;
         Assertion.NotEmpty(type,"TypeService.updateType 找不到相应数据");
         type.set_isDel(true);
+    }
+
+    @Override
+    public List<VOXTypeGoodsCnf> loadKindGoodsCnf(DTOXtype dtoXtype) throws Exception {
+        List<VOXTypeGoodsCnf> lst = this.iTypeDao.loadKindGoodsCnf(dtoXtype.getId()) ;
+        return lst==null||lst.size()==0?new ArrayList<>(0):lst;
+    }
+
+    @Override
+    public void upholdKindGoodsCnf(DTOXtype dtoXtype) throws Exception {
+
     }
 }

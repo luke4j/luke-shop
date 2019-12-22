@@ -131,6 +131,10 @@ define(function(require) {
                 }
             }) ;
         }
+        /**品类属性维护*/
+        ,uphold_kindGoodsCnf:function(){
+
+        }
 
     }) ;
 
@@ -169,8 +173,8 @@ define(function(require) {
             var me = this;
             var checkedNodes = ls.validata.ztreeSelected("page_ul_ztree", false);
             var checkedTreeTableData = checkedNodes.checkedNodes;
-            me.model.set("syncMethod","del") ;
-            me.model.set("syncDataType","xtype") ;
+            me.model.set("syncMethod",syncMethod) ;
+            me.model.set("syncDataType",syncDataType) ;
             if(checkedTreeTableData.length==0){
                 lk.ts.alert("请选择节点") ;
                 return false ;
@@ -224,18 +228,21 @@ define(function(require) {
                 ,defaultValue:{c_type:xtype,fid:fid}
             }) ;
         }
+        //刷新
         ,click_btn_shuaxin_handler:function(){
             this.model.trigger('loadRoot') ;
         }
+        //修改
         ,click_btn_xiugai_handler:function(){
             var param = this.model_checkTreeNode("update","xtype") ;
             lk.page.alertWindow({
                 title:lk.static.BTN_TEXT_UPDATE+"--"+param.selectData.name
                 ,htmlTemplateUrl:param.htmlTemplateUrl
-                ,model:me.model
+                ,model:this.model
                 ,defaultValue:lk.b.ObjBlnToStr(param.selectData)
             }) ;
         }
+        //删除
         ,click_btn_shanchu_handler:function(){
             var param = this.model_checkTreeNode("del","xtype") ;
             lk.page.alertWindow({
@@ -244,9 +251,63 @@ define(function(require) {
                 ,model:this.model
                 ,defaultValue:lk.b.ObjBlnToStr(param.selectData)
             }) ;
+        },
+        /**维护品类属性弹出窗中【添加】按钮事件*/
+        layui_table_add_goodsConf_handler:function (obj) {
+            var param = this.model_checkTreeNode("uphold","kindGoodsCnf") ;
+            this.loadGoodsConfTable(param) ;
         }
+        ,loadGoodsConfTable:function(param){
+            //渲染表格
+            lk.page.pageTable({
+                id: 'tbl_uphold_kindGoodsCnf_'
+                , elem: '#tbl_uphold_kindGoodsCnf_'
+                , url: 'type/loadKindGoodsCnf.act'
+                ,loading:true
+                ,where:{id:param.selectData.id}
+                ,page:false
+                ,toolbar:"<div class='layui-btn-container'><a class='layui-btn' lay-event='layui_table_add_goodsConf'>添加</a></div>"
+                , cols: [[
+                    {field: 'id', title: 'ID',width:80},
+                    {field: 'typeKindId', title: '类型ID',width:100},
+                    {field: 'keyName', title: '列名',width:120},
+                    {field: 'keyTitle', title: '标签名',width:120},
+                    {field: 'keyEleType', title: '页面元素类型',width:120},
+                    {field: 'keyEleDefault', title: '默认值',width:120},
+                    {field: 'keyEleDefaultValues', title: '默认值选项',width:300},
+                ]]
+            });
+        }
+        //属性维护
         ,click_btn_shuxingweihu_handler:function(){
-            var param = this.model_checkTreeNode("uphold","kindGoodsCnf")
+            var me = this ;
+            var param = this.model_checkTreeNode("uphold","kindGoodsCnf") ;
+            layui.use(['layer','form','laydate','layedit','table'], function() {
+                //打开弹出窗
+                var $htmlTemp = ls.d.getHtml("app/xtype/uphold.kind_goods_cnf.html") ;
+                var layIndex = layer.open({
+                    type: 1
+                    , title: "属性维护"+"--"+param.selectData.name
+                    , maxmin: true
+                    , area: "auto"
+                    , zIndex: layer.zIndex //重点1
+                    ,content:$htmlTemp[0].outerHTML
+                    , success: function (layero) {
+                        me.loadGoodsConfTable(param) ;
+                        layui.table.on("toolbar(tbl_uphold_kindGoodsCnf_)",me.layui_table_add_goodsConf_handler(me)) ;
+                    }
+                });
+                layer.full(layIndex);
+                layui.form.on('submit(submit)', function (data) {
+                    // if(config.model){
+                    //     var formValues = form.val('form');
+                    //     config.model.set("formValues",data.field) ;
+                    //     config.model.set("isSync",true) ;
+                    // }
+                    return false;
+                });
+
+            }) ;
         }
 
 

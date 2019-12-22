@@ -5,6 +5,7 @@ import com.luke.es.md.vo.goods.vo.VOGoodsAttrCfg;
 import com.luke.es.md.vo.goods.vo.VOType;
 import com.luke.es.md.vo.xtype.VOXtypeZTreeNode;
 import com.luke.es.md.vo.xtype.dto.DTOXtype;
+import com.luke.es.md.vo.xtype.vo.VOXTypeGoodsCnf;
 import com.luke.es.tool.vo.VOutUser;
 
 import java.util.List;
@@ -19,4 +20,6 @@ public interface ITypeDao  extends IDBDao {
      * @throws Exception
      */
     List<VOXtypeZTreeNode> findTypeByLevel(DTOXtype dtoXtype, VOutUser currentUser) throws Exception;
+
+    List<VOXTypeGoodsCnf> loadKindGoodsCnf(Long id)throws Exception;
 }

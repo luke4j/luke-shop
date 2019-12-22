@@ -18,7 +18,16 @@ public class DTOXtype {
     /**这是json字符串*/
     String goodsInfos ;
 
+    /**json字符串类型的品类属性配置*/
+    String jsonGoodsCnf ;
 
+    public String getJsonGoodsCnf() {
+        return jsonGoodsCnf;
+    }
+
+    public void setJsonGoodsCnf(String jsonGoodsCnf) {
+        this.jsonGoodsCnf = jsonGoodsCnf;
+    }
 
     public String getGoodsInfos() {
         return goodsInfos;
