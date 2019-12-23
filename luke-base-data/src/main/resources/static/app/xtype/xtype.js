@@ -135,6 +135,13 @@ define(function(require) {
         ,uphold_kindGoodsCnf:function(){
 
         }
+        ,newEmpty_typeKindGoodsConf:function(){
+            var me = this ;
+            ls.d.ajax({
+                url:'type/newKindGoodsCnf.act'
+                ,data:this.attributes
+            }) ;
+        }
 
     }) ;
 
@@ -253,10 +260,21 @@ define(function(require) {
             }) ;
         },
         /**维护品类属性弹出窗中【添加】按钮事件*/
-        layui_table_add_goodsConf_handler:function (obj) {
-            var param = this.model_checkTreeNode("uphold","kindGoodsCnf") ;
-            this.loadGoodsConfTable(param) ;
+        layui_table_add_goodsConf_handler:function (view) {
+            return function(params){
+                var param = view.model_checkTreeNode("uphold","kindGoodsCnf") ;
+                if(params.event='layui_table_add_goodsConf'){
+                    /**向后台请求添加一条品类配置项,然后刷新重新加载*/
+                    //  isSync:false,syncMethod:this.staticSyncMethod,syncDataType:this.staticSyncDataType
+                    view.model.set("syncMethod","newEmpty") ;
+                    view.model.set("syncDataType","typeKindGoodsConf") ;
+                    view.model.set("id",param.selectData.id) ;
+                    view.model.set("isSync",true) ;
+                    view.loadGoodsConfTable(param) ;
+                }
+            }
         }
+        /**参数是对象类型,使用选中项的ID*/
         ,loadGoodsConfTable:function(param){
             //渲染表格
             lk.page.pageTable({

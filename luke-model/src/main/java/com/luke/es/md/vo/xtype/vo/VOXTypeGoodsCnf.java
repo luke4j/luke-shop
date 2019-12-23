@@ -2,6 +2,10 @@ package com.luke.es.md.vo.xtype.vo;
 
 
 public class VOXTypeGoodsCnf  {
+    public VOXTypeGoodsCnf(){
+
+    }
+
 
     public VOXTypeGoodsCnf(Long id, Long typeKindId, String keyName, String keyTitle, String keyEleType, String keyEleDefault, String keyEleDefaultValues) {
         this.id = id;
